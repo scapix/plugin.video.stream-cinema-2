@@ -15,10 +15,16 @@ from resources.lib.utils.url import Url
 class MediaListRenderer(Renderer):
     _storage_id = CACHE.MEDIA_LIST_RENDERER
 
-    def __init__(self, router):
+    def __init__(self, router, on_stream_selected):
+        """
+
+        :param callable on_stream_selected: Called when a stream is selected.
+        """
         super(MediaListRenderer, self).__init__(router)
+
         self._storage = Cache(self._storage_id)
         self._previous_media_list = self.get_cached_media()
+        self._on_stream_selected = on_stream_selected
 
     def __call__(self, media_list, collection, *args, **kwargs):
         self._collection = collection
@@ -116,7 +122,7 @@ class MediaListRenderer(Renderer):
             title=get_string(30203),
             url=router_url_for(ROUTE.NEXT_PAGE, collection, Url.quote_plus(url)))
 
-    def select_stream(self, play_stream_cb, media_id):
+    def select_stream(self, media_id):
         video = self.get_cached_media_by_id(media_id)
         stream = DialogRenderer.choose_video_stream(video['streams'])
         if stream is None:
@@ -125,7 +131,7 @@ class MediaListRenderer(Renderer):
             return
 
         logger.info('Got movie stream')
-        play_stream_cb(stream['ident'])
+        self._on_stream_selected(stream['ident'])
 
     def get_cached_media(self):
         media = self.storage.get('media')
