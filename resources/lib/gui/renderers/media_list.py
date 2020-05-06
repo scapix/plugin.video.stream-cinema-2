@@ -8,7 +8,8 @@ from resources.lib.gui.renderers import Renderer
 from resources.lib.gui.renderers.dialog import DialogRenderer
 from resources.lib.gui.renderers.directory import DirectoryRenderer
 from resources.lib.kodilogging import logger
-from resources.lib.utils.kodiutils import get_string, router_url_for, set_resolved_url, go_to_plugin_url
+from resources.lib.utils.kodiutils import get_string, router_url_for, set_resolved_url, go_to_plugin_url, \
+    router_url_from_string
 from resources.lib.utils.url import Url
 
 
@@ -29,7 +30,6 @@ class MediaListRenderer(Renderer):
     def __call__(self, media_list, collection, *args, **kwargs):
         self._collection = collection
         self.set_cached_media(media_list)
-        logger.debug('SAME LIST %s' % self.is_same_list())
         self._render(self.handle, media_list)
 
     def render(self):
@@ -38,6 +38,7 @@ class MediaListRenderer(Renderer):
     def is_same_list(self):
         prev = self._previous_media_list.get('url')
         curr = self.get_cached_media().get('url')
+        print(Url.remove_params(prev), Url.remove_params(curr))
         if prev and curr:
             return Url.remove_params(prev) == Url.remove_params(curr)
         return False
@@ -72,8 +73,8 @@ class MediaListRenderer(Renderer):
         gui_media_list = []
         next_page = 'next' in media_list
         if next_page:
-            gui_media_list.append(self.next_page_item(collection, media_list['next']))
-            gui_media_list.append(FolderBackItem(url='/main_menu'))
+            gui_media_list.append(self.next_page_item(collection, media_list))
+            gui_media_list.append(FolderBackItem(url=router_url_from_string(ROUTE.MAIN_MENU)))
         for media in media_list['data']:
             info_labels = {}
             # Info labels supported by the backend.
@@ -113,14 +114,19 @@ class MediaListRenderer(Renderer):
             )
             gui_media_list.append(gui_video)
 
+        gui_media_list.append(FolderBackItem(url=router_url_from_string(ROUTE.MAIN_MENU)))
         if next_page:
-            gui_media_list.append(self.next_page_item(collection, media_list['next']))
+            gui_media_list.append(self.next_page_item(collection, media_list))
         return gui_media_list
 
-    def next_page_item(self, collection, url):
+    def next_page_item(self, collection, media_list):
         return DirectoryItem(
-            title=get_string(30203),
-            url=router_url_for(ROUTE.NEXT_PAGE, collection, Url.quote_plus(url)))
+            title=self.next_page_title(media_list['page'], media_list['pageCount']),
+            url=router_url_from_string(ROUTE.NEXT_PAGE, collection, Url.quote_plus(media_list['next'])))
+
+    @staticmethod
+    def next_page_title(page, page_count):
+        return '{} ({}/{})'.format(get_string(30203), page, page_count)
 
     def select_stream(self, media_id):
         video = self.get_cached_media_by_id(media_id)

@@ -1,8 +1,8 @@
 import sys
 if sys.version_info >= (3, 0, 0,):
-    from urllib.parse import urlparse, urlencode, parse_qs, urlunparse, quote_plus, unquote_plus
+    from urllib.parse import urlparse, urlencode, quote_plus, unquote_plus
 else:
-    from urlparse import urlparse, parse_qs, urlunparse
+    from urlparse import urlparse
     from urllib import urlencode, quote_plus, unquote_plus
 
 
@@ -25,9 +25,4 @@ class Url:
 
     @staticmethod
     def remove_params(url):
-        uu = list(urlparse(url))
-        qs = parse_qs(uu[4], keep_blank_values=True)
-        if 'q2' in qs:
-            del (qs['q2'])
-        uu[4] = urlencode(qs, doseq=True)
-        return urlunparse(uu)
+        return url.split('?', 1)[0]

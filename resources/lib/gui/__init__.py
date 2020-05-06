@@ -83,7 +83,7 @@ class MediaItem:
         for stream_type in ['video', 'audio', 'subtitle']:
             item.addStreamInfo(stream_type, self._stream_info[stream_type])
 
-        item.setProperty('IsPlayable', 'true')
+        # item.setProperty('IsPlayable', 'true')
         return self._url, item, False,
 
 
