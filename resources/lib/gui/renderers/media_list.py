@@ -32,7 +32,6 @@ class MediaListRenderer(Renderer):
     def is_same_list(self):
         prev = self._previous_media_list.get('url')
         curr = self.get_cached_media().get('url')
-        print('IS SAME LIST', prev, curr)
         if prev and curr:
             return Url.remove_params(prev) == Url.remove_params(curr)
         return False
@@ -57,7 +56,6 @@ class MediaListRenderer(Renderer):
         }
 
     def _render(self, handle, media_list):
-        print('HANDLE', handle)
         with DirectoryRenderer.start_directory(handle, as_type=self._collection):
             xbmcplugin.addDirectoryItems(
                 handle,
@@ -130,12 +128,10 @@ class MediaListRenderer(Renderer):
         self._router.go_to_route(ROUTE.PLAY_STREAM, stream['ident'])
 
     def get_cached_media(self):
-        print('Get media cache')
         media = self.storage.get('media')
         return {} if media is None else media
 
     def set_cached_media(self, value):
-        print('Set media cache', value)
         self.storage['media'] = value
 
     def get_cached_media_by_id(self, media_id):

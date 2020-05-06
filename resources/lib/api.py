@@ -39,7 +39,6 @@ class API(object):
     def _get(self, url_path):
         sanitized_api_path = self._api_url.strip('/')
         sanitized_url_path = url_path.strip('/api')
-        print('URL', sanitized_url_path)
         return requests.get(
             '{}/{}/'.format(sanitized_api_path, sanitized_url_path),
             headers=self.common_headers,

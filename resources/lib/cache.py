@@ -99,8 +99,6 @@ class PluginUrlHistory:
     def previous(self, skip_search=False):
         urls = self._skip_search_urls() if skip_search else self.get_urls()
         urls = [url for url in urls if url != self.current]
-        print('Previous', urls, self.get_urls())
-        print('Last added', self.get('last_added'))
         index = -2 if self.get('last_added') else -1
         return None if len(urls) == 0 else urls[index]
 

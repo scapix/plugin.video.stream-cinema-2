@@ -45,7 +45,6 @@ def replace_router_params(route_url, *args):
             break
         start = match.start()
         end = match.end()
-        print('REPLACE', route_url[start:end])
         route_url = route_url[:start] + str(args[i]) + route_url[end:]
 
         i += 1
@@ -68,7 +67,6 @@ def replace_plugin_url(url):
 
 
 def set_resolved_url(handle, url=None):
-    print(url)
     if not url:
         xbmcplugin.setResolvedUrl(handle, True, xbmcgui.ListItem(path='Invalid_URL'))
     else:

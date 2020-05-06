@@ -27,7 +27,6 @@ class Url:
     def remove_params(url):
         uu = list(urlparse(url))
         qs = parse_qs(uu[4], keep_blank_values=True)
-        print(qs)
         if 'q2' in qs:
             del (qs['q2'])
         uu[4] = urlencode(qs, doseq=True)
