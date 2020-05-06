@@ -116,7 +116,7 @@ class MediaListRenderer(Renderer):
             title=get_string(30203),
             url=router_url_for(ROUTE.NEXT_PAGE, collection, Url.quote_plus(url)))
 
-    def select_stream(self, media_id):
+    def select_stream(self, play_stream_cb, media_id):
         video = self.get_cached_media_by_id(media_id)
         stream = DialogRenderer.choose_video_stream(video['streams'])
         if stream is None:
@@ -125,7 +125,7 @@ class MediaListRenderer(Renderer):
             return
 
         logger.info('Got movie stream')
-        self._router.go_to_route(ROUTE.PLAY_STREAM, stream['ident'])
+        play_stream_cb(stream['ident'])
 
     def get_cached_media(self):
         media = self.storage.get('media')
