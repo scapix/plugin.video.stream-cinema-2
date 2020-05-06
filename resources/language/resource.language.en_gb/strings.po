@@ -1,0 +1,114 @@
+# XBMC Media Center language file
+# Addon Name: Hotshot Cinema CZ/SK
+# Addon id: plugin.video.hotshot-cinema
+# Addon version: 0.0.1
+# Addon Provider: hotshot
+msgid ""
+msgstr ""
+"Project-Id-Version: Kodi Addons\n"
+"Report-Msgid-Bugs-To: alanwww1@kodi.org\n"
+"POT-Creation-Date: 2020-05-02 13:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Hotshot Team\n"
+"Language-Team: LANGUAGE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgctxt "#30010"
+msgid "General"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Source"
+msgstr ""
+
+msgctxt "#30101"
+msgid "Username"
+msgstr ""
+
+msgctxt "#30102"
+msgid "Password"
+msgstr ""
+
+msgctxt "#30103"
+msgid "Provider"
+msgstr ""
+
+msgctxt "#30104"
+msgid "Webshare.cz"
+msgstr ""
+
+msgctxt "#30105"
+msgid "Debug"
+msgstr ""
+
+msgctxt "#30200"
+msgid "Movies"
+msgstr ""
+
+msgctxt "#30201"
+msgid "Series"
+msgstr ""
+
+msgctxt "#30202"
+msgid "Main Menu"
+msgstr ""
+
+msgctxt "#30203"
+msgid "Next page"
+msgstr ""
+
+msgctxt "#30204"
+msgid "Search"
+msgstr ""
+
+msgctxt "#30205"
+msgid "Genre"
+msgstr ""
+
+msgctxt "#30206"
+msgid "A-Z"
+msgstr ""
+
+msgctxt "#30207"
+msgid "Search media by Title | Actor(s)"
+msgstr ""
+
+msgctxt "#30208"
+msgid "Settings"
+msgstr ""
+
+msgctxt "#30211"
+msgid "Popular"
+msgstr ""
+
+msgctxt "#30212"
+msgid "Watching now"
+msgstr ""
+
+msgctxt "#30250"
+msgid "Select a media source"
+msgstr ""
+
+msgctxt "#30919"
+msgid "Series"
+msgstr ""
+
+msgctxt "#30300"
+msgid "Missing provider credentials"
+msgstr ""
+
+msgctxt "#30301"
+msgid "Server error"
+msgstr ""
+
+msgctxt "#30302"
+msgid "Nothing found"
+msgstr ""
+
+msgctxt "#30303"
+msgid "Found {number} records"
+msgstr ""

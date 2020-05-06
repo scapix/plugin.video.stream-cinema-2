@@ -1,0 +1,38 @@
+# XBMC Media Center language file
+# Addon Name: Hotshot Cinema CZ/SK
+# Addon id: plugin.video.hotshot-cinema
+# Addon version: 0.0.1
+# Addon Provider: hotshot
+msgid ""
+msgstr ""
+"Project-Id-Version: Kodi Addons\n"
+"Report-Msgid-Bugs-To: alanwww1@kodi.org\n"
+"POT-Creation-Date: 2020-05-02 13:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Hotshot Team\n"
+"Language-Team: LANGUAGE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+
+msgctxt "#30010"
+msgid "Accounts"
+msgstr "Účty"
+
+msgctxt "#30101"
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+msgctxt "#30102"
+msgid "Password"
+msgstr "Heslo"
+
+msgctxt "#30200"
+msgid "Movies"
+msgstr "Filmy"
+
+msgctxt "#30201"
+msgid "Series"
+msgstr "Seriály"

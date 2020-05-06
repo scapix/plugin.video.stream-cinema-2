@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <category label="30010">
+        <setting id="debug" type="bool" label="30105" default="false"/>
+        <setting id="uuid" type="text" visible="false" />
+    </category>
+    <category label="30011">
+        <setting id="provider.name" type="select" label="30103" lvalues="30104" />
+        <setting label="30101" id="provider.username" type="text" default="" />
+        <setting label="30102" id="provider.password" type="text" default="" option="hidden" />
+        <setting id="provider.token" type="text" visible="false" />
+    </category>
+</settings>
