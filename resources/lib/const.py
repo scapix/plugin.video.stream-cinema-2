@@ -32,7 +32,7 @@ class ROUTE:
 
 
 class URL:
-    API = 'http://localhost:3000/api/'
+    API = 'http://localhost:3000/api'
 
 
 class COMMAND:

@@ -29,8 +29,6 @@ from resources.lib.utils.kodiutils import show_settings, get_string, show_input,
 from resources.lib.utils.url import Url
 
 
-
-
 class StreamCinema:
     def __init__(self, provider, api, router=None):
         self._api = api
@@ -45,8 +43,6 @@ class StreamCinema:
         router.add_route(self.directory_renderer.media_menu, ROUTE.MEDIA_MENU)
         router.add_route(self.directory_renderer.command, ROUTE.COMMAND)
         router.add_route(self.directory_renderer.a_to_z_menu, ROUTE.A_TO_Z)
-
-        router.add_route(self.show_cached_media, ROUTE.SHOW_CACHED_MEDIA)
         router.add_route(self.next_page, ROUTE.NEXT_PAGE)
         router.add_route(self.search_result, ROUTE.SEARCH_RESULT)
         router.add_route(self.filter, ROUTE.FILTER)
@@ -71,9 +67,6 @@ class StreamCinema:
     def search_result(self, collection, search_value):
         self.filter(collection, FILTER_TYPE.TITLE_OR_ACTOR, search_value)
 
-    def show_cached_media(self, collection):
-        self.show_search_results(collection, self.render_media_list())
-
     def show_search_results(self, collection, media_list):
         if media_list:
             num_media = media_list['totalCount']
@@ -81,8 +74,9 @@ class StreamCinema:
                 InfoDialog(get_string(30302)).notify()
                 self.router.replace_route(ROUTE.SEARCH, collection)
             else:
-                InfoDialog(get_string(30303).format(number=str(num_media))).notify()
                 self.render_media_list(media_list, collection)
+                if not self.media_list_renderer.is_same_list():
+                    InfoDialog(get_string(30303).format(number=str(num_media))).notify()
 
     def render_media_list(self, media_list, as_type):
         self.media_list_renderer(media_list, as_type)

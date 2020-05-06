@@ -7,8 +7,7 @@ from resources.lib.gui import MoviesItem, SeriesItem, SettingsItem, SearchItem, 
 from resources.lib.gui.renderers import Renderer
 from resources.lib.gui.renderers.dialog import DialogRenderer
 from resources.lib.kodilogging import logger
-from resources.lib.utils.kodiutils import show_settings, router_url_for, router_url_from_string, \
-    go_to_plugin_url
+from resources.lib.utils.kodiutils import show_settings, router_url_from_string
 
 
 class DirectoryRenderer(Renderer):
@@ -43,14 +42,14 @@ class DirectoryRenderer(Renderer):
             DirectoryItem(title="A-Z", url=self._url_for(self.a_to_z_menu, collection))(self.handle)
         return
 
-    def a_to_z_menu(self, collection, callback):
+    def a_to_z_menu(self, collection):
         import string
         filter_type = FILTER_TYPE.STARTS_WITH_LETTER
 
         with self.start_directory(self.handle, as_type='videos'):
-            DirectoryItem(title='0-9', url=self._url_for(callback, collection, filter_type, '0-9'))(self.handle)
+            DirectoryItem(title='0-9', url=router_url_from_string(ROUTE.FILTER, collection, filter_type, '0-9'))(self.handle)
             for c in string.ascii_uppercase:
-                DirectoryItem(title=c, url=self._url_for(callback, collection, filter_type, c))(self.handle)
+                DirectoryItem(title=c, url=router_url_from_string(ROUTE.FILTER, collection, filter_type, c))(self.handle)
 
     def search(self, collection):
         logger.debug('Search dialog opened')
