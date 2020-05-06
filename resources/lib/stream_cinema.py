@@ -3,6 +3,7 @@
 """
 
 import contextlib
+import functools
 
 import requests
 import xbmc
@@ -39,7 +40,13 @@ class StreamCinema:
         self.directory_renderer = DirectoryRenderer(router)
         self.media_list_renderer = MediaListRenderer(router)
 
-        router.add_route(self.media_list_renderer.select_stream, ROUTE.SELECT_STREAM)
+        # Bind first argument with a callback to play stream.
+        # Note: We need to set __name__ as the router uses it to identify the routes.
+        # http://louistiao.me/posts/adding-__name__-and-__doc__-attributes-to-functoolspartial-objects/
+        select_stream = functools.partial(self.media_list_renderer.select_stream, self.play_stream)
+        select_stream.__name__ = 'select_stream_with_cb'
+
+        router.add_route(select_stream, ROUTE.SELECT_STREAM)
         router.add_route(self.directory_renderer.search, ROUTE.SEARCH)
         router.add_route(self.directory_renderer.main_menu, ROUTE.MAIN_MENU)
         router.add_route(self.directory_renderer.media_menu, ROUTE.MEDIA_MENU)
@@ -50,7 +57,6 @@ class StreamCinema:
         router.add_route(self.next_page, ROUTE.NEXT_PAGE)
         router.add_route(self.search_result, ROUTE.SEARCH_RESULT)
         router.add_route(self.filter, ROUTE.FILTER)
-        router.add_route(self.play_stream, ROUTE.PLAY_STREAM)
         self._check_token()
 
     @property
