@@ -1,15 +1,15 @@
-import xbmc
+from datetime import datetime
+
 import xbmcplugin
 
 from resources.lib.cache import Cache
 from resources.lib.const import CACHE, ROUTE
-from resources.lib.gui import FolderBackItem, DirectoryItem, MediaItem
+from resources.lib.gui import MainMenuFolderItem, DirectoryItem
 from resources.lib.gui.renderers import Renderer
 from resources.lib.gui.renderers.dialog import DialogRenderer
 from resources.lib.gui.renderers.directory import DirectoryRenderer
 from resources.lib.kodilogging import logger
-from resources.lib.utils.kodiutils import get_string, router_url_for, set_resolved_url, go_to_plugin_url, \
-    router_url_from_string
+from resources.lib.utils.kodiutils import get_string, set_resolved_url, router_url_from_string
 from resources.lib.utils.url import Url
 
 
@@ -27,18 +27,17 @@ class MediaListRenderer(Renderer):
         self._previous_media_list = self.get_cached_media()
         self._on_stream_selected = on_stream_selected
 
-    def __call__(self, media_list, collection, *args, **kwargs):
-        self._collection = collection
-        self.set_cached_media(media_list)
-        self._render(self.handle, media_list)
+    def __call__(self, collection, media_list):
+        logger.debug('Renderer %s call' % self)
+        self.set_cache(CACHE.COLLECTION, collection)
+        self.set_cache(CACHE.MEDIA, media_list)
 
-    def render(self):
-        self._render(self.handle, self.get_cached_media())
+    def __repr__(self):
+        return self.__class__.__name__
 
     def is_same_list(self):
         prev = self._previous_media_list.get('url')
         curr = self.get_cached_media().get('url')
-        print(Url.remove_params(prev), Url.remove_params(curr))
         if prev and curr:
             return Url.remove_params(prev) == Url.remove_params(curr)
         return False
@@ -62,75 +61,34 @@ class MediaListRenderer(Renderer):
             'next': media_list.get('next')
         }
 
-    def _render(self, handle, media_list):
-        with DirectoryRenderer.start_directory(handle, as_type=self._collection):
-            xbmcplugin.addDirectoryItems(
-                handle,
-                [movie.build() for movie in self.build_media_list_gui(self._collection, media_list)]
-            )
+    def render(self, list_items):
+        # as_type=None causes all items to show their icons
+        with DirectoryRenderer.start_directory(self.handle, as_type=self.get_collection()):
+            xbmcplugin.addDirectoryItems(self.handle, list_items)
 
-    def build_media_list_gui(self, collection, media_list):
-        gui_media_list = []
-        next_page = 'next' in media_list
+    @staticmethod
+    def add_navigation(list_items, bottom=False):
+        list_items.insert(0, MainMenuFolderItem(url=router_url_from_string(ROUTE.MAIN_MENU)))
+        if bottom:
+            list_items.append(MainMenuFolderItem(url=router_url_from_string(ROUTE.MAIN_MENU)))
+
+    def add_paging(self, list_items, paging):
+        next_page = None if paging is None else 'next' in paging
         if next_page:
-            gui_media_list.append(self.next_page_item(collection, media_list))
-            gui_media_list.append(FolderBackItem(url=router_url_from_string(ROUTE.MAIN_MENU)))
-        for media in media_list['data']:
-            info_labels = {}
-            # Info labels supported by the backend.
-            LABELS = [
-                'genre', 'year', 'episode', 'season', 'top250', 'tracknumber',
-                'rating', 'watched', 'playcount', 'overlay',
-                'castandrole', 'director', 'mpaa', 'plot', 'plotoutline',
-                'title', 'originaltitle', 'sorttitle', 'duration', 'studio',
-                'tagline', 'writer', 'tvshowtitle', 'premiered', 'status',
-                'aired', 'credits', 'lastplayed', 'album', 'artist', 'votes',
-                'trailer', 'dateadded', 'count', 'date', 'imdbnumber',
-                'mediatype'
-            ]
-            for label in LABELS:
-                if label in media:
-                    info_labels[label] = media[label]
-            # Deserialize cast. It must be a list.
-            cast = media.get('cast', '').split(',')
-            info_labels['cast'] = cast
+            list_items.insert(0, self.next_page_item(paging))
+            list_items.append(self.next_page_item(paging))
 
-            # Extract the ID of the movie that is used in SC.
-            url = self._router.url_for(self.select_stream, media.get('_id'))
-
-            # Provide some metadata that are shown as the badges in the corner of the screen.
-            stream_info = {
-                'video': media.get('mvideo', {}),
-                'audio': media.get('maudio', {}),
-                'subtitle': media.get('msubtitle', {}),
-            }
-
-            gui_video = MediaItem(
-                title=media['title'],
-                url=url,
-                art=media.get('art'),
-                info_labels=info_labels,
-                stream_info=stream_info,
-            )
-            gui_media_list.append(gui_video)
-
-        gui_media_list.append(FolderBackItem(url=router_url_from_string(ROUTE.MAIN_MENU)))
-        if next_page:
-            gui_media_list.append(self.next_page_item(collection, media_list))
-        return gui_media_list
-
-    def next_page_item(self, collection, media_list):
+    def next_page_item(self, media_list):
         return DirectoryItem(
             title=self.next_page_title(media_list['page'], media_list['pageCount']),
-            url=router_url_from_string(ROUTE.NEXT_PAGE, collection, Url.quote_plus(media_list['next'])))
+            url=router_url_from_string(ROUTE.NEXT_PAGE, self.get_collection(), Url.quote_plus(media_list['next'])))
 
     @staticmethod
     def next_page_title(page, page_count):
         return '{} ({}/{})'.format(get_string(30203), page, page_count)
 
-    def select_stream(self, media_id):
-        video = self.get_cached_media_by_id(media_id)
-        stream = DialogRenderer.choose_video_stream(video['streams'])
+    def select_stream(self, streams):
+        stream = DialogRenderer.choose_video_stream(streams)
         if stream is None:
             # Dialog cancel.
             set_resolved_url(self.handle)
@@ -140,13 +98,60 @@ class MediaListRenderer(Renderer):
         self._on_stream_selected(stream['ident'])
 
     def get_cached_media(self):
-        media = self.storage.get('media')
+        media = self.storage.get(CACHE.MEDIA)
         return {} if media is None else media
 
-    def set_cached_media(self, value):
-        self.storage['media'] = value
+    def get_collection(self):
+        return self.storage.get(CACHE.COLLECTION)
+
+    def set_cache(self, key, value):
+        self.storage[key] = value
 
     def get_cached_media_by_id(self, media_id):
         for media in self.get_cached_media()['data']:
             if media['_id'] == media_id:
                 return media
+
+    def build_media_list_gui(self, item_type, media_list_data, url_builder, *args):
+        return [self.build_media_item_gui(item_type, media, url_builder, *args) for media in media_list_data]
+
+    @staticmethod
+    def build_media_item_gui(item_type, media, url_builder, *args):
+        info_labels = media.get('info_labels')
+        info_labels.update({'imdbnumber': media.get('services').get('imdb')})
+
+        return item_type(
+            title=info_labels.get('title'),
+            url=url_builder(media, *args),
+            art=media.get('art'),
+            info_labels=info_labels,
+            stream_info=MediaListRenderer.stream_info(media),
+        )
+
+    @staticmethod
+    def stream_info(media):
+        streams = media.get('streams', [])
+        if len(streams) == 0:
+            return
+        stream = streams.pop()
+        stream_info = {
+            'video': {
+                'codec': stream.get('codec'),
+                'aspect': stream.get('aspect'),
+                'width': stream.get('width'),
+                'height': stream.get('height'),
+                'duration': stream.get('duration'),
+            },
+        }
+        audios = stream.get('audio')
+        if len(audios) > 0:
+            stream_info.update({
+                'audio': audios[0]
+            })
+        subtitles = stream.get('subtitles')
+        if len(subtitles) > 0:
+            stream_info.update({
+                'subtitle': subtitles[0]
+            })
+        logger.debug('Generated stream info')
+        return stream_info

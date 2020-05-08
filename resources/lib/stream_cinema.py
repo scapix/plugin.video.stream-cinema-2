@@ -2,30 +2,17 @@
     Main GUI.
 """
 
-import contextlib
-
 import requests
-import xbmc
 import xbmcgui
-import xbmcplugin
-from xbmcgui import Dialog
-from xbmcgui import ListItem
-from xbmcplugin import addDirectoryItem
-from xbmcplugin import endOfDirectory
 
-from resources.lib.cache import PluginUrlHistory
-from resources.lib.const import COMMAND, CACHE, SETTINGS, FILTER_TYPE, STRINGS, ROUTE
-from resources.lib.gui import DirectoryItem, InfoDialog, SettingsItem, InfoDialogType, MediaItem, FolderBackItem
-from resources.lib.gui import MoviesItem
-from resources.lib.gui import SearchItem
-from resources.lib.gui import SeriesItem
-from resources.lib.gui.renderers.dialog import DialogRenderer
+from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER
+from resources.lib.gui import InfoDialog, InfoDialogType
 from resources.lib.gui.renderers.directory import DirectoryRenderer
-from resources.lib.gui.renderers.media_list import MediaListRenderer
+from resources.lib.gui.renderers.movie_list import MovieListRenderer
+from resources.lib.gui.renderers.tv_show_list import TvShowListRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
-from resources.lib.utils.kodiutils import show_settings, get_string, show_input, get_plugin_base_url, \
-    go_to_plugin_url, set_resolved_url, router_url_for
+from resources.lib.utils.kodiutils import get_string
 from resources.lib.utils.url import Url
 
 
@@ -34,18 +21,30 @@ class StreamCinema:
         self._api = api
         self._router = router
         self._provider = provider
-        self.directory_renderer = DirectoryRenderer(router)
-        self.media_list_renderer = MediaListRenderer(router, on_stream_selected=self.play_stream)
 
-        router.add_route(self.media_list_renderer.select_stream, ROUTE.SELECT_STREAM)
-        router.add_route(self.directory_renderer.search, ROUTE.SEARCH)
-        router.add_route(self.directory_renderer.main_menu, ROUTE.MAIN_MENU)
-        router.add_route(self.directory_renderer.media_menu, ROUTE.MEDIA_MENU)
-        router.add_route(self.directory_renderer.command, ROUTE.COMMAND)
-        router.add_route(self.directory_renderer.a_to_z_menu, ROUTE.A_TO_Z)
+        directory_renderer = DirectoryRenderer(router)
+        movie_renderer = MovieListRenderer(router, on_stream_selected=self.play_stream)
+        tv_show_renderer = TvShowListRenderer(router, on_stream_selected=self.play_stream)
+        self.renderers = {
+            RENDERER.MOVIES: movie_renderer,
+            RENDERER.TV_SHOWS: tv_show_renderer,
+            RENDERER.DIRECTORIES: directory_renderer
+        }
+
+        router.add_route(movie_renderer.select_stream, ROUTE.SELECT_STREAM)
+        router.add_route(tv_show_renderer.select_season, ROUTE.SELECT_SEASON)
+        router.add_route(tv_show_renderer.select_episode, ROUTE.SELECT_EPISODE)
+        router.add_route(tv_show_renderer.select_tv_show_stream, ROUTE.SELECT_TV_SHOW_STREAM)
+        router.add_route(directory_renderer.search, ROUTE.SEARCH)
+        router.add_route(directory_renderer.main_menu, ROUTE.MAIN_MENU)
+        router.add_route(directory_renderer.media_menu, ROUTE.MEDIA_MENU)
+        router.add_route(directory_renderer.command, ROUTE.COMMAND)
+        router.add_route(directory_renderer.a_to_z_menu, ROUTE.A_TO_Z)
+        router.add_route(directory_renderer.genre_menu, ROUTE.GENRE_MENU)
         router.add_route(self.next_page, ROUTE.NEXT_PAGE)
         router.add_route(self.search_result, ROUTE.SEARCH_RESULT)
         router.add_route(self.filter, ROUTE.FILTER)
+        router.add_route(movie_renderer.select_stream, ROUTE.SELECT_STREAM)
         self._check_token()
 
     @property
@@ -59,7 +58,7 @@ class StreamCinema:
     def next_page(self, collection, url):
         url = Url.unquote_plus(url)
         media = self.get_media(self._api.next_page(url))
-        self.render_media_list(media, collection)
+        self.render_media_list(collection, media)
 
     def filter(self, collection, filter_type, filter_value):
         self._filter_and_render(collection, filter_type, filter_value)
@@ -69,17 +68,17 @@ class StreamCinema:
 
     def show_search_results(self, collection, media_list):
         if media_list:
-            num_media = media_list['totalCount']
+            num_media = media_list.get('totalCount')
             if num_media == 0:
                 InfoDialog(get_string(30302)).notify()
                 self.router.replace_route(ROUTE.SEARCH, collection)
             else:
-                self.render_media_list(media_list, collection)
-                if not self.media_list_renderer.is_same_list():
+                self.render_media_list(collection, media_list)
+                if not self.renderers[collection].is_same_list():
                     InfoDialog(get_string(30303).format(number=str(num_media))).notify()
 
-    def render_media_list(self, media_list, as_type):
-        self.media_list_renderer(media_list, as_type)
+    def render_media_list(self, collection, media_list):
+        self.renderers[collection](collection, media_list)
 
     def filter_media(self, collection, filter_name, search_value):
         api_response = self._api.media_filter(collection, filter_name, search_value)

@@ -1,8 +1,8 @@
-from resources.lib.utils.kodiutils import get_setting_as_bool, get_info
-
 import logging
+
 import xbmc
 
+from resources.lib.utils.kodiutils import get_setting_as_bool, get_info
 
 levels = {
     'CRITICAL': xbmc.LOGFATAL,

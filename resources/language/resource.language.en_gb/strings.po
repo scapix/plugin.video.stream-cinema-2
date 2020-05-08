@@ -45,6 +45,10 @@ msgctxt "#30105"
 msgid "Debug"
 msgstr ""
 
+msgctxt "#30106"
+msgid "Vulgar content"
+msgstr ""
+
 msgctxt "#30200"
 msgid "Movies"
 msgstr ""
@@ -65,20 +69,20 @@ msgctxt "#30204"
 msgid "Search"
 msgstr ""
 
-msgctxt "#30205"
-msgid "Genre"
-msgstr ""
-
-msgctxt "#30206"
-msgid "A-Z"
-msgstr ""
-
 msgctxt "#30207"
-msgid "Search media by Title | Actor(s)"
+msgid "Enter title, actor or director"
 msgstr ""
 
 msgctxt "#30208"
 msgid "Settings"
+msgstr ""
+
+msgctxt "#30209"
+msgid "Genre"
+msgstr ""
+
+msgctxt "#30210"
+msgid "A-Z"
 msgstr ""
 
 msgctxt "#30211"
@@ -89,12 +93,164 @@ msgctxt "#30212"
 msgid "Watching now"
 msgstr ""
 
+msgctxt "#30213"
+msgid "Action"
+msgstr ""
+
+msgctxt "#30214"
+msgid "Animated"
+msgstr ""
+
+msgctxt "#30215"
+msgid "Adventure"
+msgstr ""
+
+msgctxt "#30216"
+msgid "Documentary"
+msgstr ""
+
+msgctxt "#30217"
+msgid "Drama"
+msgstr ""
+
+msgctxt "#30218"
+msgid "Erotic"
+msgstr ""
+
+msgctxt "#30219"
+msgid "Fantasy"
+msgstr ""
+
+msgctxt "#30220"
+msgid "Historical"
+msgstr ""
+
+msgctxt "#30221"
+msgid "Horror"
+msgstr ""
+
+msgctxt "#30222"
+msgid "Music"
+msgstr ""
+
+msgctxt "#30223"
+msgid "IMAX"
+msgstr ""
+
+msgctxt "#30224"
+msgid "Catastrophic"
+msgstr ""
+
+msgctxt "#30225"
+msgid "Comedy"
+msgstr ""
+
+msgctxt "#30226"
+msgid "Short"
+msgstr ""
+
+msgctxt "#30227"
+msgid "Crime"
+msgstr ""
+
+msgctxt "#30228"
+msgid "Musical"
+msgstr ""
+
+msgctxt "#30229"
+msgid "Mysterious"
+msgstr ""
+
+msgctxt "#30230"
+msgid "Educational"
+msgstr ""
+
+msgctxt "#30231"
+msgid "Fairytale"
+msgstr ""
+
+msgctxt "#30232"
+msgid "Pornographic"
+msgstr ""
+
+msgctxt "#30233"
+msgid "Psychological"
+msgstr ""
+
+msgctxt "#30234"
+msgid "Journalistic"
+msgstr ""
+
+msgctxt "#30235"
+msgid "Reality"
+msgstr ""
+
+msgctxt "#30236"
+msgid "Travel"
+msgstr ""
+
+msgctxt "#30237"
+msgid "Family"
+msgstr ""
+
+msgctxt "#30238"
+msgid "Romantic"
+msgstr ""
+
+msgctxt "#30239"
+msgid "Sci-Fi"
+msgstr ""
+
+msgctxt "#30240"
+msgid "Competition"
+msgstr ""
+
+msgctxt "#30241"
+msgid "Sports"
+msgstr ""
+
+msgctxt "#30242"
+msgid "Stand-Up"
+msgstr ""
+
+msgctxt "#30243"
+msgid "Talk-show"
+msgstr ""
+
+msgctxt "#30244"
+msgid "Telenovela"
+msgstr ""
+
+msgctxt "#30245"
+msgid "Thriller"
+msgstr ""
+
+msgctxt "#30246"
+msgid "Military"
+msgstr ""
+
+msgctxt "#30247"
+msgid "Western"
+msgstr ""
+
+msgctxt "#30248"
+msgid "Biographical"
+msgstr ""
+
 msgctxt "#30250"
 msgid "Select a media source"
 msgstr ""
 
-msgctxt "#30919"
-msgid "Series"
+msgctxt "#30251"
+msgid "0-9"
+msgstr ""
+
+msgctxt "#30920"
+msgid "Season"
+msgstr ""
+
+msgctxt "#30921"
+msgid "Episode"
 msgstr ""
 
 msgctxt "#30300"

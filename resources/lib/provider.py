@@ -1,6 +1,6 @@
 from resources.lib.const import SETTINGS
-from resources.lib.settings import settings
 from resources.lib.providers.webshare import Webshare
+from resources.lib.settings import settings
 
 select_providers = {
     '0': Webshare

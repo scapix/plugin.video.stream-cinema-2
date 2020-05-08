@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 import re
 import sys
-
+import math
 import xbmc
 import xbmcaddon
 import xbmcgui
-import logging
-import json as json
-
 import xbmcplugin
 
 from resources.lib.const import PROTOCOL, REGEX
@@ -134,6 +131,41 @@ def get_os_version():
 def get_screen_height():
     return xbmc.getInfoLabel('System.ScreenHeight')
 
+
+def convert_size(size_bytes):
+    if size_bytes == 0:
+        return "0B"
+    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    i = int(math.floor(math.log(size_bytes, 1024)))
+    p = math.pow(1024, i)
+    s = round(size_bytes / p, 2)
+    return "%s %s" % (s, size_name[i])
+
+
+def make_table(matrix):
+    matrix_length = len(matrix)
+    for i in range(len(matrix[0])):
+        longest = len(matrix[0][i])
+        for r in range(matrix_length):
+            length = len(matrix[r][i])
+            if length > longest:
+                longest = length
+
+        for j, strings in enumerate(matrix):
+            string = strings[i]
+            diff = longest - len(string)
+            spaces = ""
+            for r in range(diff):
+                spaces += "  "
+
+            matrix[j][i] = spaces + string
+    return matrix
+
+
+def append_list_items_to_nested_list_items(_list, list_to_append):
+    for i, nested_list in enumerate(_list):
+        nested_list.append(list_to_append[i])
+    return _list
 
 # def kodi_json_request(params):
 #     data = json.dumps(params)

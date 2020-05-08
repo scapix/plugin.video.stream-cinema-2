@@ -1,12 +1,11 @@
+import operator
+
 import xbmc
-import xbmcgui
 from xbmcgui import Dialog
 
-from resources.lib.const import ROUTE, STRINGS
-from resources.lib.gui.renderers import Renderer
-from resources.lib.kodilogging import logger
-from resources.lib.utils.kodiutils import show_input, get_string, go_to_plugin_url, router_url_for, \
-    router_url_from_string
+from resources.lib.const import STRINGS
+from resources.lib.utils.kodiutils import show_input, get_string, convert_size, make_table, \
+    append_list_items_to_nested_list_items
 
 
 class DialogRenderer:
@@ -20,20 +19,22 @@ class DialogRenderer:
     @staticmethod
     def choose_video_stream(streams):
         stream_labels = []
+        streams.sort(key=operator.itemgetter('size'))
+        audio_info_list = []
         for stream in streams:
             # Fix audio string that begins with the comma.
-            audio_list = [a for a in stream['ainfo'].split(',') if a]
+            audio_info = []
+            for audio in stream.get('audio'):
+                audio_info.append('[I][{} {} {}][/I]'.format(audio.get('codec'), format(audio.get('channels'), '.1f'), audio.get('language')))
+            audio_info_list.append(' '.join(audio_info))
+            quality = STRINGS.STREAM_TITLE_BRACKETS.format(stream.get('quality'))
+            size = STRINGS.BOLD.format(convert_size(stream.get('size')))
+            stream_labels.append([quality, size])
 
-            stream_labels.append(
-                STRINGS.STREAM_TITLE.format(
-                    quality=stream['quality'],
-                    lang=stream['lang'],
-                    size=stream['size'],
-                    ainfo=','.join(audio_list),
-                )
-            )
+        table = make_table(stream_labels)
+        table = append_list_items_to_nested_list_items(table, audio_info_list)
 
-        ret = Dialog().select('Choose the stream', stream_labels)
+        ret = Dialog().select('Choose the stream', ["   ".join(item) for item in table])
         if ret < 0:
             return None
         return streams[ret]

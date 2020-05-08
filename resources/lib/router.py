@@ -1,5 +1,3 @@
-import sys
-
 import routing
 import xbmcplugin
 
@@ -30,7 +28,7 @@ class Router:
     def replace(self, url=None):
         xbmcplugin.endOfDirectory(self.handle, cacheToDisc=False)
         url = self._history.current() if url is None else url
-        logger.debug('Replacing url: %s' % url)
+        logger.debug('Replacing url {} with {}'.format(self._history.current(), url))
         replace_plugin_url(url)
 
     def add_route(self, *args, **kwargs):
@@ -48,10 +46,12 @@ class Router:
     def go_to_route(self, *args):
         self.go(router_url_from_string(*args))
 
+    # After redirect it also resets KODI path history a.k.a "back" action takes you to root path
     def replace_route(self, *args):
         self.replace(router_url_from_string(*args))
 
     def set_resolved_url(self, url):
         set_resolved_url(self.handle, url)
+
 
 

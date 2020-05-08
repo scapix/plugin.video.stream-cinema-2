@@ -97,10 +97,9 @@ class PluginUrlHistory:
         return get_plugin_url()
 
     def previous(self, skip_search=False):
-        urls = self._skip_search_urls() if skip_search else self.get_urls()
+        urls = self.skip_search_urls() if skip_search else self.get_urls()
         urls = [url for url in urls if url != self.current]
-        index = -2 if self.get('last_added') else -1
-        return None if len(urls) == 0 else urls[index]
+        return None if len(urls) == 0 else urls[-1]
 
     def exists(self, url):
         urls = self.get_urls()
@@ -108,7 +107,7 @@ class PluginUrlHistory:
             return False
         return url == urls[-1]
 
-    def _skip_search_urls(self):
+    def skip_search_urls(self):
         return [url for url in self.get_urls() if 'search' not in url]
 
     @staticmethod
@@ -121,3 +120,4 @@ class PluginUrlHistory:
     @staticmethod
     def current():
         return get_plugin_url()
+

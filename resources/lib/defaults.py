@@ -5,7 +5,6 @@ from resources.lib.provider import provider
 from resources.lib.router import Router
 from resources.lib.settings import settings
 from resources.lib.utils.kodiutils import get_info
-import routing
 
 
 class Defaults:

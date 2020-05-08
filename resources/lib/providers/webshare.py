@@ -6,9 +6,9 @@ from __future__ import print_function
 
 import hashlib
 import xml.etree.ElementTree as ET
-from simpleplugin import Plugin
 
 import requests
+from simpleplugin import Plugin
 
 from resources.lib.const import DOWNLOAD_TYPE, SETTINGS, CACHE
 from resources.lib.settings import settings

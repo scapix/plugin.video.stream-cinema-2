@@ -5,7 +5,6 @@ import re
 
 from resources.lib.utils.kodiutils import get_string
 
-
 LANG_PATTERN = re.compile(r'\$(\d{5})')
 
 

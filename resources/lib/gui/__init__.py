@@ -41,14 +41,18 @@ class MoviesItem(DirectoryItem):
     TITLE = get_string(30200)
 
 
-class FolderBackItem(DirectoryItem):
+class TvShowsItem(DirectoryItem):
+    ICON = 'DefaultTvshows.png'
+    TITLE = get_string(30201)
+
+
+class MainMenuFolderItem(DirectoryItem):
     ICON = 'DefaultFolderBack.png'
     TITLE = get_string(30202)
 
 
-class SeriesItem(DirectoryItem):
-    ICON = 'DefaultTvshows.png'
-    TITLE = get_string(30201)
+class SeasonItem(DirectoryItem):
+    ICON = 'DefaultTVShowTitle.png'
 
 
 class SettingsItem(DirectoryItem):
@@ -58,6 +62,8 @@ class SettingsItem(DirectoryItem):
 
 
 class MediaItem:
+    DIRECTORY = False
+
     def __init__(self, title, url=None, art=None, info_labels=None, stream_info=None):
         self._title = title
         self._url = url
@@ -79,12 +85,16 @@ class MediaItem:
             item.setArt(self._art)
         if self._info_labels:
             item.setInfo('video', self._info_labels)
+        if self._stream_info:
+            for key, value in self._stream_info.items():
+                item.addStreamInfo(key, value)
 
-        for stream_type in ['video', 'audio', 'subtitle']:
-            item.addStreamInfo(stream_type, self._stream_info[stream_type])
+        item.setProperty('IsPlayable', 'true')
+        return self._url, item, self.DIRECTORY,
 
-        # item.setProperty('IsPlayable', 'true')
-        return self._url, item, False,
+
+class TvShowItem(MediaItem):
+    DIRECTORY = True
 
 
 class InfoDialogType:
@@ -115,4 +125,3 @@ class InfoDialog:
 
     def notify(self):
         self._dialog.notification(self._heading, self._message, self._icon, self._time, sound=self._sound)
-

@@ -1,19 +1,16 @@
 """
     # Main routing to go through different menu screens. 
 """
-import logging
 import sys
-
-import xbmc
 import uuid
+
 from resources.lib.cache import PluginUrlHistory
-from resources.lib.const import SETTINGS, ROUTE
+from resources.lib.const import SETTINGS, RENDERER
 from resources.lib.defaults import Defaults
-from resources.lib import kodilogging
 from resources.lib.kodilogging import logger, setup_root_logger
 from resources.lib.settings import settings
 from resources.lib.stream_cinema import StreamCinema
-from resources.lib.utils.kodiutils import get_plugin_route, go_to_plugin_url, get_plugin_url, set_resolved_url
+from resources.lib.utils.kodiutils import get_plugin_url
 
 provider = Defaults.provider()
 api = Defaults.api_cached()
@@ -24,7 +21,7 @@ stream_cinema = StreamCinema(provider, api, router)
 
 @router.route('/')
 def index():
-    return stream_cinema.directory_renderer.main_menu()
+    return stream_cinema.renderers[RENDERER.DIRECTORIES].main_menu()
 
 
 def run():

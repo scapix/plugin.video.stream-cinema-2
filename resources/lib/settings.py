@@ -1,4 +1,3 @@
-from resources.lib.const import URL, SETTINGS
 from resources.lib.utils.kodiutils import get_settings, show_settings, set_settings
 
 

@@ -18,8 +18,12 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 
 msgctxt "#30010"
-msgid "Accounts"
-msgstr "Účty"
+msgid "General"
+msgstr "Hlavné"
+
+msgctxt "#30011"
+msgid "Source"
+msgstr "Zdroj"
 
 msgctxt "#30101"
 msgid "Username"
@@ -29,10 +33,238 @@ msgctxt "#30102"
 msgid "Password"
 msgstr "Heslo"
 
+msgctxt "#30103"
+msgid "Provider"
+msgstr "Poskytovateľ"
+
+msgctxt "#30104"
+msgid "Webshare.cz"
+msgstr ""
+
+msgctxt "#30105"
+msgid "Debug"
+msgstr "Ladiť"
+
+msgctxt "#30106"
+msgid "Profanity filter"
+msgstr "Vulgárny obsah"
+
 msgctxt "#30200"
 msgid "Movies"
 msgstr "Filmy"
 
 msgctxt "#30201"
 msgid "Series"
-msgstr "Serialy"
+msgstr "Seriály"
+
+msgctxt "#30202"
+msgid "Main Menu"
+msgstr "Hlavné menu"
+
+msgctxt "#30203"
+msgid "Next page"
+msgstr "Ďaľšia strana"
+
+msgctxt "#30204"
+msgid "Search"
+msgstr "Hladat"
+
+msgctxt "#30207"
+msgid "Enter title, actor or director"
+msgstr "Zadajte názov, herca alebo režiséra"
+
+msgctxt "#30208"
+msgid "Settings"
+msgstr "Nastavenia"
+
+msgctxt "#30209"
+msgid "Genre"
+msgstr "Žáner"
+
+msgctxt "#30210"
+msgid "A-Z"
+msgstr ""
+
+msgctxt "#30211"
+msgid "Popular"
+msgstr "Populárne"
+
+msgctxt "#30212"
+msgid "Watching now"
+msgstr "Práve sledované"
+
+msgctxt "#30213"
+msgid "Action"
+msgstr "Akčný"
+
+msgctxt "#30214"
+msgid "Animated"
+msgstr "Animovaný"
+
+msgctxt "#30215"
+msgid "Adventure"
+msgstr "Dobrodružný"
+
+msgctxt "#30216"
+msgid "Documentary"
+msgstr "Dokumentárný"
+
+msgctxt "#30217"
+msgid "Drama"
+msgstr ""
+
+msgctxt "#30218"
+msgid "Erotic"
+msgstr "Erotický"
+
+msgctxt "#30219"
+msgid "Fantasy"
+msgstr ""
+
+msgctxt "#30220"
+msgid "Historical"
+msgstr "Historický"
+
+msgctxt "#30221"
+msgid "Horror"
+msgstr "Horor"
+
+msgctxt "#30222"
+msgid "Music"
+msgstr "Hudobný"
+
+msgctxt "#30223"
+msgid "IMAX"
+msgstr ""
+
+msgctxt "#30224"
+msgid "Catastrophic"
+msgstr "Katastrofický"
+
+msgctxt "#30225"
+msgid "Comedy"
+msgstr "Komédia"
+
+msgctxt "#30226"
+msgid "Short"
+msgstr "Krátkometrážný"
+
+msgctxt "#30227"
+msgid "Crime"
+msgstr "Kriminálný"
+
+msgctxt "#30228"
+msgid "Musical"
+msgstr "Muzikál"
+
+msgctxt "#30229"
+msgid "Mysterious"
+msgstr "Mysteriozný"
+
+msgctxt "#30230"
+msgid "Educational"
+msgstr "Náučný"
+
+msgctxt "#30231"
+msgid "Fairytale"
+msgstr "Rozprávky"
+
+msgctxt "#30232"
+msgid "Pornographic"
+msgstr "Pornografický"
+
+msgctxt "#30233"
+msgid "Psychological"
+msgstr "Psychologický"
+
+msgctxt "#30234"
+msgid "Journalistic"
+msgstr "Publicistický"
+
+msgctxt "#30235"
+msgid "Reality"
+msgstr ""
+
+msgctxt "#30236"
+msgid "Travel"
+msgstr "Cestopisný"
+
+msgctxt "#30237"
+msgid "Family"
+msgstr "Rodinný"
+
+msgctxt "#30238"
+msgid "Romantic"
+msgstr "Romantický"
+
+msgctxt "#30239"
+msgid "Sci-Fi"
+msgstr ""
+
+msgctxt "#30240"
+msgid "Competition"
+msgstr "Súťažný"
+
+msgctxt "#30241"
+msgid "Sports"
+msgstr "Športovný"
+
+msgctxt "#30242"
+msgid "Stand-Up"
+msgstr ""
+
+msgctxt "#30243"
+msgid "Talk-show"
+msgstr ""
+
+msgctxt "#30244"
+msgid "Telenovela"
+msgstr ""
+
+msgctxt "#30245"
+msgid "Thriller"
+msgstr ""
+
+msgctxt "#30246"
+msgid "Military"
+msgstr "Vojenský"
+
+msgctxt "#30247"
+msgid "Western"
+msgstr ""
+
+msgctxt "#30248"
+msgid "Biographical"
+msgstr "Životopisný"
+
+msgctxt "#30250"
+msgid "Select a media source"
+msgstr "Vyberte zdroj médií"
+
+msgctxt "#30251"
+msgid "0-9"
+msgstr ""
+
+msgctxt "#30920"
+msgid "Season"
+msgstr "Séria"
+
+msgctxt "#30921"
+msgid "Episode"
+msgstr "Epizóda"
+
+msgctxt "#30300"
+msgid "Missing provider credentials"
+msgstr "Chýbajú prihlasovacie údaje poskytovateľa"
+
+msgctxt "#30301"
+msgid "Server error"
+msgstr "Chyba Servera"
+
+msgctxt "#30302"
+msgid "Nothing found"
+msgstr "Nič sa nenašlo"
+
+msgctxt "#30303"
+msgid "Found {number} records"
+msgstr "Nájdených {number} záznamov"
