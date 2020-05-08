@@ -49,6 +49,10 @@ msgctxt "#30106"
 msgid "Explicit content"
 msgstr ""
 
+msgctxt "#30107"
+msgid "UUID"
+msgstr ""
+
 msgctxt "#30200"
 msgid "Movies"
 msgstr ""
@@ -267,4 +271,8 @@ msgstr ""
 
 msgctxt "#30303"
 msgid "Found {number} records"
+msgstr ""
+
+msgctxt "#30304"
+msgid "Activate VIP"
 msgstr ""

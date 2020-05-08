@@ -115,6 +115,11 @@ def get_string(string_id):
     return ADDON.getLocalizedString(string_id)
 
 
+def translate_string(s):
+    regex = re.compile(r'\${(\d+)}', re.S)
+    return regex.sub(lambda m: m.group().replace(m.group(), get_string(int(m.group()[2:-1])), 1), s)
+
+
 def get_kodi_version():
     return xbmc.getInfoLabel('System.BuildVersion')
 

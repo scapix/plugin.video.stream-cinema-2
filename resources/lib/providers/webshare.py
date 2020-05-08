@@ -59,10 +59,12 @@ class Webshare:
         link = root.find('link').text
         return link
 
-    def _post(self, path, data):
+    def _post(self, path, data=None):
         """
         :type data: dict
         """
+        if data is None:
+            data = {}
         data.setdefault('wst', self._token)
         headers = {
             'Referer': 'https://webshare.cz/',
@@ -102,6 +104,24 @@ class Webshare:
         root = ET.fromstring(response)
         token = root.find('token').text
         return token
+
+    def get_user_data(self):
+        """
+        POST /api/salt/ HTTP/1.1
+        Accept-Encoding: identity
+        Host: webshare.cz
+        Referer: https://webshare.cz/
+        Content-Type: application/x-www-form-urlencoded
+        """
+        response = self._post('/user_data/')
+        return response
+
+    def is_vip(self):
+        user_data = self.get_user_data()
+        root = ET.fromstring(user_data)
+        vip = root.find('vip').text
+        return bool(vip)
+
 
     @classmethod
     def _hash_password(cls, password, salt):

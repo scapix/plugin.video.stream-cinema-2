@@ -13,27 +13,29 @@
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary lang="en_GB">Stream Cinema 2.0 CZ/SK - play content from web storage</summary>
-        <summary lang="sk_SK">Stream Cinema 2.0 CZ/SK - prehrávanie obsahu z webového úložiska</summary>
-        <summary lang="cs_CZ">Stream Cinema 2.0 CZ/SK - přehrávání obsahu z webového úložiště</summary>
-<!--        <description lang="en_GB"></description>-->
-<!--        <language></language> &lt;!&ndash; the language of the videos or other content the plugin provides, may be omitted in case the addon does not provide any content &ndash;&gt;-->
+        <summary lang="en_GB">Stream Cinema 2.0 - web storage content player</summary>
+        <summary lang="sk_SK">Stream Cinema 2.0 - prehrávač obsahu webového úložiska</summary>
+        <summary lang="cs_CZ">Stream Cinema 2.0 - přehrávač obsahu webového úložiště</summary>
+        <description lang="en_GB">Please visit [COLOR blue]www.sc2.zone[/COLOR] for SC2 support and assistance! Kindly note that SC2 is not an official part of the media player you are running, and therefore not to be mentioned within official support channels, this addon has nothing to do with the media player itself, nor it's intended use, it is simply a third party plugin which has been added to your system.</description>
+        <description lang="sk_SK">Pre pomoc a podporu so StreamCinema 2.0 navštívte stránku [COLOR blue] www.sc2.zone [/ COLOR]. Pripomíname, že SC2 nie je oficiálnou súčasťou prehrávača médií, ktorý používate, a preto ho nemožno uviesť v oficiálnych podporných kanáloch. Tento doplnok nemá nič spoločné so samotným prehrávačom médií, ani s jeho zamýšľaným použitím, je to proste plugin tretích strán, ktorý bol pridaný do vášho systému.</description>
+        <description lang="cs_CZ">Navštivte [COLOR blue] www.sc2.zone [/ COLOR] pro podporu a pomoc s SC2! Vezměte prosím na vědomí, že SC2 není oficiální součástí spuštěného přehrávače médií, a proto jej nelze uvést v oficiálních podpůrných kanálech. Tento doplněk nemá nic společného se samotným přehrávačem médií, ani s jeho zamýšleným použitím, je to prostě plugin třetích stran, který byl přidán do vašeho systému.</description>
+        <!--        <language></language> &lt;!&ndash; the language of the videos or other content the plugin provides, may be omitted in case the addon does not provide any content &ndash;&gt;-->
         <platform>all</platform>
         <license>GPL 2.0</license>
 <!--        <forum></forum> &lt;!&ndash; may be omitted  &ndash;&gt;-->
 <!--        <website></website> &lt;!&ndash; the url of the website that contains the videos (or the official website of your plugin). May be omitted.  &ndash;&gt;-->
 <!--        <email></email> &lt;!&ndash; may be omitted  &ndash;&gt;-->
-<!--        <source></source>-->
+        <source>https://github.com/LadaBr/plugin.video.stream-cinema-2.git</source>
 <!--        <news></news>-->
         <assets>
             <icon>resources/icon.png</icon>
-            <fanart>resources/fanart.jpg</fanart>
+<!--            <fanart>resources/fanart.jpg</fanart>-->
 <!--            <banner></banner> &lt;!&ndash; optional &ndash;&gt;-->
 <!--            <clearlogo></clearlogo> &lt;!&ndash; optional  &ndash;&gt;-->
 <!--            <screenshot></screenshot> &lt;!&ndash; optional, max 10  &ndash;&gt;-->
         </assets>
-        <disclaimer lang="en">The author of this addon do not host any of the content which is found and have no affiliation with of the content providers. This addon simply search on web storages for content. Use at your own risk!</disclaimer>
-        <disclaimer lang="sk">Autor tohto addonu nemá žiaden obsah, ktorý sa v ňom nachádza a nemá žiadnu príslušnosť k poskytovateľovi obsahu. Tento addon iba vyhľadá obsah na web uloziskach. Používajte na vlastné riziko!</disclaimer>
-        <disclaimer lang="cs">Autor tohto addonu nemá žáden obsah, který se v ňem nachází a nemá žádnou příslušnost k poskytovateli obsahu. Tento addon jen vyhledává obsah na webovych uloziskach. Používejte na vlastní riziko!</disclaimer>
+        <disclaimer lang="en_GB">The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.</disclaimer>
+        <disclaimer lang="sk_SK">Autor nehostuje ani nedistribuuje žiadny obsah zobrazený týmto doplnkom. Autor nemá žiadny vzťah s poskytovateľmi obsahu.</disclaimer>
+        <disclaimer lang="cs_CZ">Autor není hostitelem ani nedistribuuje žádný obsah zobrazený tímto doplňkem. Autor nemá žádný vztah s poskytovateli obsahu.</disclaimer>
     </extension>
 </addon>

@@ -40,6 +40,7 @@ class DirectoryRenderer(Renderer):
     def media_menu(self, collection):
         with self.start_directory(self.handle):
             SearchItem(url=self._router.url_for(self.search, collection))(self.handle)
+            DirectoryItem(title=get_string(30211), url=router_url_from_string(ROUTE.POPULAR, collection))(self.handle)
             DirectoryItem(title=get_string(30210), url=self._url_for(self.a_to_z_menu, collection))(self.handle)
             DirectoryItem(title=get_string(30209), url=self._url_for(self.genre_menu, collection))(self.handle)
 

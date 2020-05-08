@@ -53,10 +53,10 @@ class PluginUrlHistory:
     def current(self):
         return get_plugin_url()
 
-    def previous(self, skip_search=False):
+    def previous(self, steps=0, skip_search=False):
         urls = self.skip_search_urls() if skip_search else self.get_urls()
         urls = [url for url in urls if url != self.current]
-        return None if len(urls) == 0 else urls[-1]
+        return None if len(urls) == 0 else urls[-1 - steps]
 
     def exists(self, url):
         urls = self.get_urls()

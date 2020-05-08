@@ -1,8 +1,6 @@
 import xbmc
-
-from resources.lib.const import SERVICE_EVENT, STORAGE
+from resources.lib.const import SERVICE_EVENT
 from resources.lib.kodilogging import service_logger
-from resources.lib.storage.storage import storage
 
 
 class BasePlayer(xbmc.Player):
@@ -10,15 +8,15 @@ class BasePlayer(xbmc.Player):
         super(BasePlayer, self).__init__(player_core)
         self._service = service
 
-    def onAVStarted(self):
-        service_logger.debug("onAVStarted")
+    # def onAVStarted(self):
+    #     service_logger.debug("onAVStarted")
 
     def onPlayBackStarted(self):
         service_logger.debug("Playback started")
         self._service.emit(SERVICE_EVENT.PLAYBACK_STARTED)
 
-    def onPlayBackEnded(self):
-        service_logger.debug("onPlayBackEnded")
-
-    def onPlaybackStopped(self):
-        service_logger.debug("onPlaybackStopped")
+    # def onPlayBackEnded(self):
+    #     service_logger.debug("onPlayBackEnded")
+    #
+    # def onPlaybackStopped(self):
+    #     service_logger.debug("onPlaybackStopped")

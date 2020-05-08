@@ -7,7 +7,7 @@ from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.storage.storage import storage
-from resources.lib.utils.kodiutils import get_string, set_resolved_url, router_url_from_string
+from resources.lib.utils.kodiutils import get_string, set_resolved_url, router_url_from_string, translate_string
 from resources.lib.utils.url import Url
 
 
@@ -113,10 +113,10 @@ class MediaListRenderer(Renderer):
     @staticmethod
     def build_media_item_gui(item_type, media, url_builder, *args):
         info_labels = media.get('info_labels')
-        info_labels.update({'imdbnumber': media.get('services').get('imdb')})
+        info_labels.update({'imdbnumber': str(media.get('services').get('imdb'))})
 
         return item_type(
-            title=info_labels.get('title'),
+            title=translate_string(info_labels.get('title')),
             url=url_builder(media, *args),
             art=media.get('art'),
             info_labels=info_labels,

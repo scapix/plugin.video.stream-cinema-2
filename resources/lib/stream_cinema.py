@@ -5,7 +5,8 @@
 import requests
 import xbmcgui
 
-from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres, STORAGE, SERVICE, SERVICE_EVENT
+from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres, STORAGE, SERVICE, \
+    SERVICE_EVENT, COLLECTION, LANG
 from resources.lib.gui import InfoDialog, InfoDialogType
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
 from resources.lib.gui.renderers.movie_list_renderer import MovieListRenderer
@@ -45,7 +46,9 @@ class StreamCinema:
         router.add_route(self.next_page, ROUTE.NEXT_PAGE)
         router.add_route(self.search_result, ROUTE.SEARCH_RESULT)
         router.add_route(self.filter, ROUTE.FILTER)
-        self._check_token()
+        router.add_route(self.popular_media, ROUTE.POPULAR)
+
+        self._check_account()
 
     @property
     def router(self):
@@ -71,7 +74,8 @@ class StreamCinema:
             num_media = media_list.get('totalCount')
             if num_media == 0:
                 InfoDialog(get_string(30302)).notify()
-                self.router.replace_route(ROUTE.SEARCH, collection)
+                # if collection == COLLECTION.TV_SHOWS:
+                #     self.router.back(steps=1, skip_search=True)
             else:
                 if not settings.as_bool(SETTINGS.EXPLICIT_CONTENT):
                     self.vulgar_filter(media_list)
@@ -93,6 +97,10 @@ class StreamCinema:
 
     def render_media_list(self, collection, media_list):
         self.renderers[collection](collection, media_list)
+
+    def popular_media(self, collection):
+        api_response = self._api.popular_media(collection)
+        self.show_search_results(collection, self.get_media(api_response))
 
     def filter_media(self, collection, filter_name, search_value):
         api_response = self._api.media_filter(collection, filter_name, search_value)
@@ -117,7 +125,7 @@ class StreamCinema:
 
     def _check_provider(self):
         if self._provider.username == '' or self._provider.username == '':
-            InfoDialog(get_string(30300), sound=True).notify()
+            InfoDialog(get_string(LANG.MISSING_PROVIDER_CREDENTIALS), sound=True).notify()
             return False
         return True
 
@@ -130,9 +138,18 @@ class StreamCinema:
             return False
         return True
 
+    def _check_vip(self):
+        if not self._provider.is_vip():
+            InfoDialog(get_string(LANG.ACTIVATE_VIP), sound=True).notify()
+            return False
+        return True
+
+    def _check_account(self):
+        return self._check_vip() and self._check_vip()
+
     def play_stream(self, ident):
         logger.debug('Trying to play stream')
-        if self._check_token():
+        if self._check_account():
             logger.debug('Provider token is valid')
             stream_url = self._provider.get_link_for_file_with_id(ident)
             logger.debug('Stream URL found. Playing %s' % stream_url)

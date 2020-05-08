@@ -6,7 +6,7 @@ import requests
 import xbmc
 
 from resources.lib.const import ENDPOINT
-from resources.lib.utils.kodiutils import get_kodi_version, replace_url_params
+from resources.lib.utils.kodiutils import replace_url_params
 
 
 class API(object):
@@ -44,6 +44,10 @@ class API(object):
             '{}/{}/'.format(sanitized_api_path, sanitized_url_path),
             headers=self.common_headers,
         )
+
+    def popular_media(self, collection):
+        url = replace_url_params(ENDPOINT.POPULAR, collection)
+        return self._get(url)
 
     def media_played(self, collection, media_id):
         url = replace_url_params(ENDPOINT.MEDIA_PLAYED, collection, media_id)

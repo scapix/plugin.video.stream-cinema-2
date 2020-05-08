@@ -15,8 +15,12 @@ class Router:
     def handle(self):
         return self._router.handle
 
-    def back(self, skip_search=False):
-        previous_url = self._history.previous(skip_search)
+    @property
+    def history(self):
+        return self._history
+
+    def back(self, steps=0, skip_search=False):
+        previous_url = self._history.previous(steps, skip_search)
         logger.debug('Going to previous url %s', previous_url)
         self.replace(previous_url)
 

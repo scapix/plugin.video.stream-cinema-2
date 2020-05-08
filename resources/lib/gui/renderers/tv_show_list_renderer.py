@@ -41,7 +41,6 @@ class TvShowListRenderer(MediaListRenderer):
     def build_episode_list_gui(self, media_id, episode_list, season_id):
         gui_list = []
         for i, episode in enumerate(episode_list):
-            url = self._router.url_for(self.select_tv_show_stream, media_id, season_id, i)
             gui_list.append(self.build_media_item_gui(MediaItem, episode, self.stream_url_builder, media_id, season_id, i))
         return gui_list
 
@@ -55,4 +54,4 @@ class TvShowListRenderer(MediaListRenderer):
     def select_tv_show_stream(self, media_id, season_id, episode_id):
         logger.debug('Showing stream list')
         media = self.get_cached_media_by_id(media_id).get('seasons')[int(season_id)].get('episodes')[int(episode_id)]
-        self.select_stream(media_id, media['strms'])
+        self.select_stream(media_id, media['streams'])

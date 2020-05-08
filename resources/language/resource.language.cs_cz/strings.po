@@ -268,3 +268,7 @@ msgstr "Nic nenalezeno"
 msgctxt "#30303"
 msgid "Found {number} records"
 msgstr "Nalezeno {number} záznamů""
+
+msgctxt "#30304"
+msgid "Activate VIP"
+msgstr "Aktivujte VIP"

@@ -23,9 +23,11 @@ class RENDERER:
 
 class ENDPOINT:
     MEDIA = 'media'
-    FILTER = MEDIA + '/<collection>/filter/<filter_name>/<filter_value>'
-    MEDIA_PLAYED = MEDIA + '/<collection>/<media_id>/played'
-
+    COLLECTION = MEDIA + '/<collection>'
+    FILTER = COLLECTION + '/filter/<filter_name>/<filter_value>'
+    MEDIA_PLAYED = COLLECTION + '/<media_id>/played'
+    TV_SHOW_PLAYED = COLLECTION + '/<media_id>/<season>/<episode>/played'
+    POPULAR = COLLECTION + '/popular/-1'
 
 class PROTOCOL:
     PLUGIN = 'plugin'
@@ -51,10 +53,11 @@ class ROUTE:
     SELECT_SEASON = '/select_season/<media_id>'
     SELECT_EPISODE = '/select_episode/<media_id>/<season_id>'
     SELECT_TV_SHOW_STREAM = '/select_tv_show_stream/<media_id>/<season_id>/<episode_id>'
+    POPULAR = MEDIA_MENU + '/popular'
 
 
 class URL:
-    API = 'http://localhost:3000/api'
+    API = 'http://beta.plugin.sc2.zone/api'
 
 
 class COMMAND:
@@ -169,6 +172,7 @@ class LANG:
     SERVER_ERROR = 30301
     NOTHING_FOUND = 30302
     FOUND__NUM__RECORDS = 30303
+    ACTIVATE_VIP = 30304
 
 
 explicit_genres = [LANG.EROTIC, LANG.PORNOGRAPHIC]
