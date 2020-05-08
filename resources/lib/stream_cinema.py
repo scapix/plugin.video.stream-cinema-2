@@ -5,13 +5,14 @@
 import requests
 import xbmcgui
 
-from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres
+from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres, STORAGE, SERVICE, SERVICE_EVENT
 from resources.lib.gui import InfoDialog, InfoDialogType
-from resources.lib.gui.renderers.directory import DirectoryRenderer
-from resources.lib.gui.renderers.movie_list import MovieListRenderer
-from resources.lib.gui.renderers.tv_show_list import TvShowListRenderer
+from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
+from resources.lib.gui.renderers.movie_list_renderer import MovieListRenderer
+from resources.lib.gui.renderers.tv_show_list_renderer import TvShowListRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
+from resources.lib.storage.storage import storage
 from resources.lib.utils.kodiutils import get_string
 from resources.lib.utils.url import Url
 
@@ -31,7 +32,7 @@ class StreamCinema:
             RENDERER.DIRECTORIES: directory_renderer
         }
 
-        router.add_route(movie_renderer.select_stream, ROUTE.SELECT_STREAM)
+        router.add_route(movie_renderer.select_movie_stream, ROUTE.SELECT_STREAM)
         router.add_route(tv_show_renderer.select_season, ROUTE.SELECT_SEASON)
         router.add_route(tv_show_renderer.select_episode, ROUTE.SELECT_EPISODE)
         router.add_route(tv_show_renderer.select_tv_show_stream, ROUTE.SELECT_TV_SHOW_STREAM)
@@ -44,7 +45,6 @@ class StreamCinema:
         router.add_route(self.next_page, ROUTE.NEXT_PAGE)
         router.add_route(self.search_result, ROUTE.SEARCH_RESULT)
         router.add_route(self.filter, ROUTE.FILTER)
-        router.add_route(movie_renderer.select_stream, ROUTE.SELECT_STREAM)
         self._check_token()
 
     @property
@@ -136,7 +136,15 @@ class StreamCinema:
             logger.debug('Provider token is valid')
             stream_url = self._provider.get_link_for_file_with_id(ident)
             logger.debug('Stream URL found. Playing %s' % stream_url)
+            self.send_service_message(SERVICE.PLAYER_SERVICE, SERVICE_EVENT.PLAYBACK_STARTED)
             self.router.set_resolved_url(stream_url)
+
+    @staticmethod
+    def send_service_message(service_name, service_event):
+        logger.debug('Sending service message {}: {}'.format(service_name, service_event))
+        service_storage = storage.get(STORAGE.SERVICE)
+        service_storage[service_name] = service_event
+        storage[STORAGE.SERVICE] = service_storage
 
     def SIGNIN(self):
         dialog = xbmcgui.Dialog()

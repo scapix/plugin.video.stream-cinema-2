@@ -1,6 +1,6 @@
 from resources.lib.const import STRINGS
 from resources.lib.gui import DirectoryItem, TvShowItem, MediaItem
-from resources.lib.gui.renderers.media_list import MediaListRenderer
+from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.utils.kodiutils import get_string
 
@@ -55,4 +55,4 @@ class TvShowListRenderer(MediaListRenderer):
     def select_tv_show_stream(self, media_id, season_id, episode_id):
         logger.debug('Showing stream list')
         media = self.get_cached_media_by_id(media_id).get('seasons')[int(season_id)].get('episodes')[int(episode_id)]
-        self.select_stream(media['strms'])
+        self.select_stream(media_id, media['strms'])

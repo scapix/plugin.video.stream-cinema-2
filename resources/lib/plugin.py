@@ -4,13 +4,15 @@
 import sys
 import uuid
 
-from resources.lib.cache import PluginUrlHistory
 from resources.lib.const import SETTINGS, RENDERER
 from resources.lib.defaults import Defaults
 from resources.lib.kodilogging import logger, setup_root_logger
+from resources.lib.plugin_url_history import PluginUrlHistory
 from resources.lib.settings import settings
+from resources.lib.storage.storage import Storage
 from resources.lib.stream_cinema import StreamCinema
 from resources.lib.utils.kodiutils import get_plugin_url
+
 
 provider = Defaults.provider()
 api = Defaults.api_cached()

@@ -5,7 +5,7 @@ import xbmcplugin
 from resources.lib.const import COMMAND, FILTER_TYPE, ROUTE, COLLECTION, LANG, SETTINGS, explicit_genres
 from resources.lib.gui import MoviesItem, SettingsItem, SearchItem, DirectoryItem, TvShowsItem
 from resources.lib.gui.renderers import Renderer
-from resources.lib.gui.renderers.dialog import DialogRenderer
+from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
 from resources.lib.utils.kodiutils import show_settings, router_url_from_string, get_string

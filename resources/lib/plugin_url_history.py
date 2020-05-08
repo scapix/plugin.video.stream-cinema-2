@@ -1,53 +1,8 @@
-from simpleplugin import MemStorage
-from simpleplugin import Plugin
-
-from resources.lib.api import API
-from resources.lib.const import CACHE
+from resources.lib.const import CACHE, STORAGE
 from resources.lib.kodilogging import logger
+
+from resources.lib.storage.storage import storage
 from resources.lib.utils.kodiutils import get_plugin_url
-
-plugin = Plugin()
-
-
-class Cache:
-    def __init__(self, cache_id):
-        self._id = cache_id
-        self._storage = MemStorage(cache_id)
-
-    def __setitem__(self, key, value):
-        logger.debug('[Cache:%s] Set cache' % (self._id + '.' + key))
-        self._storage[key] = value
-
-    def __getitem__(self, key):
-        logger.debug('[Cache:%s] Get cache' % (self._id + '.' + key))
-        return self._storage[key]
-
-    def __delitem__(self, key):
-        del self._storage[key]
-
-    def get(self, key):
-        try:
-            return self[key]
-        except:
-            return None
-
-
-class CachedAPI(API):
-    def __init__(self, _id, *args, **kwargs):
-        self._id = _id
-        super(CachedAPI, self).__init__(*args, **kwargs)
-
-    def __repr__(self):
-        return self.__class__.__name__ + '.' + self._id
-
-    @plugin.mem_cached(CACHE.EXPIRATION_TIME)
-    def media_filter(self, *args, **kwargs):
-        return super(CachedAPI, self).media_filter(*args, **kwargs)
-
-    @plugin.mem_cached(CACHE.EXPIRATION_TIME)
-    def next_page(self, *args, **kwargs):
-        return super(CachedAPI, self).get(*args, **kwargs)
-
 
 url_blacklist = [
     '/search/'
@@ -56,15 +11,17 @@ url_blacklist = [
 
 class PluginUrlHistory:
     def __init__(self):
-        self._id = CACHE.PLUGIN_URL_HISTORY
         self._limit = CACHE.PLUGIN_URL_HISTORY_LIMIT
-        self._storage = Cache(self._id)
         if self.get_urls() is None:
-            self._storage['urls'] = []
+            self.storage[STORAGE.PLUGIN_URL_HISTORY] = []
+
+    @property
+    def storage(self):
+        return storage
 
     def add(self, url=None):
         is_added = self._add(url)
-        self._storage['last_added'] = is_added
+        self.storage[STORAGE.PLUGIN_LAST_URL_ADDED] = is_added
         return is_added
 
     def _add(self, url=None):
@@ -82,15 +39,15 @@ class PluginUrlHistory:
             urls.pop(0)
         urls.append(url)
         logger.debug('URL added to history')
-        self._storage['urls'] = urls
+        self.storage[STORAGE.PLUGIN_URL_HISTORY] = urls
         return True
 
     def get(self, key):
-        return self._storage.get(key)
+        return self.storage.get(key)
 
     def get_urls(self):
-        return self._storage.get('urls')
-
+        urls = self.storage.get(STORAGE.PLUGIN_URL_HISTORY)
+        return urls if urls else []
 
     @property
     def current(self):
@@ -120,4 +77,3 @@ class PluginUrlHistory:
     @staticmethod
     def current():
         return get_plugin_url()
-

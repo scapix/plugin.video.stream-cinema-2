@@ -7,7 +7,7 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
-from resources.lib.const import PROTOCOL, REGEX
+from resources.lib.const import PROTOCOL, REGEX, STRINGS
 
 ADDON = xbmcaddon.Addon()
 
@@ -33,24 +33,23 @@ def router_url_for(router, *args, **kwargs):
     return router.url_for(*args, **kwargs)
 
 
-def replace_router_params(route_url, *args):
-    matches = re.finditer(REGEX.ROUTER_PARAMS, route_url, re.MULTILINE)
+def replace_url_params(url, *args):
     i = 0
     while True:
-        match = re.search(REGEX.ROUTER_PARAMS, route_url, re.MULTILINE)
+        match = re.search(REGEX.ROUTER_PARAMS, url, re.MULTILINE)
         if match is None:
             break
         start = match.start()
         end = match.end()
-        route_url = route_url[:start] + str(args[i]) + route_url[end:]
+        url = url[:start] + str(args[i]) + url[end:]
 
         i += 1
 
-    return route_url
+    return url
 
 
 def router_url_from_string(route_url, *args):
-    return get_plugin_base_url() + replace_router_params(route_url, *args)
+    return get_plugin_base_url() + replace_url_params(route_url, *args)
 
 
 # You must end directory in order to update container
@@ -156,7 +155,7 @@ def make_table(matrix):
             diff = longest - len(string)
             spaces = ""
             for r in range(diff):
-                spaces += "  "
+                spaces += STRINGS.TABLE_SPACES
 
             matrix[j][i] = spaces + string
     return matrix

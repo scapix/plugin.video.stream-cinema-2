@@ -3,9 +3,10 @@
 """
 
 import requests
+import xbmc
 
 from resources.lib.const import ENDPOINT
-from resources.lib.utils.kodiutils import get_kodi_version
+from resources.lib.utils.kodiutils import get_kodi_version, replace_url_params
 
 
 class API(object):
@@ -16,17 +17,17 @@ class API(object):
 
     @property
     def user_agent(self):
-        return '{} ver{}'.format(get_kodi_version(), self._plugin_version)
+        return xbmc.getUserAgent()
 
     @property
     def common_headers(self):
         return {
-            'User-Agent': self.user_agent,
-            'X-Uid': self._uuid
+            'User-agent': self.user_agent,
+            'X-uuid': self._uuid
         }
 
     def media_filter(self, collection, filter_name, value):
-        url = self._build_url(ENDPOINT.MEDIA, collection, ENDPOINT.FILTER, filter_name, value)
+        url = replace_url_params(ENDPOINT.FILTER, collection, filter_name, value)
         return self._get(url)
 
     @staticmethod
@@ -43,3 +44,7 @@ class API(object):
             '{}/{}/'.format(sanitized_api_path, sanitized_url_path),
             headers=self.common_headers,
         )
+
+    def media_played(self, collection, media_id):
+        url = replace_url_params(ENDPOINT.MEDIA_PLAYED, collection, media_id)
+        return self._get(url)

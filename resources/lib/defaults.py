@@ -1,5 +1,6 @@
-from resources.lib.api import API
-from resources.lib.cache import Cache, CachedAPI
+from resources.lib.api.api import API
+from resources.lib.api.cached_api import CachedAPI
+from resources.lib.storage.storage import Storage, storage
 from resources.lib.const import SETTINGS, URL
 from resources.lib.provider import provider
 from resources.lib.router import Router
@@ -37,6 +38,6 @@ class Defaults:
 
 
     @staticmethod
-    def cache():
-        return Cache(get_info('id'))
+    def storage():
+        return storage
 

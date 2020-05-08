@@ -1,3 +1,7 @@
+class GENERAL:
+    PLUGIN_ID = 'plugin.video.stream-cinema-2'
+
+
 class FILTER_TYPE:
     TITLE_OR_ACTOR = 'titleOrActor'
     STARTS_WITH_LETTER = 'startsWithL'
@@ -19,7 +23,8 @@ class RENDERER:
 
 class ENDPOINT:
     MEDIA = 'media'
-    FILTER = 'filter'
+    FILTER = MEDIA + '/<collection>/filter/<filter_name>/<filter_value>'
+    MEDIA_PLAYED = MEDIA + '/<collection>/<media_id>/played'
 
 
 class PROTOCOL:
@@ -57,14 +62,26 @@ class COMMAND:
     OPEN_SETTINGS = 'open-settings'
 
 
-class CACHE:
-    MEDIA = 'media'
+class STORAGE:
     COLLECTION = 'collection'
-    EXPIRATION_TIME = 10
-    LAST_ROUTE = 'last_route'
+    MEDIA_LIST = 'media_list'
     PLUGIN_URL_HISTORY = 'plugin_url_history'
+    PLUGIN_LAST_URL_ADDED = 'plugin_last_url_added'
+    SELECTED_MEDIA_ID = 'selected_media_id'
+    SERVICE = 'service'
+
+
+class SERVICE:
+    PLAYER_SERVICE = 'player_service'
+
+
+class SERVICE_EVENT:
+    PLAYBACK_STARTED = 'playback_started'
+
+
+class CACHE:
+    EXPIRATION_TIME = 10
     PLUGIN_URL_HISTORY_LIMIT = 5
-    MEDIA_LIST_RENDERER = 'media_list_renderer'
 
 
 class DOWNLOAD_TYPE:
@@ -86,6 +103,7 @@ class STRINGS:
     STREAM_TITLE_BRACKETS = '[{}]'
     SEASON_TITLE = '{} {}'
     BOLD = '[B]{}[/B]'
+    TABLE_SPACES = '  '
 
 
 class LANG:

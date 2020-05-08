@@ -1,36 +1,30 @@
-from datetime import datetime
-
 import xbmcplugin
 
-from resources.lib.cache import Cache
-from resources.lib.const import CACHE, ROUTE
+from resources.lib.const import CACHE, ROUTE, STORAGE
 from resources.lib.gui import MainMenuFolderItem, DirectoryItem
 from resources.lib.gui.renderers import Renderer
-from resources.lib.gui.renderers.dialog import DialogRenderer
-from resources.lib.gui.renderers.directory import DirectoryRenderer
+from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
+from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
 from resources.lib.kodilogging import logger
+from resources.lib.storage.storage import storage
 from resources.lib.utils.kodiutils import get_string, set_resolved_url, router_url_from_string
 from resources.lib.utils.url import Url
 
 
 class MediaListRenderer(Renderer):
-    _storage_id = CACHE.MEDIA_LIST_RENDERER
-
     def __init__(self, router, on_stream_selected):
         """
 
         :param callable on_stream_selected: Called when a stream is selected.
         """
         super(MediaListRenderer, self).__init__(router)
-
-        self._storage = Cache(self._storage_id)
         self._previous_media_list = self.get_cached_media()
         self._on_stream_selected = on_stream_selected
 
     def __call__(self, collection, media_list):
         logger.debug('Renderer %s call' % self)
-        self.set_cache(CACHE.COLLECTION, collection)
-        self.set_cache(CACHE.MEDIA, media_list)
+        self.set_cache(STORAGE.COLLECTION, collection)
+        self.set_cache(STORAGE.MEDIA_LIST, media_list)
 
     def __repr__(self):
         return self.__class__.__name__
@@ -52,7 +46,7 @@ class MediaListRenderer(Renderer):
 
     @property
     def storage(self):
-        return self._storage
+        return storage
 
     @staticmethod
     def build_page_object(media_list):
@@ -87,7 +81,8 @@ class MediaListRenderer(Renderer):
     def next_page_title(page, page_count):
         return '{} ({}/{})'.format(get_string(30203), page, page_count)
 
-    def select_stream(self, streams):
+    def select_stream(self, media_id, streams):
+        self.storage[STORAGE.SELECTED_MEDIA_ID] = media_id
         stream = DialogRenderer.choose_video_stream(streams)
         if stream is None:
             # Dialog cancel.
@@ -98,11 +93,11 @@ class MediaListRenderer(Renderer):
         self._on_stream_selected(stream['ident'])
 
     def get_cached_media(self):
-        media = self.storage.get(CACHE.MEDIA)
+        media = self.storage.get(STORAGE.MEDIA_LIST)
         return {} if media is None else media
 
     def get_collection(self):
-        return self.storage.get(CACHE.COLLECTION)
+        return self.storage.get(STORAGE.COLLECTION)
 
     def set_cache(self, key, value):
         self.storage[key] = value

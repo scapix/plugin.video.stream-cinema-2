@@ -1,5 +1,5 @@
 from resources.lib.gui import MediaItem
-from resources.lib.gui.renderers.media_list import MediaListRenderer
+from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
 
 
 class MovieListRenderer(MediaListRenderer):
@@ -13,9 +13,9 @@ class MovieListRenderer(MediaListRenderer):
         built_items = [media.build() for media in gui_items]
         self.render(built_items)
 
-    def select_stream(self, media_id):
+    def select_movie_stream(self, media_id):
         media = self.get_cached_media_by_id(media_id)
-        super(MovieListRenderer, self).select_stream(media['streams'])
+        super(MovieListRenderer, self).select_stream(media_id, media['streams'])
 
     def url_builder(self, media):
-        return self._router.url_for(self.select_stream, media.get('_id'))
+        return self._router.url_for(self.select_movie_stream, media.get('_id'))
