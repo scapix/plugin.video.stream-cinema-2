@@ -7,28 +7,28 @@ import logging
 import xbmc
 
 from resources.lib.kodilogging import setup_root_logger
+from resources.lib.kodilogging import service_logger
 
 
 setup_root_logger()
-logger = logging.getLogger('stream-cinema-service')
 
-logger.warning('Starting')
+service_logger.warning('Starting')
 
 
 
 # Custom player mockup.
 class MyPlayer(xbmc.Player):
     def onAVStarted(self):
-        logger.warning("onAVStarted")
+        service_logger.warning("onAVStarted")
 
     def onPlayBackStarted(self):
-        logger.warning("onPlayBackStarted")
+        service_logger.warning("onPlayBackStarted")
 
     def onPlayBackEnded(self):
-        logger.warning("onAVStarted")
+        service_logger.warning("onAVStarted")
 
     def onPlaybackStopped(self):
-        logger.warning("onPlaybackStopped")
+        service_logger.warning("onPlaybackStopped")
 
 
 
@@ -46,4 +46,4 @@ while not xbmc_monitor.abortRequested():
 
 # TODO: Fix warnings about some classes left in a memory:
 # https://forum.kodi.tv/showthread.php?tid=307508&pid=2531105#pid2531105
-logger.warning('Stopping')
+service_logger.warning('Stopping')
