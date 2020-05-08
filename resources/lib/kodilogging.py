@@ -36,3 +36,4 @@ def setup_root_logger():
 
 logging.basicConfig()
 logger = logging.getLogger(get_info('id'))
+service_logger = logging.getLogger(get_info('id') + '.service')
