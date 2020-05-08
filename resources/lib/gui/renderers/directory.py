@@ -2,7 +2,7 @@ import contextlib
 
 import xbmcplugin
 
-from resources.lib.const import COMMAND, FILTER_TYPE, ROUTE, COLLECTION, LANG, SETTINGS
+from resources.lib.const import COMMAND, FILTER_TYPE, ROUTE, COLLECTION, LANG, SETTINGS, explicit_genres
 from resources.lib.gui import MoviesItem, SettingsItem, SearchItem, DirectoryItem, TvShowsItem
 from resources.lib.gui.renderers import Renderer
 from resources.lib.gui.renderers.dialog import DialogRenderer
@@ -51,10 +51,9 @@ class DirectoryRenderer(Renderer):
                   LANG.ROMANTIC, LANG.SCI_FI, LANG.COMPETITION, LANG.SPORTS, LANG.STAND_UP, LANG.TALK_SHOW,
                   LANG.TELENOVELA, LANG.THRILLER, LANG.MILITARY, LANG.WESTERN, LANG.BIOGRAPHICAL
                   ]
-        profanity_genres = [LANG.EROTIC, LANG.PORNOGRAPHIC]
 
-        if settings[SETTINGS.VULGAR_CONTENT]:
-            genres = genres + profanity_genres
+        if settings.as_bool(SETTINGS.EXPLICIT_CONTENT):
+            genres = genres + explicit_genres
         genres = [get_string(genre) for genre in genres]
         genres.sort()
         with self.start_directory(self.handle):

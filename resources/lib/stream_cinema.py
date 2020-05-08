@@ -5,7 +5,7 @@
 import requests
 import xbmcgui
 
-from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER
+from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres
 from resources.lib.gui import InfoDialog, InfoDialogType
 from resources.lib.gui.renderers.directory import DirectoryRenderer
 from resources.lib.gui.renderers.movie_list import MovieListRenderer
@@ -73,9 +73,23 @@ class StreamCinema:
                 InfoDialog(get_string(30302)).notify()
                 self.router.replace_route(ROUTE.SEARCH, collection)
             else:
+                if not settings.as_bool(SETTINGS.EXPLICIT_CONTENT):
+                    self.vulgar_filter(media_list)
                 self.render_media_list(collection, media_list)
                 if not self.renderers[collection].is_same_list():
                     InfoDialog(get_string(30303).format(number=str(num_media))).notify()
+
+    @staticmethod
+    def vulgar_filter(media_list):
+        filtered_list = []
+        explicit_genres_str = [get_string(i) for i in explicit_genres]
+        for media in media_list.get('data'):
+            genres = media.get('info_labels').get('genre')
+            is_blocked = bool(set(genres).intersection(explicit_genres_str))
+            if is_blocked:
+                continue
+            filtered_list.append(media)
+        media_list.update({'data': filtered_list})
 
     def render_media_list(self, collection, media_list):
         self.renderers[collection](collection, media_list)

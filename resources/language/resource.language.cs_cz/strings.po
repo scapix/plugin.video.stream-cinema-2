@@ -46,8 +46,8 @@ msgid "Debug"
 msgstr "Ladit"
 
 msgctxt "#30106"
-msgid "Vulgar content"
-msgstr "Vulgární obsah"
+msgid "Explicit content"
+msgstr "Explicitní obsah"
 
 msgctxt "#30200"
 msgid "Movies"

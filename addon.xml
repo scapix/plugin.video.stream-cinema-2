@@ -6,6 +6,9 @@
         <import addon="script.module.simpleplugin3" version="3.0.1"/>
         <import addon="script.module.routing" version="0.2.3"/>
     </requires>
+    <extension library="resources.lib.services.player.py" point="xbmc.service" start="startup">
+        <provides>service</provides>
+    </extension>
     <extension point="xbmc.python.pluginsource" library="main.py">
         <provides>video</provides>
     </extension>

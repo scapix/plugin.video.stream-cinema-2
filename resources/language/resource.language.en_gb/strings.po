@@ -46,7 +46,7 @@ msgid "Debug"
 msgstr ""
 
 msgctxt "#30106"
-msgid "Vulgar content"
+msgid "Explicit content"
 msgstr ""
 
 msgctxt "#30200"

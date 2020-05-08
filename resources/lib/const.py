@@ -79,7 +79,7 @@ class SETTINGS:
     PROVIDER_USERNAME = 'provider.username'
     PROVIDER_PASSWORD = 'provider.password'
     PROVIDER_TOKEN = 'provider.token'
-    VULGAR_CONTENT = 'vulgar_content'
+    EXPLICIT_CONTENT = 'explicit_content'
 
 
 class STRINGS:
@@ -151,3 +151,6 @@ class LANG:
     SERVER_ERROR = 30301
     NOTHING_FOUND = 30302
     FOUND__NUM__RECORDS = 30303
+
+
+explicit_genres = [LANG.EROTIC, LANG.PORNOGRAPHIC]

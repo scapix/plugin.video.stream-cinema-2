@@ -46,8 +46,8 @@ msgid "Debug"
 msgstr "Ladiť"
 
 msgctxt "#30106"
-msgid "Profanity filter"
-msgstr "Vulgárny obsah"
+msgid "Explicit content"
+msgstr "Explicitný obsah"
 
 msgctxt "#30200"
 msgid "Movies"
