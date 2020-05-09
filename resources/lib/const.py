@@ -103,6 +103,7 @@ class SETTINGS:
     PROVIDER_TOKEN = 'provider.token'
     EXPLICIT_CONTENT = 'explicit_content'
     ADVANCED_CLEAR_CACHE = 'advanced.clear_cache'
+    SORT_DESCENDING = 'sort_descending'
 
 
 class STRINGS:

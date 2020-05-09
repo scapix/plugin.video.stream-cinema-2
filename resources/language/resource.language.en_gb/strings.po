@@ -49,6 +49,10 @@ msgctxt "#30105"
 msgid "Debug"
 msgstr ""
 
+msgctxt "#30108"
+msgid "Sort descending"
+msgstr "Sort by filesize descending"
+
 msgctxt "#30106"
 msgid "Explicit content"
 msgstr ""

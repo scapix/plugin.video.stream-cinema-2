@@ -3,10 +3,10 @@ import operator
 import xbmc
 from xbmcgui import Dialog
 
-from resources.lib.const import STRINGS
+from resources.lib.const import STRINGS, SETTINGS
 from resources.lib.utils.kodiutils import show_input, get_string, convert_size, make_table, \
     append_list_items_to_nested_list_items
-
+from resources.lib.settings import settings
 
 class DialogRenderer:
 
@@ -19,7 +19,7 @@ class DialogRenderer:
     @staticmethod
     def choose_video_stream(streams):
         stream_labels = []
-        streams.sort(key=operator.itemgetter('size'))
+        streams.sort(key=operator.itemgetter('size'), reverse=settings.as_bool(SETTINGS.SORT_DESCENDING))
         audio_info_list = []
         for stream in streams:
             # Fix audio string that begins with the comma.

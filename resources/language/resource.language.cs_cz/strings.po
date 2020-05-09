@@ -61,6 +61,10 @@ msgctxt "#30108"
 msgid "Clear cache"
 msgstr "Vyčistit mezipaměť"
 
+msgctxt "#30109"
+msgid "Sort descending"
+msgstr "Seřadit dle velikosti pozpátku"
+
 msgctxt "#30200"
 msgid "Movies"
 msgstr "Filmy"
