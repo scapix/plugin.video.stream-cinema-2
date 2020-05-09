@@ -6,12 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- BETA warning message
-- Advanced settings
-- Clear cache action
+
 
 ## [0.1.1-beta] - 2015-05-09
 ### Added
+- BETA warning message
+- Advanced settings
+- Clear cache action
 - Popular section
 - VIP check
 - Addon description
@@ -29,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Notification for results appears only on first page first time
 
 
-[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.1.1-beta...HEAD
-[0.1.1]: https://github.com/olivierlacan/keep-a-changelog/releases/tag/v0.1.1-beta
+[Unreleased]: https://github.com/LadaBr/plugin.video.stream-cinema-2/compare/v0.1.1-beta...HEAD
+[0.1.1-beta]: https://github.com/LadaBr/plugin.video.stream-cinema-2/releases/tag/v0.1.1-beta
 
 
