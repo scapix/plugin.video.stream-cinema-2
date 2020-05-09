@@ -82,7 +82,15 @@ class MediaItem:
             path=self._url,
         )
         if self._art:
-            item.setArt(self._art)
+            # Without this it clutters the logs with:
+            # CreateLoader - unsupported protocol(plugin) in plugin://plugin.video.stream-cinema-2/select_stream/5eb4691439a9578cbf25d7f4
+            # InputStream: Error opening, plugin://plugin.video.stream-cinema-2/select_stream/5eb4691439a9578cbf25d7f4
+            # Kodi for some reason tries to load the Art from the movie.
+            # We have to set only some attributes of the Art.
+            item.setArt({
+                'fanart' : self._art.get('fanart'),
+                'poster' : self._art.get('poster'),
+            })
         if self._info_labels:
             item.setInfo('video', self._info_labels)
         if self._stream_info:
