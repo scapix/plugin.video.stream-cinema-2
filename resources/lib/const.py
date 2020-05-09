@@ -58,7 +58,7 @@ class ROUTE:
 
 
 class URL:
-    API = 'http://localhost:3000/api'
+    API = 'http://beta.plugin.sc2.zone/api'
 
 
 class COMMAND:

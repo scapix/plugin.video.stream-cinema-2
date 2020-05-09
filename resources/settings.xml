@@ -2,7 +2,7 @@
 <settings>
     <category label="30010">
         <setting label="30107" id="uuid" type="text" visible="true" enable="false" />
-        <setting id="debug" type="bool" label="30105" default="false"/>
+        <setting id="debug" type="bool" label="30105" default="true"/>
         <setting id="explicit_content" type="bool" label="30106" default="false"/>
     </category>
     <category label="30011">
