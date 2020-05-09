@@ -159,7 +159,7 @@ def convert_size(size_bytes):
 
 def convert_bitrate(mbit):
    if mbit == 0:
-       return "0Mbit/s"
+       return "0 Mbit/s"
    i = int(math.floor(math.log(mbit, 1024)))
    p = math.pow(1024, i)
    s = round(mbit / p, 2)
