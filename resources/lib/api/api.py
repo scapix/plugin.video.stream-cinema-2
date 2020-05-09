@@ -3,10 +3,9 @@
 """
 
 import requests
-import xbmc
 
 from resources.lib.const import ENDPOINT
-from resources.lib.utils.kodiutils import replace_url_params
+from resources.lib.utils.kodiutils import replace_url_params, common_headers
 
 
 class API(object):
@@ -14,17 +13,6 @@ class API(object):
         self._api_url = api_url
         self._plugin_version = plugin_version
         self._uuid = uuid
-
-    @property
-    def user_agent(self):
-        return xbmc.getUserAgent()
-
-    @property
-    def common_headers(self):
-        return {
-            'User-agent': self.user_agent,
-            'X-uuid': self._uuid
-        }
 
     def media_filter(self, collection, filter_name, value):
         url = replace_url_params(ENDPOINT.FILTER, collection, filter_name, value)
@@ -42,7 +30,7 @@ class API(object):
         sanitized_url_path = url_path.strip('/api')
         return requests.get(
             '{}/{}/'.format(sanitized_api_path, sanitized_url_path),
-            headers=self.common_headers,
+            headers=common_headers(),
         )
 
     def popular_media(self, collection):

@@ -114,6 +114,7 @@ class MediaListRenderer(Renderer):
     def build_media_item_gui(item_type, media, url_builder, *args):
         info_labels = media.get('info_labels')
         info_labels.update({'imdbnumber': str(media.get('services').get('imdb'))})
+        del info_labels['playcount']
 
         return item_type(
             title=translate_string(info_labels.get('title')),

@@ -29,6 +29,7 @@ class ENDPOINT:
     TV_SHOW_PLAYED = COLLECTION + '/<media_id>/<season>/<episode>/played'
     POPULAR = COLLECTION + '/popular/-1'
 
+
 class PROTOCOL:
     PLUGIN = 'plugin'
 
@@ -57,7 +58,7 @@ class ROUTE:
 
 
 class URL:
-    API = 'http://beta.plugin.sc2.zone/api'
+    API = 'http://localhost:3000/api'
 
 
 class COMMAND:
@@ -174,5 +175,44 @@ class LANG:
     FOUND__NUM__RECORDS = 30303
     ACTIVATE_VIP = 30304
 
+
+api_genres = {
+    LANG.EROTIC: 'Erotic',
+    LANG.PORNOGRAPHIC: 'Pornographic',
+    LANG.ACTION: 'Action',
+    LANG.ANIMATED: 'Animated',
+    LANG.ADVENTURE: 'Adventure',
+    LANG.BIOGRAPHICAL: 'Biographical',
+    LANG.CATASTROPHIC: 'Catastrophic',
+    LANG.COMEDY: 'Comedy',
+    LANG.COMPETITION: 'Competition',
+    LANG.CRIME: 'Crime',
+    LANG.DOCUMENTARY: 'Documentary',
+    LANG.FAIRYTALE: 'Fairytale',
+    LANG.DRAMA: 'Drama',
+    LANG.FAMILY: 'Family',
+    LANG.FANTASY: 'Fantasy',
+    LANG.HISTORICAL: 'Historical',
+    LANG.HORROR: 'Horror',
+    LANG.IMAX: 'IMAX',
+    LANG.EDUCATIONAL: 'Educational',
+    LANG.MUSIC: 'Music',
+    LANG.JOURNALISTIC: 'Journalistic',
+    LANG.MILITARY: 'Military',
+    LANG.MUSICAL: 'Musical',
+    LANG.MYSTERIOUS: 'Mysterious',
+    LANG.PSYCHOLOGICAL: 'Psychological',
+    LANG.REALITY: 'Reality',
+    LANG.ROMANTIC: 'Romantic',
+    LANG.SCI_FI: 'Sci-Fi',
+    LANG.SHORT: 'Short',
+    LANG.SPORTS: 'Sports',
+    LANG.STAND_UP: 'Stand-Up',
+    LANG.TALK_SHOW: 'Talk-Show',
+    LANG.TELENOVELA: 'Telenovela',
+    LANG.THRILLER: 'Thriller',
+    LANG.TRAVEL: 'Travel',
+    LANG.WESTERN: 'Western'
+}
 
 explicit_genres = [LANG.EROTIC, LANG.PORNOGRAPHIC]

@@ -67,7 +67,7 @@ msgstr "Ďaľšia strana"
 
 msgctxt "#30204"
 msgid "Search"
-msgstr "Hladat"
+msgstr "Hľadať"
 
 msgctxt "#30207"
 msgid "Enter title, actor or director"

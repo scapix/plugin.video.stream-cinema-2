@@ -12,7 +12,7 @@ from simpleplugin import Plugin
 
 from resources.lib.const import DOWNLOAD_TYPE, SETTINGS, CACHE
 from resources.lib.settings import settings
-from resources.lib.utils.kodiutils import get_screen_width, get_screen_height
+from resources.lib.utils.kodiutils import get_screen_width, get_screen_height, common_headers
 from resources.lib.vendor.md5crypt import md5crypt
 
 plugin = Plugin()
@@ -66,9 +66,11 @@ class Webshare:
         if data is None:
             data = {}
         data.setdefault('wst', self._token)
-        headers = {
+        headers = common_headers()
+        headers.update({
             'Referer': 'https://webshare.cz/',
-        }
+        })
+
         response = requests.post('https://webshare.cz/api{}'.format(path), data=data, headers=headers)
         return response.content
 

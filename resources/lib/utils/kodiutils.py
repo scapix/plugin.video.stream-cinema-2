@@ -1,13 +1,19 @@
 # -*- coding: utf-8 -*-
+import math
 import re
 import sys
-import math
+
 import xbmc
 import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
-from resources.lib.const import PROTOCOL, REGEX, STRINGS
+from resources.lib.const import PROTOCOL, REGEX, STRINGS, SETTINGS
+
+try:
+    from urllib import quote
+except ImportError:
+    from urllib.parse import quote
 
 ADDON = xbmcaddon.Addon()
 
@@ -41,11 +47,17 @@ def replace_url_params(url, *args):
             break
         start = match.start()
         end = match.end()
-        url = url[:start] + str(args[i]) + url[end:]
+        url = url[:start] + to_utf8_string(args[i]) + url[end:]
 
         i += 1
 
     return url
+
+
+def to_utf8_string(val):
+    if not isinstance(val, str):
+        val = val.encode('utf8')
+    return str(val)
 
 
 def router_url_from_string(route_url, *args):
@@ -112,7 +124,7 @@ def get_setting_as_int(setting):
 
 
 def get_string(string_id):
-    return ADDON.getLocalizedString(string_id)
+    return ADDON.getLocalizedString(string_id).encode('utf8')
 
 
 def translate_string(s):
@@ -170,6 +182,18 @@ def append_list_items_to_nested_list_items(_list, list_to_append):
     for i, nested_list in enumerate(_list):
         nested_list.append(list_to_append[i])
     return _list
+
+
+def user_agent():
+    return xbmc.getUserAgent()
+
+
+def common_headers():
+    return {
+        'User-Agent': user_agent(),
+        'X-Uuid': get_settings(SETTINGS.UUID)
+    }
+
 
 # def kodi_json_request(params):
 #     data = json.dumps(params)

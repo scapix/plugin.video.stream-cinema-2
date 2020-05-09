@@ -2,7 +2,7 @@ import contextlib
 
 import xbmcplugin
 
-from resources.lib.const import COMMAND, FILTER_TYPE, ROUTE, COLLECTION, LANG, SETTINGS, explicit_genres
+from resources.lib.const import COMMAND, FILTER_TYPE, ROUTE, COLLECTION, LANG, SETTINGS, explicit_genres, api_genres
 from resources.lib.gui import MoviesItem, SettingsItem, SearchItem, DirectoryItem, TvShowsItem
 from resources.lib.gui.renderers import Renderer
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
@@ -55,12 +55,18 @@ class DirectoryRenderer(Renderer):
 
         if settings.as_bool(SETTINGS.EXPLICIT_CONTENT):
             genres = genres + explicit_genres
-        genres = [get_string(genre) for genre in genres]
-        genres.sort()
+        genre_pairs = {}
+        lang_genres = []
+        for genre in genres:
+            lang_genre = get_string(genre)
+            api_genre = api_genres[genre]
+            genre_pairs[lang_genre] = api_genre
+            lang_genres.append(lang_genre)
+        lang_genres.sort()
         with self.start_directory(self.handle):
-            for genre in genres:
-                DirectoryItem(title=genre,
-                              url=router_url_from_string(ROUTE.FILTER, collection, FILTER_TYPE.GENRE, genre)
+            for lang_genre in lang_genres:
+                DirectoryItem(title=lang_genre,
+                              url=router_url_from_string(ROUTE.FILTER, collection, FILTER_TYPE.GENRE, genre_pairs[lang_genre])
                               )(self.handle)
 
     def a_to_z_menu(self, collection):

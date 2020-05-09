@@ -1,10 +1,10 @@
 from resources.lib.api.api import API
 from resources.lib.api.cached_api import CachedAPI
-from resources.lib.storage.storage import Storage, storage
 from resources.lib.const import SETTINGS, URL
 from resources.lib.provider import provider
 from resources.lib.router import Router
 from resources.lib.settings import settings
+from resources.lib.storage.storage import storage
 from resources.lib.utils.kodiutils import get_info
 
 
@@ -35,7 +35,6 @@ class Defaults:
             uuid=settings[SETTINGS.UUID],
             api_url=URL.API
         )
-
 
     @staticmethod
     def storage():
