@@ -49,6 +49,10 @@ msgctxt "#30106"
 msgid "Explicit content"
 msgstr "Explicitný obsah"
 
+msgctxt "#30108"
+msgid "Sort descending"
+msgstr "Zoradiť podľa veľkosti pospiatku"
+
 msgctxt "#30200"
 msgid "Movies"
 msgstr "Filmy"
