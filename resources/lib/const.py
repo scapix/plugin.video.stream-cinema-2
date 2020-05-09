@@ -55,6 +55,7 @@ class ROUTE:
     SELECT_EPISODE = '/select_episode/<media_id>/<season_id>'
     SELECT_TV_SHOW_STREAM = '/select_tv_show_stream/<media_id>/<season_id>/<episode_id>'
     POPULAR = MEDIA_MENU + '/popular'
+    CLEAR_CACHE = 'clear-cache'
 
 
 class URL:
@@ -101,6 +102,7 @@ class SETTINGS:
     PROVIDER_PASSWORD = 'provider.password'
     PROVIDER_TOKEN = 'provider.token'
     EXPLICIT_CONTENT = 'explicit_content'
+    ADVANCED_CLEAR_CACHE = 'advanced.clear_cache'
 
 
 class STRINGS:
@@ -174,6 +176,8 @@ class LANG:
     NOTHING_FOUND = 30302
     FOUND__NUM__RECORDS = 30303
     ACTIVATE_VIP = 30304
+    NEWS_TITLE = 30305
+    NEWS_TEXT = 30306
 
 
 api_genres = {

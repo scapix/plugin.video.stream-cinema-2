@@ -11,4 +11,7 @@
         <setting label="30102" id="provider.password" type="text" default="" option="hidden" />
         <setting id="provider.token" type="text" visible="false" />
     </category>
+    <category label="30012">
+        <setting label="30108" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/clear-cache)"/>
+    </category>
 </settings>

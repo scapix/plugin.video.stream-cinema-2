@@ -1,4 +1,4 @@
-from resources.lib.const import SERVICE, STORAGE, SERVICE_EVENT
+from resources.lib.const import STORAGE, SERVICE_EVENT
 from resources.lib.kodilogging import service_logger
 from resources.lib.players.stream_cinema_player import StreamCinemaPlayer
 from resources.lib.services import Service

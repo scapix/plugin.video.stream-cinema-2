@@ -5,15 +5,16 @@
 import requests
 import xbmcgui
 
-from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres, STORAGE, SERVICE, \
-    SERVICE_EVENT, COLLECTION, LANG
+from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres, STORAGE, SERVICE_EVENT, LANG, \
+    SERVICE
 from resources.lib.gui import InfoDialog, InfoDialogType
+from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
 from resources.lib.gui.renderers.movie_list_renderer import MovieListRenderer
 from resources.lib.gui.renderers.tv_show_list_renderer import TvShowListRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
-from resources.lib.storage.storage import storage
+from resources.lib.storage.storage import Storage, storage
 from resources.lib.utils.kodiutils import get_string
 from resources.lib.utils.url import Url
 
@@ -41,6 +42,7 @@ class StreamCinema:
         router.add_route(directory_renderer.main_menu, ROUTE.MAIN_MENU)
         router.add_route(directory_renderer.media_menu, ROUTE.MEDIA_MENU)
         router.add_route(directory_renderer.command, ROUTE.COMMAND)
+        router.add_route(movie_renderer.select_movie_stream, ROUTE.SELECT_STREAM)
         router.add_route(directory_renderer.a_to_z_menu, ROUTE.A_TO_Z)
         router.add_route(directory_renderer.genre_menu, ROUTE.GENRE_MENU)
         router.add_route(self.next_page, ROUTE.NEXT_PAGE)

@@ -25,6 +25,10 @@ msgctxt "#30011"
 msgid "Source"
 msgstr "Zdroj"
 
+msgctxt "#30012"
+msgid "Advanced"
+msgstr "Pokročilé"
+
 msgctxt "#30101"
 msgid "Username"
 msgstr "Užívateľské meno"
@@ -48,6 +52,14 @@ msgstr "Ladiť"
 msgctxt "#30106"
 msgid "Explicit content"
 msgstr "Explicitný obsah"
+
+msgctxt "#30107"
+msgid "UUID"
+msgstr ""
+
+msgctxt "#30108"
+msgid "Clear cache"
+msgstr "Vyčistiť medzipamäť"
 
 msgctxt "#30200"
 msgid "Movies"
@@ -272,3 +284,11 @@ msgstr "Nájdených {number} záznamov"
 msgctxt "#30304"
 msgid "Activate VIP"
 msgstr "Aktivujte VIP"
+
+msgctxt "#30305"
+msgid "Welcome to Stream Cinema 2.0 [COLOR red]BETA[/COLOR]"
+msgstr ""
+
+msgctxt "#30306"
+msgid "Please be aware of that this version can contain a lot of bugs and is not final release. Visit [COLOR blue]sc2.zone[/COLOR] for information about upcoming releases."
+msgstr "Berte na vedomie, že toto nie je finálna verzia a môže obsahovať veľa chýb. Informácie o pripravovaných vydaniach nájdete na [COLOR blue] sc2.zone [/COLOR]."

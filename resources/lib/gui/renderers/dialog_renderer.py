@@ -50,3 +50,6 @@ class DialogRenderer:
             return search_entered
         return False
 
+    @staticmethod
+    def ok(heading, text):
+        return Dialog().ok(heading, text)

@@ -195,6 +195,12 @@ def common_headers():
     }
 
 
+def delete_try(obj, key):
+    try:
+        del obj[key]
+    except:
+        pass
+
 # def kodi_json_request(params):
 #     data = json.dumps(params)
 #     request = xbmc.executeJSONRPC(data)

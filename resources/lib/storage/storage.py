@@ -21,7 +21,10 @@ class Storage:
         return self._storage[key]
 
     def __delitem__(self, key):
-        del self._storage[key]
+        try:
+            del self._storage[key]
+        except:
+            pass
 
     def get(self, key):
         try:
