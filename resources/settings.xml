@@ -4,7 +4,7 @@
         <setting label="30107" id="uuid" type="text" visible="true" enable="false" />
         <setting id="debug" type="bool" label="30105" default="true"/>
         <setting id="explicit_content" type="bool" label="30106" default="false"/>
-        <setting id="sort_descending" type="bool" label="30108" default="false"/>
+        <setting id="sort_descending" type="bool" label="30109" default="false"/>
     </category>
     <category label="30011">
         <setting id="provider.name" type="select" label="30103" lvalues="30104" />
