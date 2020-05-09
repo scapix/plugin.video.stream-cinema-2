@@ -101,6 +101,7 @@ class SETTINGS:
     PROVIDER_PASSWORD = 'provider.password'
     PROVIDER_TOKEN = 'provider.token'
     EXPLICIT_CONTENT = 'explicit_content'
+    SORT_DESCENDING = 'sort_descending'
 
 
 class STRINGS:
