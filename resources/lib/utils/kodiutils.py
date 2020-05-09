@@ -157,6 +157,13 @@ def convert_size(size_bytes):
     s = round(size_bytes / p, 2)
     return "%s %s" % (s, size_name[i])
 
+def convert_bitrate(mbit):
+   if mbit == 0:
+       return "0B"
+   i = int(math.floor(math.log(mbit, 1024)))
+   p = math.pow(1024, i)
+   s = round(mbit / p, 2)
+   return "%s %s" % (s, "Mbit/s")
 
 def make_table(matrix):
     matrix_length = len(matrix)
