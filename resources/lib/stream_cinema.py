@@ -48,7 +48,6 @@ class StreamCinema:
         router.add_route(self.filter, ROUTE.FILTER)
         router.add_route(self.popular_media, ROUTE.POPULAR)
 
-        self._check_account()
 
     @property
     def router(self):
@@ -126,14 +125,13 @@ class StreamCinema:
     def _check_provider(self):
         if self._provider.username == '' or self._provider.username == '':
             InfoDialog(get_string(LANG.MISSING_PROVIDER_CREDENTIALS), sound=True).notify()
+            settings.show()
             return False
         return True
 
     def _check_token(self):
         if self._provider.token == '':
-            if not self._check_provider():
-                settings.show()
-            else:
+            if self._check_provider():
                 settings[SETTINGS.PROVIDER_TOKEN] = self._provider.get_token()
             return False
         return True
@@ -145,7 +143,9 @@ class StreamCinema:
         return True
 
     def _check_account(self):
-        return self._check_vip() and self._check_vip()
+        if self._check_provider():
+            return self._check_token() and self._check_vip()
+        return False
 
     def play_stream(self, ident):
         logger.debug('Trying to play stream')
