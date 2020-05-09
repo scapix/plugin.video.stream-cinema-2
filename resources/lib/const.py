@@ -108,6 +108,7 @@ class SETTINGS:
 
 class STRINGS:
     STREAM_TITLE_BRACKETS = '[{}]'
+    STREAM_BITRATE_BRACKETS = '({})'
     SEASON_TITLE = '{} {}'
     BOLD = '[B]{}[/B]'
     TABLE_SPACES = '  '
