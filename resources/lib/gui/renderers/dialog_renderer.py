@@ -3,7 +3,7 @@ import operator
 import xbmc
 from xbmcgui import Dialog
 
-from resources.lib.const import STRINGS, SETTINGS
+from resources.lib.const import STRINGS, SETTINGS, codecs
 from resources.lib.utils.kodiutils import show_input, get_string, convert_size, make_table, \
     append_list_items_to_nested_list_items,convert_bitrate
 from resources.lib.settings import settings
@@ -30,16 +30,8 @@ class DialogRenderer:
             quality = STRINGS.STREAM_TITLE_BRACKETS.format(stream.get('quality'))
             size = STRINGS.BOLD.format(convert_size(stream.get('size')))
             bitrate = STRINGS.STREAM_BITRATE_BRACKETS.format(convert_bitrate(stream.get('bitrate')))
-
-            if stream.get('codec') == "h265":
-                codec = STRINGS.STREAM_TITLE_BRACKETS.format("HEVC")
-                stream_labels.append([quality, codec, size, bitrate])
-            elif stream.get('codec') == "h264":
-                codec = STRINGS.STREAM_TITLE_BRACKETS.format("H.264")
-                stream_labels.append([quality, codec, size, bitrate])
-            else:
-                codec = STRINGS.STREAM_TITLE_BRACKETS.format(stream.get('codec'))
-                stream_labels.append([quality, codec, size, bitrate])
+            codec = STRINGS.STREAM_TITLE_BRACKETS.format(codecs[stream.get('codec')])
+            stream_labels.append([quality, codec, size, bitrate])
 
         table = make_table(stream_labels)
         table = append_list_items_to_nested_list_items(table, audio_info_list)

@@ -129,6 +129,22 @@ class STRINGS:
     ISO_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
 
+class CODEC:
+    H265 = 'HEVC'
+    H264 = 'H264'
+
+
+class API_CODEC:
+    H265 = 'h265'
+    H264 = 'h264'
+
+
+codecs = {
+    API_CODEC.H265: CODEC.H265,
+    API_CODEC.H264: CODEC.H264
+}
+
+
 class LANG:
     GENERAL = 30010
     SOURCE = 30011
@@ -186,6 +202,7 @@ class LANG:
     BIOGRAPHICAL = 30248
     SELECT_A_MEDIA_SOURCE = 30250
     _0_9 = 30251
+    YEAR = 3252
     SEASON = 30920
     EPISODE = 30921
     MISSING_PROVIDER_CREDENTIALS = 30300
