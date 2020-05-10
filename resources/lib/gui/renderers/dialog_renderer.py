@@ -38,7 +38,7 @@ class DialogRenderer:
         table = make_table(stream_labels)
         table = append_list_items_to_nested_list_items(table, audio_info_list)
 
-        ret = Dialog().select('Choose the stream', [STRINGS.TABLE_SPACES.join(item) for item in table])
+        ret = Dialog().select(get_string(30253), [STRINGS.TABLE_SPACES.join(item) for item in table])
         if ret < 0:
             return None
         return streams[ret]
