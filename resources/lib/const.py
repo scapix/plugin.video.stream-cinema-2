@@ -112,6 +112,7 @@ class SETTINGS:
     PROVIDER_USERNAME = 'provider.username'
     PROVIDER_PASSWORD = 'provider.password'
     PROVIDER_TOKEN = 'provider.token'
+    SHOW_CODEC = 'show_codec'
     EXPLICIT_CONTENT = 'explicit_content'
     ADVANCED_CLEAR_CACHE = 'advanced.clear_cache'
     FILE_SIZE_SORT = 'file_size_sort'
@@ -127,6 +128,22 @@ class STRINGS:
     TABLE_SPACES = '  '
     DATETIME = '%Y-%m-%d %H:%M:%S'
     ISO_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
+
+
+class CODEC:
+    H265 = 'HEVC'
+    H264 = 'H264'
+
+
+class API_CODEC:
+    H265 = 'h265'
+    H264 = 'h264'
+
+
+codecs = {
+    API_CODEC.H265: CODEC.H265,
+    API_CODEC.H264: CODEC.H264
+}
 
 
 class LANG:
@@ -186,6 +203,7 @@ class LANG:
     BIOGRAPHICAL = 30248
     SELECT_A_MEDIA_SOURCE = 30250
     _0_9 = 30251
+    YEAR = 3252
     SEASON = 30920
     EPISODE = 30921
     MISSING_PROVIDER_CREDENTIALS = 30300

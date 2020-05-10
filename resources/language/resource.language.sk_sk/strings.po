@@ -77,6 +77,10 @@ msgctxt "#30111"
 msgid "↓ Descending"
 msgstr "↓ Sestupně"
 
+msgctxt "#30112"
+msgid "Show codec"
+msgstr "Zobraziť kodek"
+
 msgctxt "#30200"
 msgid "Movies"
 msgstr "Filmy"

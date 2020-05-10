@@ -77,6 +77,10 @@ msgctxt "#30111"
 msgid "[B]↓[/B] Descending"
 msgstr ""
 
+msgctxt "#30112"
+msgid "Show codec"
+msgstr ""
+
 msgctxt "#30200"
 msgid "Movies"
 msgstr ""
