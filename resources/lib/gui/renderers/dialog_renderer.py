@@ -31,7 +31,7 @@ class DialogRenderer:
             size = STRINGS.BOLD.format(convert_size(stream.get('size')))
             bitrate = STRINGS.STREAM_BITRATE_BRACKETS.format(convert_bitrate(stream.get('bitrate')))
             codec = STRINGS.STREAM_TITLE_BRACKETS.format(codecs[stream.get('codec')])
-            stream_labels.append([quality, codec, size, bitrate])
+            stream_labels.append([quality, size, codec, bitrate])
 
         table = make_table(stream_labels)
         table = append_list_items_to_nested_list_items(table, audio_info_list)
