@@ -2,7 +2,7 @@ from resources.lib.const import CACHE, STORAGE
 from resources.lib.kodilogging import logger
 
 from resources.lib.storage.storage import storage
-from resources.lib.utils.kodiutils import get_plugin_url
+from resources.lib.utils.kodiutils import get_plugin_url, replace_plugin_url
 
 url_blacklist = [
     '/search/'
@@ -53,9 +53,12 @@ class PluginUrlHistory:
     def current(self):
         return get_plugin_url()
 
+    def is_same_url(self):
+        return self.current() == self.previous()
+
     def previous(self, steps=0, skip_search=False):
         urls = self.skip_search_urls() if skip_search else self.get_urls()
-        urls = [url for url in urls if url != self.current]
+        urls = [url for url in urls if url != self.current()]
         return None if len(urls) == 0 else urls[-2 - steps]
 
     def exists(self, url):
@@ -77,3 +80,13 @@ class PluginUrlHistory:
     @staticmethod
     def current():
         return get_plugin_url()
+
+    @staticmethod
+    def clear():
+        storage[STORAGE.PLUGIN_URL_HISTORY] = []
+
+    @staticmethod
+    def last_added():
+        return storage.get(STORAGE.PLUGIN_LAST_URL_ADDED)
+
+

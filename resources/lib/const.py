@@ -1,9 +1,15 @@
 from datetime import timedelta
 
 
+class URL:
+    API = 'http://localhost:3000/api'
+    GITLAB_URL = 'https://git.hotshot.sk/api/v4/'
+
+
 class GENERAL:
     PLUGIN_ID = 'plugin.video.stream-cinema-2'
-    VERSION_CHECK_INTERVAL = timedelta(days=1)
+    VERSION_CHECK_INTERVAL = timedelta(hours=1)
+    API_TIMEOUT = 10
 
 
 class FILTER_TYPE:
@@ -11,6 +17,11 @@ class FILTER_TYPE:
     STARTS_WITH_LETTER = 'startsWithL'
     STARTS_WITH = 'startsWith'
     GENRE = 'genre'
+
+
+class MEDIA_TYPE:
+    TV_SHOW = 'tvshow'
+    MOVIE = 'movie'
 
 
 class COLLECTION:
@@ -29,11 +40,13 @@ class ENDPOINT:
     MEDIA = 'media'
     COLLECTION = MEDIA + '/<collection>'
     FILTER = COLLECTION + '/filter/<filter_name>/<filter_value>'
-    MEDIA_PLAYED = COLLECTION + '/<media_id>/played'
+    MEDIA_PLAYED = COLLECTION + '/<media_id>/played/<uuid>'
     TV_SHOW_PLAYED = COLLECTION + '/<media_id>/<season>/<episode>/played'
     POPULAR = COLLECTION + '/popular/-1'
     MEDIA_DETAIL = COLLECTION + '/<media_id>'
     FILTER_COUNT = COLLECTION + '/filter/<filter_name>/count'
+    USER = 'user'
+    WATCHED = USER + '/watched/<uuid>'
 
 
 class PROTOCOL:
@@ -45,6 +58,7 @@ class REGEX:
 
 
 class ROUTE:
+    ROOT = '/'
     A_TO_Z = '/a_to_z/<collection>'
     A_TO_Z_SUBMENU = '/a_to_z/<collection>/<previous_letter>'
     SHOW_CACHED_MEDIA = '/show_cached_media/<collection>'
@@ -56,18 +70,15 @@ class ROUTE:
     MAIN_MENU = '/main_menu'
     GENRE_MENU = '/genre_menu/<collection>'
     SEARCH_RESULT = '/search_result/<collection>/<search_value>'
-    SELECT_MOVIE_STREAM = '/select_stream/<media_id>'
+    SELECT_MOVIE_STREAM = '/select_stream/<collection>/<media_id>'
     PLAY_STREAM = '/play_stream/<ident>'
-    SELECT_SEASON = '/select_season/<media_id>'
-    SELECT_EPISODE = '/select_episode/<media_id>/<season_id>'
+    SELECT_SEASON = '/select_season/<collection>/<media_id>'
+    SELECT_EPISODE = '/select_episode/<collection>/<media_id>/<season_id>'
     SELECT_TV_SHOW_STREAM = '/select_tv_show_stream/<media_id>/<season_id>/<episode_id>'
     POPULAR = MEDIA_MENU + '/popular'
-    CLEAR_CACHE = 'clear-cache'
-
-
-class URL:
-    API = 'https://beta.plugin.sc2.zone/api'
-    GITLAB_URL = 'https://git.hotshot.sk/api/v4/'
+    CLEAR_CACHE = '/clear-cache'
+    CLEAR_PATH = '/clear-path'
+    WATCHED = '/watched'
 
 
 class GITLAB_ENDPOINT:
@@ -95,6 +106,7 @@ class SERVICE:
 
 class SERVICE_EVENT:
     PLAYBACK_STARTED = 'playback_started'
+    PLAYBACK_STOPPED = 'playback_stopped'
 
 
 class CACHE:
@@ -108,6 +120,7 @@ class DOWNLOAD_TYPE:
 
 
 class SETTINGS:
+    VERSION = 'version'
     UUID = 'uuid'
     DEBUG = 'debug'
     PROVIDER_NAME = 'provider.name'
@@ -121,6 +134,7 @@ class SETTINGS:
     FILE_SIZE_SORT = 'file_size_sort'
     INSTALLATION_DATE = 'installation_date'
     LAST_VERSION_CHECK = 'last_version_check'
+    A_Z_THRESHOLD = 'a_z_threshold'
 
 
 class STRINGS:
@@ -164,6 +178,8 @@ class LANG:
     INTERFACE = 30014
     SHOW_CODEC = 30115
     SHOW_BITRATE = 30116
+    THRESHOLDS = 30118
+    A_Z_THRESHOLD = 30119
     DEBUG = 30105
     MOVIES = 30200
     SERIES = 30201
@@ -173,7 +189,7 @@ class LANG:
     SEARCH_MEDIA = 30207
     SETTINGS = 30208
     GENRE = 30209
-    A_Z = 30211
+    A_Z = 30210
     POPULAR = 30211
     WATCHING_NOW = 30212
     ACTION = 30213
@@ -215,6 +231,8 @@ class LANG:
     SELECT_A_MEDIA_SOURCE = 30250
     ZERO_NINE = 30251
     SEARCH_FOR_LETTERS = 30252
+    CHOOSE_STREAM = 30253
+    WATCH_HISTORY = 30254
     SEASON = 30920
     EPISODE = 30921
     MISSING_PROVIDER_CREDENTIALS = 30300
@@ -226,6 +244,7 @@ class LANG:
     NEWS_TEXT = 30306
     NEW_VERSION_TITLE = 30307
     NEW_VERSION_TEXT = 30308
+    PAGE_LIMIT = 30120
 
 
 api_genres = {

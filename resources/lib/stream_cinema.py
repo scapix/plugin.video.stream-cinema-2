@@ -4,18 +4,20 @@
 
 import requests
 import xbmcgui
+import xbmcplugin
 
 from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres, STORAGE, SERVICE_EVENT, LANG, \
-    SERVICE
-from resources.lib.gui import InfoDialog, InfoDialogType
+    SERVICE, MEDIA_TYPE, COLLECTION
+from resources.lib.gui import InfoDialog, InfoDialogType, MediaItem, TvShowItem
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
+from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
 from resources.lib.gui.renderers.movie_list_renderer import MovieListRenderer
 from resources.lib.gui.renderers.tv_show_list_renderer import TvShowListRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
 from resources.lib.storage.storage import Storage, storage
-from resources.lib.utils.kodiutils import get_string
+from resources.lib.utils.kodiutils import get_string, router_url_from_string, replace_plugin_url
 from resources.lib.utils.url import Url
 
 
@@ -34,6 +36,7 @@ class StreamCinema:
             RENDERER.DIRECTORIES: directory_renderer
         }
 
+        router.add_route(self.clear_path, ROUTE.CLEAR_PATH)
         router.add_route(tv_show_renderer.select_season, ROUTE.SELECT_SEASON)
         router.add_route(tv_show_renderer.select_episode, ROUTE.SELECT_EPISODE)
         router.add_route(tv_show_renderer.select_tv_show_stream, ROUTE.SELECT_TV_SHOW_STREAM)
@@ -49,11 +52,16 @@ class StreamCinema:
         router.add_route(self.search_result, ROUTE.SEARCH_RESULT)
         router.add_route(self.filter, ROUTE.FILTER)
         router.add_route(self.popular_media, ROUTE.POPULAR)
+        router.add_route(self.watched, ROUTE.WATCHED)
 
 
     @property
     def router(self):
         return self._router
+
+    def clear_path(self):
+        logger.debug('Clearing path')
+        self.router.replace_route(ROUTE.ROOT)
 
     def _filter_and_render(self, collection, filter_type, filter_value):
         media = self.filter_media(collection, filter_type, filter_value)
@@ -170,6 +178,18 @@ class StreamCinema:
 
     def get_filter_values_count(self, *args, **kwargs):
         return self._api.get_filter_values_count(*args, **kwargs).json()
+
+    def watched(self):
+        watched_list = self.process_api_response(self._api.watched(settings[SETTINGS.UUID]))
+        media_list_gui = []
+        for media in watched_list.get('data'):
+            media_type = media.get('info_labels').get('mediatype')
+            if media_type == MEDIA_TYPE.TV_SHOW:
+                media_list_gui.append(MediaListRenderer.build_media_item_gui(TvShowItem, media, self.renderers[RENDERER.TV_SHOWS].url_builder, COLLECTION.TV_SHOWS).build())
+            elif media_type == MEDIA_TYPE.MOVIE:
+                media_list_gui.append(MovieListRenderer.build_media_item_gui(MediaItem, media, self.renderers[RENDERER.MOVIES].url_builder, COLLECTION.MOVIES).build())
+        with DirectoryRenderer.start_directory(self.router.handle, as_type=COLLECTION.MOVIES):
+            xbmcplugin.addDirectoryItems(self.router.handle, media_list_gui)
 
     def SIGNIN(self):
         dialog = xbmcgui.Dialog()

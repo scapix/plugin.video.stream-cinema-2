@@ -1,6 +1,7 @@
 import xbmcgui
 import xbmcplugin
 
+from resources.lib.const import LANG
 from resources.lib.utils.kodiutils import get_string, ADDON
 
 
@@ -29,6 +30,11 @@ class DirectoryItem:
         })
 
         return self._url, inner_item, self.DIRECTORY,
+
+
+class WatchHistoryItem(DirectoryItem):
+    ICON = 'DefaultInProgressShows.png'
+    TITLE = get_string(LANG.WATCH_HISTORY)
 
 
 class SearchItem(DirectoryItem):
@@ -64,12 +70,13 @@ class SettingsItem(DirectoryItem):
 class MediaItem:
     DIRECTORY = False
 
-    def __init__(self, title, url=None, art=None, info_labels=None, stream_info=None):
+    def __init__(self, title, url=None, art=None, info_labels=None, stream_info=None, services=None):
         self._title = title
         self._url = url
         self._art = art
         self._info_labels = info_labels
         self._stream_info = stream_info
+        self._services = services
 
     def __call__(self, handle):
         url, li, is_folder = self.build()
@@ -88,14 +95,16 @@ class MediaItem:
             # Kodi for some reason tries to load the Art from the movie.
             # We have to set only some attributes of the Art.
             item.setArt({
-                'fanart' : self._art.get('fanart'),
-                'poster' : self._art.get('poster'),
+                'fanart': self._art.get('fanart'),
+                'poster': self._art.get('poster'),
             })
         if self._info_labels:
             item.setInfo('video', self._info_labels)
         if self._stream_info:
             for key, value in self._stream_info.items():
                 item.addStreamInfo(key, value)
+        if self._services:
+            item.setUniqueIDs({'imdb': 'tt' + str(self._services.get('imdb'))}, 'imdb')
 
         item.setProperty('IsPlayable', 'true')
         return self._url, item, self.DIRECTORY,

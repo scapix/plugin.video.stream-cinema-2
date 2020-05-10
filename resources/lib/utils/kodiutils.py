@@ -233,6 +233,7 @@ def delete_try(obj, key):
     except:
         pass
 
+
 # def kodi_json_request(params):
 #     data = json.dumps(params)
 #     request = xbmc.executeJSONRPC(data)

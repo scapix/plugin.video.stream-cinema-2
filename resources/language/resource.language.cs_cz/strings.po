@@ -34,12 +34,16 @@ msgid "Installation date"
 msgstr "Datum instalace"
 
 msgctxt "#30014"
-msgid "Show codec"
-msgstr "Zobrazit kodek"
-
-msgctxt "#30115"
 msgid "Interface"
 msgstr "Rozhraní"
+
+msgctxt "#30015"
+msgid "Version"
+msgstr "Verze"
+
+msgctxt "#30115"
+msgid "Show codec"
+msgstr "Zobrazit kodek"
 
 msgctxt "#30116"
 msgid "Show bitrate"
@@ -48,6 +52,18 @@ msgstr "Zobrazit přenosovou rychlost"
 msgctxt "#30117"
 msgid "Stream info"
 msgstr "Informace o streamu"
+
+msgctxt "#30118"
+msgid "Thresholds"
+msgstr "Limity"
+
+msgctxt "#30119"
+msgid "Display A-Z at number below"
+msgstr "Zobrazit výsledky A-Z při počtu pod"
+
+msgctxt "#30120"
+msgid "Number of items per page"
+msgstr "Počet položek na stránku"
 
 msgctxt "#30101"
 msgid "Username"
@@ -92,10 +108,6 @@ msgstr "[B]↑[/B] Vzestupně"
 msgctxt "#30111"
 msgid "[B]↓[/B] Descending"
 msgstr "[B]↓[/B] Sestupně"
-
-msgctxt "#30112"
-msgid "Show codec"
-msgstr "Zobrazit kodek"
 
 msgctxt "#30200"
 msgid "Movies"
@@ -296,6 +308,10 @@ msgstr ""
 msgctxt "#30253"
 msgid "Choose the stream"
 msgstr "Vybrat stream"
+
+msgctxt "#30254"
+msgid "Watch history"
+msgstr "Historie sledování"
 
 msgctxt "#30920"
 msgid "Season"

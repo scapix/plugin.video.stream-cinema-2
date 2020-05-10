@@ -89,6 +89,10 @@ msgctxt "#30014"
 msgid "Interface"
 msgstr ""
 
+msgctxt "#30015"
+msgid "Version"
+msgstr ""
+
 msgctxt "#30115"
 msgid "Show codec"
 msgstr ""
@@ -99,6 +103,18 @@ msgstr ""
 
 msgctxt "#30117"
 msgid "Stream info"
+msgstr ""
+
+msgctxt "#30118"
+msgid "Thresholds"
+msgstr ""
+
+msgctxt "#30119"
+msgid "Display A-Z at number below"
+msgstr ""
+
+msgctxt "#30120"
+msgid "Number of items per page"
 msgstr ""
 
 msgctxt "#30200"
@@ -303,6 +319,10 @@ msgstr ""
 
 msgctxt "#30253"
 msgid "Choose the stream"
+msgstr ""
+
+msgctxt "#30254"
+msgid "Watch history"
 msgstr ""
 
 msgctxt "#30920"

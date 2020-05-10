@@ -46,34 +46,35 @@ class MediaListRenderer(Renderer):
             'next': media_list.get('next')
         }
 
-    def render(self, list_items):
+    def render(self, collection, list_items):
         # as_type=None causes all items to show their icons
-        with DirectoryRenderer.start_directory(self.handle, as_type=self.get_collection()):
+        with DirectoryRenderer.start_directory(self.handle, as_type=collection):
             xbmcplugin.addDirectoryItems(self.handle, list_items)
 
     @staticmethod
     def add_navigation(list_items, bottom=False):
-        list_items.insert(0, MainMenuFolderItem(url=router_url_from_string(ROUTE.MAIN_MENU)))
+        list_items.insert(0, MainMenuFolderItem(url=router_url_from_string(ROUTE.CLEAR_PATH)))
         if bottom:
-            list_items.append(MainMenuFolderItem(url=router_url_from_string(ROUTE.MAIN_MENU)))
+            list_items.append(MainMenuFolderItem(url=router_url_from_string(ROUTE.CLEAR_PATH)))
 
-    def add_paging(self, list_items, paging):
+    @staticmethod
+    def add_paging(collection, list_items, paging):
         next_page = None if paging is None else 'next' in paging
         if next_page:
-            list_items.insert(0, self.next_page_item(paging))
-            list_items.append(self.next_page_item(paging))
+            list_items.insert(0, MediaListRenderer.next_page_item(collection, paging))
+            list_items.append(MediaListRenderer.next_page_item(collection, paging))
 
-    def next_page_item(self, media_list):
+    @staticmethod
+    def next_page_item(collection, media_list):
         return DirectoryItem(
-            title=self.next_page_title(media_list['page'], media_list['pageCount']),
-            url=router_url_from_string(ROUTE.NEXT_PAGE, self.get_collection(), Url.quote_plus(media_list['next'])))
+            title=MediaListRenderer.next_page_title(media_list['page'], media_list['pageCount']),
+            url=router_url_from_string(ROUTE.NEXT_PAGE, collection, Url.quote_plus(media_list['next'])))
 
     @staticmethod
     def next_page_title(page, page_count):
         return '{} ({}/{})'.format(get_string(30203), page, page_count)
 
     def select_stream(self, media_id, streams):
-        self.storage[STORAGE.SELECTED_MEDIA_ID] = media_id
         stream = DialogRenderer.choose_video_stream(streams)
         if stream is None:
             # Dialog cancel.
@@ -81,13 +82,11 @@ class MediaListRenderer(Renderer):
             return
 
         logger.info('Got movie stream')
+        self.storage[STORAGE.SELECTED_MEDIA_ID] = media_id
         self._on_stream_selected(stream['ident'])
 
     def get_cached_media(self):
         return self.storage.get(STORAGE.MEDIA_LIST)
-
-    def get_collection(self):
-        return self.storage.get(STORAGE.COLLECTION)
 
     def set_cached_media(self, value):
         self.storage[STORAGE.MEDIA_LIST] = value
@@ -106,6 +105,7 @@ class MediaListRenderer(Renderer):
             art=media.get('art'),
             info_labels=info_labels,
             stream_info=MediaListRenderer.stream_info(media),
+            services=media.get('services')
         )
 
     @staticmethod

@@ -5,9 +5,12 @@
         <setting id="file_size_sort" type="select" label="30109" lvalues="30110|30111" />
     </category>
     <category label="30014">
-         <setting label="30117" type="lsep"/>
+        <setting label="30117" type="lsep"/>
         <setting id="show_codec" type="bool" label="30115" default="false"/>
         <setting id="show_bitrate" type="bool" label="30116" default="false"/>
+        <setting label="30118" type="lsep"/>
+        <setting id="a_z_threshold" type="number" label="30119" default="10"/>
+        <setting id="page_limit" type="number" label="30120" default="250"/>
     </category>
     <category label="30011">
         <setting id="provider.name" type="select" label="30103" lvalues="30104" />
@@ -16,10 +19,11 @@
         <setting id="provider.token" type="text" visible="false" />
     </category>
     <category label="30012">
+        <setting id="version" label="30015" type="text" enable="false" />
         <setting id="uuid" label="30107" type="text" enable="false" />
         <setting id="installation_date" type="date" label="30013" enable="false"/>
         <setting id="debug" type="bool" label="30105" default="true"/>
-        <setting id="last_version_check" type="date" visible="false" enable="false"/>
         <setting label="30108" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/clear-cache)"/>
+        <setting id="last_version_check" type="date" visible="false" enable="false"/>
     </category>
 </settings>

@@ -3,7 +3,7 @@ import operator
 import xbmc
 from xbmcgui import Dialog
 
-from resources.lib.const import STRINGS, SETTINGS, codecs
+from resources.lib.const import STRINGS, SETTINGS, codecs, LANG
 from resources.lib.utils.kodiutils import show_input, get_string, convert_size, make_table, \
     append_list_items_to_nested_list_items,convert_bitrate
 from resources.lib.settings import settings
@@ -38,7 +38,7 @@ class DialogRenderer:
         table = make_table(stream_labels)
         table = append_list_items_to_nested_list_items(table, audio_info_list)
 
-        ret = Dialog().select(get_string(30253), [STRINGS.TABLE_SPACES.join(item) for item in table])
+        ret = Dialog().select(get_string(LANG.CHOOSE_STREAM), [STRINGS.TABLE_SPACES.join(item) for item in table])
         if ret < 0:
             return None
         return streams[ret]

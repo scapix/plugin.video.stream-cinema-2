@@ -18,7 +18,7 @@ from resources.lib.settings import settings
 from resources.lib.storage.storage import storage
 from resources.lib.stream_cinema import StreamCinema
 from resources.lib.utils.kodiutils import get_plugin_url, get_string, get_settings, \
-    set_settings, get_current_datetime_str, get_setting_as_datetime, datetime_from_iso
+    set_settings, get_current_datetime_str, get_setting_as_datetime, datetime_from_iso, get_info
 
 provider = Defaults.provider()
 api = Defaults.api_cached()
@@ -49,6 +49,8 @@ def first_run():
         DialogRenderer.ok(get_string(LANG.NEWS_TITLE), get_string(LANG.NEWS_TEXT))
     if settings[SETTINGS.INSTALLATION_DATE] == '':
         set_settings(SETTINGS.INSTALLATION_DATE, get_current_datetime_str())
+    if settings[SETTINGS.VERSION] == '':
+        set_settings(SETTINGS.VERSION, get_info('version'))
 
 
 @router.route('/clear-cache')
@@ -65,7 +67,7 @@ def on_clear_cache_redirect():
     if storage.get(STORAGE.CLEARED_CACHE):
         logger.debug('Cache is empty. Redirecting to main menu')
         storage[STORAGE.CLEARED_CACHE] = False
-        router.replace_route(ROUTE.MAIN_MENU)
+        router.replace_route(ROUTE.ROOT)
 
 
 def can_do_version_check():
