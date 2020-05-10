@@ -112,6 +112,7 @@ class SETTINGS:
     PROVIDER_USERNAME = 'provider.username'
     PROVIDER_PASSWORD = 'provider.password'
     PROVIDER_TOKEN = 'provider.token'
+    SHOW_CODEC = 'show_codec'
     EXPLICIT_CONTENT = 'explicit_content'
     ADVANCED_CLEAR_CACHE = 'advanced.clear_cache'
     FILE_SIZE_SORT = 'file_size_sort'
