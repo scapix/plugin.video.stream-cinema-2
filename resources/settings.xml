@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
     <category label="30010">
-        <setting id="show_codec" type="bool" label="30112" default="false"/>
         <setting id="explicit_content" type="bool" label="30106" default="false"/>
         <setting id="file_size_sort" type="select" label="30109" lvalues="30110|30111" />
     </category>

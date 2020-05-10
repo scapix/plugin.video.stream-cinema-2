@@ -47,7 +47,7 @@ msgstr "Zobrazit přenosovou rychlost"
 
 msgctxt "#30117"
 msgid "Stream info"
-msgstr ""
+msgstr "Informace o streamu"
 
 msgctxt "#30101"
 msgid "Username"

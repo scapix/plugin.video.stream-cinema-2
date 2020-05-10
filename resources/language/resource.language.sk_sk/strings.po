@@ -43,11 +43,11 @@ msgstr "Rozhranie"
 
 msgctxt "#30116"
 msgid "Show bitrate"
-msgstr ""
+msgstr "Zobraziť prenosovú rýchlosť"
 
 msgctxt "#30117"
 msgid "Stream info"
-msgstr ""
+msgstr "Informácie o streamu"
 
 msgctxt "#30101"
 msgid "Username"
