@@ -5,7 +5,7 @@ from xbmcgui import Dialog
 
 from resources.lib.const import STRINGS, SETTINGS
 from resources.lib.utils.kodiutils import show_input, get_string, convert_size, make_table, \
-    append_list_items_to_nested_list_items
+    append_list_items_to_nested_list_items,convert_bitrate
 from resources.lib.settings import settings
 
 class DialogRenderer:
@@ -29,7 +29,8 @@ class DialogRenderer:
             audio_info_list.append(' '.join(audio_info))
             quality = STRINGS.STREAM_TITLE_BRACKETS.format(stream.get('quality'))
             size = STRINGS.BOLD.format(convert_size(stream.get('size')))
-            stream_labels.append([quality, size])
+            bitrate = STRINGS.STREAM_BITRATE_BRACKETS.format(convert_bitrate(stream.get('bitrate')))
+            stream_labels.append([quality, size, bitrate])
 
         table = make_table(stream_labels)
         table = append_list_items_to_nested_list_items(table, audio_info_list)
