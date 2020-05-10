@@ -25,21 +25,25 @@ class DialogRenderer:
             # Fix audio string that begins with the comma.
             audio_info = []
             for audio in stream.get('audio'):
-                audio_info.append('[I][{} {} {}][/I]'.format(audio.get('codec'), format(audio.get('channels'), '.1f'), audio.get('language')))
+                audio_info.append(STRINGS.AUDIO_INFO.format(audio.get('codec'), format(audio.get('channels'), '.1f'), audio.get('language')))
             audio_info_list.append(' '.join(audio_info))
             quality = STRINGS.STREAM_TITLE_BRACKETS.format(stream.get('quality'))
             size = STRINGS.BOLD.format(convert_size(stream.get('size')))
-            bitrate = STRINGS.STREAM_BITRATE_BRACKETS.format(convert_bitrate(stream.get('bitrate')))
-            codec = STRINGS.STREAM_TITLE_BRACKETS.format(codecs[stream.get('codec')])
-            stream_labels.append([quality, size, codec, bitrate])
+            bitrate = STRINGS.STREAM_BITRATE_BRACKETS.format(convert_bitrate(stream.get('bitrate'))) if settings.as_bool(
+                SETTINGS.SHOW_BITRATE) else ''
+            codec = STRINGS.STREAM_TITLE_BRACKETS.format(codecs[stream.get('codec')]) if settings.as_bool(
+                SETTINGS.SHOW_CODEC) else ''
+            stream_labels.append([quality, codec, size, bitrate])
 
         table = make_table(stream_labels)
         table = append_list_items_to_nested_list_items(table, audio_info_list)
 
-        ret = Dialog().select('Choose the stream', ["   ".join(item) for item in table])
+        ret = Dialog().select('Choose the stream', [STRINGS.TABLE_SPACES.join(item) for item in table])
         if ret < 0:
             return None
         return streams[ret]
+
+
 
     @staticmethod
     def keyboard(title):

@@ -77,8 +77,28 @@ msgctxt "#30111"
 msgid "[B]↓[/B] Descending"
 msgstr ""
 
-msgctxt "#30112"
+msgctxt "#30012"
+msgid "Advanced"
+msgstr "Pokročilé"
+
+msgctxt "#30013"
+msgid "Installation date"
+msgstr "Dátum inštalácie"
+
+msgctxt "#30014"
+msgid "Interface"
+msgstr ""
+
+msgctxt "#30115"
 msgid "Show codec"
+msgstr ""
+
+msgctxt "#30116"
+msgid "Show bitrate"
+msgstr ""
+
+msgctxt "#30117"
+msgid "Stream info"
 msgstr ""
 
 msgctxt "#30200"
@@ -275,6 +295,10 @@ msgstr ""
 
 msgctxt "#30251"
 msgid "0-9"
+msgstr ""
+
+msgctxt "#30252"
+msgid "Search for {letters}"
 msgstr ""
 
 msgctxt "#30920"

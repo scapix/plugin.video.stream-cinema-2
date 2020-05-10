@@ -33,6 +33,7 @@ class ENDPOINT:
     TV_SHOW_PLAYED = COLLECTION + '/<media_id>/<season>/<episode>/played'
     POPULAR = COLLECTION + '/popular/-1'
     MEDIA_DETAIL = COLLECTION + '/<media_id>'
+    FILTER_COUNT = COLLECTION + '/filter/<filter_name>/count'
 
 
 class PROTOCOL:
@@ -45,6 +46,7 @@ class REGEX:
 
 class ROUTE:
     A_TO_Z = '/a_to_z/<collection>'
+    A_TO_Z_SUBMENU = '/a_to_z/<collection>/<previous_letter>'
     SHOW_CACHED_MEDIA = '/show_cached_media/<collection>'
     NEXT_PAGE = '/next_page/<collection>/<url>'
     FILTER = '/filter/<collection>/<filter_type>/<filter_value>'
@@ -64,7 +66,7 @@ class ROUTE:
 
 
 class URL:
-    API = 'http://beta.plugin.sc2.zone/api'
+    API = 'http://localhost:3000/api'
     GITLAB_URL = 'https://git.hotshot.sk/api/v4/'
 
 
@@ -113,6 +115,7 @@ class SETTINGS:
     PROVIDER_PASSWORD = 'provider.password'
     PROVIDER_TOKEN = 'provider.token'
     SHOW_CODEC = 'show_codec'
+    SHOW_BITRATE = 'show_bitrate'
     EXPLICIT_CONTENT = 'explicit_content'
     ADVANCED_CLEAR_CACHE = 'advanced.clear_cache'
     FILE_SIZE_SORT = 'file_size_sort'
@@ -122,12 +125,15 @@ class SETTINGS:
 
 class STRINGS:
     STREAM_TITLE_BRACKETS = '[{}]'
-    STREAM_BITRATE_BRACKETS = '({})'
+    STREAM_BITRATE_BRACKETS = '[I]{}[/I]'
+    AUDIO_INFO = '[{} {} {}]'
     SEASON_TITLE = '{} {}'
     BOLD = '[B]{}[/B]'
     TABLE_SPACES = '  '
     DATETIME = '%Y-%m-%d %H:%M:%S'
     ISO_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
+    A_TO_Z_TITLE = '{}  [I]({})[/I]'
+    REGEX_BRACKETS = '[{}]'
 
 
 class CODEC:
@@ -153,6 +159,11 @@ class LANG:
     PASSWORD = 30102
     PROVIDER = 30103
     WEBSHARE_CZ = 30104
+    ADVANCED = 30012
+    INSTALLATION_DATE = 30013
+    INTERFACE = 30014
+    SHOW_CODEC = 30115
+    SHOW_BITRATE = 30116
     DEBUG = 30105
     MOVIES = 30200
     SERIES = 30201
@@ -202,8 +213,8 @@ class LANG:
     WESTERN = 30247
     BIOGRAPHICAL = 30248
     SELECT_A_MEDIA_SOURCE = 30250
-    _0_9 = 30251
-    YEAR = 3252
+    ZERO_NINE = 30251
+    SEARCH_FOR_LETTERS = 30252
     SEASON = 30920
     EPISODE = 30921
     MISSING_PROVIDER_CREDENTIALS = 30300

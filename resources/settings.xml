@@ -5,6 +5,11 @@
         <setting id="explicit_content" type="bool" label="30106" default="false"/>
         <setting id="file_size_sort" type="select" label="30109" lvalues="30110|30111" />
     </category>
+    <category label="30014">
+         <setting label="30117" type="lsep"/>
+        <setting id="show_codec" type="bool" label="30115" default="false"/>
+        <setting id="show_bitrate" type="bool" label="30116" default="false"/>
+    </category>
     <category label="30011">
         <setting id="provider.name" type="select" label="30103" lvalues="30104" />
         <setting label="30101" id="provider.username" type="text" default="" />

@@ -33,6 +33,22 @@ msgctxt "#30013"
 msgid "Installation date"
 msgstr "Dátum inštalácie"
 
+msgctxt "#30014"
+msgid "Show codec"
+msgstr "Zobraziť kodek"
+
+msgctxt "#30115"
+msgid "Interface"
+msgstr "Rozhranie"
+
+msgctxt "#30116"
+msgid "Show bitrate"
+msgstr ""
+
+msgctxt "#30117"
+msgid "Stream info"
+msgstr ""
+
 msgctxt "#30101"
 msgid "Username"
 msgstr "Užívateľské meno"

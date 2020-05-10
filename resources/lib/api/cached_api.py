@@ -20,3 +20,16 @@ class CachedAPI(API):
     @plugin.mem_cached(CACHE.EXPIRATION_TIME)
     def next_page(self, *args, **kwargs):
         return super(CachedAPI, self).get(*args, **kwargs)
+
+    @plugin.mem_cached(CACHE.EXPIRATION_TIME)
+    def get_filter_values_count(self, *args, **kwargs):
+        return super(CachedAPI, self).get_filter_values_count(*args, **kwargs)
+
+    @plugin.mem_cached(CACHE.EXPIRATION_TIME)
+    def media_detail(self, *args, **kwargs):
+        return super(CachedAPI, self).media_detail(*args, **kwargs)
+
+    @plugin.mem_cached(CACHE.EXPIRATION_TIME)
+    def popular_media(self, *args, **kwargs):
+        return super(CachedAPI, self).popular_media(*args, **kwargs)
+

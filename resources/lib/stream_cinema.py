@@ -25,7 +25,7 @@ class StreamCinema:
         self._router = router
         self._provider = provider
 
-        directory_renderer = DirectoryRenderer(router)
+        directory_renderer = DirectoryRenderer(router, on_a_to_z_menu=self.get_filter_values_count)
         movie_renderer = MovieListRenderer(router, on_stream_selected=self.play_stream, _on_media_selected=self.get_media_detail)
         tv_show_renderer = TvShowListRenderer(router, on_stream_selected=self.play_stream, _on_media_selected=self.get_media_detail)
         self.renderers = {
@@ -43,6 +43,7 @@ class StreamCinema:
         router.add_route(directory_renderer.command, ROUTE.COMMAND)
         router.add_route(movie_renderer.select_movie_stream, ROUTE.SELECT_MOVIE_STREAM)
         router.add_route(directory_renderer.a_to_z_menu, ROUTE.A_TO_Z)
+        router.add_route(directory_renderer.a_to_z_submenu, ROUTE.A_TO_Z_SUBMENU)
         router.add_route(directory_renderer.genre_menu, ROUTE.GENRE_MENU)
         router.add_route(self.next_page, ROUTE.NEXT_PAGE)
         router.add_route(self.search_result, ROUTE.SEARCH_RESULT)
@@ -78,13 +79,13 @@ class StreamCinema:
                 #     self.router.back(steps=1, skip_search=True)
             else:
                 if not settings.as_bool(SETTINGS.EXPLICIT_CONTENT):
-                    self.vulgar_filter(media_list)
+                    self.explicit_filter(media_list)
                 self.render_media_list(collection, media_list)
                 if not self.renderers[collection].is_same_list():
                     InfoDialog(get_string(30303).format(number=str(num_media))).notify()
 
     @staticmethod
-    def vulgar_filter(media_list):
+    def explicit_filter(media_list):
         filtered_list = []
         explicit_genres_str = [get_string(i) for i in explicit_genres]
         for media in media_list.get('data'):
@@ -166,6 +167,9 @@ class StreamCinema:
         service_storage = storage.get(STORAGE.SERVICE)
         service_storage[service_name] = service_event
         storage[STORAGE.SERVICE] = service_storage
+
+    def get_filter_values_count(self, *args, **kwargs):
+        return self._api.get_filter_values_count(*args, **kwargs).json()
 
     def SIGNIN(self):
         dialog = xbmcgui.Dialog()
