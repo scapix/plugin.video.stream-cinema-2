@@ -293,6 +293,10 @@ msgctxt "#30251"
 msgid "0-9"
 msgstr ""
 
+msgctxt "#30253"
+msgid "Choose the stream"
+msgstr "Vybrať stream"
+
 msgctxt "#30920"
 msgid "Season"
 msgstr "Séria"
