@@ -5,6 +5,7 @@
         <import addon="script.module.requests" version="2.22.0"/>
         <import addon="script.module.simpleplugin3" version="3.0.1"/>
         <import addon="script.module.routing" version="0.2.3"/>
+        <import addon="script.module.dateutil" version="2.8.1"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="main.py">
         <provides>video</provides>
@@ -29,7 +30,7 @@
 <!--        <news></news>-->
         <assets>
             <icon>resources/icon.png</icon>
-<!--            <fanart>resources/fanart.jpg</fanart>-->
+<!--            <fanart></fanart>-->
 <!--            <banner></banner> &lt;!&ndash; optional &ndash;&gt;-->
 <!--            <clearlogo></clearlogo> &lt;!&ndash; optional  &ndash;&gt;-->
 <!--            <screenshot></screenshot> &lt;!&ndash; optional, max 10  &ndash;&gt;-->

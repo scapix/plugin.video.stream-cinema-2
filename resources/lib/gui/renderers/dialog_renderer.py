@@ -19,7 +19,7 @@ class DialogRenderer:
     @staticmethod
     def choose_video_stream(streams):
         stream_labels = []
-        streams.sort(key=operator.itemgetter('size'), reverse=settings.as_bool(SETTINGS.SORT_DESCENDING))
+        streams.sort(key=operator.itemgetter('size'), reverse=settings.as_int(SETTINGS.FILE_SIZE_SORT))
         audio_info_list = []
         for stream in streams:
             # Fix audio string that begins with the comma.
@@ -51,5 +51,5 @@ class DialogRenderer:
         return False
 
     @staticmethod
-    def ok(heading, text):
-        return Dialog().ok(heading, text)
+    def ok(heading, *args, **kwargs):
+        return Dialog().ok(heading, *args, **kwargs)

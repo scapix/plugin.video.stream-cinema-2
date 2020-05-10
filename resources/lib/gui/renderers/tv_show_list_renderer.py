@@ -19,39 +19,47 @@ class TvShowListRenderer(MediaListRenderer):
     def url_builder(self, media):
         return self._router.url_for(self.select_season, media.get('_id'))
 
-    def stream_url_builder(self, media, media_id, season_id, i):
-        return self._router.url_for(self.select_tv_show_stream, media_id, season_id, i)
+    def stream_url_builder(self, media, media_id, season_id, episode_id):
+        return self._router.url_for(self.select_tv_show_stream, media_id, season_id, episode_id)
 
     def select_season(self, media_id):
         logger.debug('Showing season list')
-        season_list = self.get_cached_media_by_id(media_id).get('seasons')
+        media = self._on_media_selected(self.get_collection(), media_id)
+        self.set_cached_media(media)
+        season_list = media.get('seasons')
         if season_list:
-            list_items = [movie.build() for movie in self.build_season_list_gui(season_list, media_id)]
+            list_items = [movie.build() for movie in self.build_season_list_gui(media_id, season_list)]
             self.render(list_items)
 
-    def build_season_list_gui(self, season_list, media_id):
+    def build_season_list_gui(self, media_id, season_list):
         gui_season_list = []
-        for i, season in enumerate(season_list, start=1):
-            title = STRINGS.SEASON_TITLE.format(get_string(30920), str(i))
-            url = self._router.url_for(self.select_episode, media_id, i - 1)
+        for season_id, season in enumerate(season_list, start=1):
+            title = STRINGS.SEASON_TITLE.format(get_string(30920), str(season_id))
+            url = self._router.url_for(self.select_episode, media_id, season_id - 1)
             item = DirectoryItem(title, url)
             gui_season_list.append(item)
         return gui_season_list
 
     def build_episode_list_gui(self, media_id, episode_list, season_id):
         gui_list = []
-        for i, episode in enumerate(episode_list):
-            gui_list.append(self.build_media_item_gui(MediaItem, episode, self.stream_url_builder, media_id, season_id, i))
+        for episode_id, episode in enumerate(episode_list):
+            gui_list.append(self.build_media_item_gui(MediaItem, episode, self.stream_url_builder, media_id, season_id, episode_id))
         return gui_list
 
     def select_episode(self, media_id, season_id):
         logger.debug('Showing episode list')
-        episode_list = self.get_cached_media_by_id(media_id).get('seasons')[int(season_id)].get('episodes')
+        episode_list = self.get_season(int(season_id)).get('episodes')
         if episode_list:
             list_items = [movie.build() for movie in self.build_episode_list_gui(media_id, episode_list, season_id)]
             self.render(list_items)
 
     def select_tv_show_stream(self, media_id, season_id, episode_id):
         logger.debug('Showing stream list')
-        media = self.get_cached_media_by_id(media_id).get('seasons')[int(season_id)].get('episodes')[int(episode_id)]
+        media = self.get_episode(int(season_id), int(episode_id))
         self.select_stream(media_id, media['streams'])
+
+    def get_season(self, season_id):
+        return self.get_cached_media().get('seasons')[season_id]
+
+    def get_episode(self, season_id, episode_id):
+        return self.get_season(season_id).get('episodes')[episode_id]

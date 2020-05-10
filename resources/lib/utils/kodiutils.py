@@ -2,7 +2,10 @@
 import math
 import re
 import sys
+from datetime import datetime
+from parser import ParserError
 
+from dateutil.parser import parse
 import xbmc
 import xbmcaddon
 import xbmcgui
@@ -105,6 +108,26 @@ def set_settings(setting, value):
     ADDON.setSetting(setting, str(value))
 
 
+# It seems a bug in python https://bugs.python.org/issue27400
+def parse_date(string_date):
+    return parse(string_date, ignoretz=True)
+
+
+def get_current_datetime_str():
+    return datetime.now().strftime(STRINGS.DATETIME)
+
+
+def datetime_from_iso(iso_date):
+    return parse_date(iso_date)
+
+
+def get_setting_as_datetime(setting):
+    try:
+        return parse_date(get_settings(setting))
+    except:
+        return None
+
+
 def get_setting_as_bool(setting):
     return ADDON.getSettingBool(setting)
 
@@ -150,7 +173,7 @@ def get_screen_height():
 
 def convert_size(size_bytes):
     if size_bytes == 0:
-        return "0B"
+        return "0 B"
     size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
     i = int(math.floor(math.log(size_bytes, 1024)))
     p = math.pow(1024, i)

@@ -29,6 +29,10 @@ msgctxt "#30012"
 msgid "Advanced"
 msgstr "Pokročilé"
 
+msgctxt "#30013"
+msgid "Installation date"
+msgstr "Datum instalace"
+
 msgctxt "#30101"
 msgid "Username"
 msgstr "Uživatelské jméno"
@@ -62,8 +66,16 @@ msgid "Clear cache"
 msgstr "Vyčistit mezipaměť"
 
 msgctxt "#30109"
-msgid "Sort descending"
-msgstr "Seřadit dle velikosti pozpátku"
+msgid "↓ Sort by size"
+msgstr "Seřadit dle velikosti"
+
+msgctxt "#30110"
+msgid "[B]↑[/B] Ascending"
+msgstr "[B]↑[/B] Vzestupně"
+
+msgctxt "#30111"
+msgid "[B]↓[/B] Descending"
+msgstr "[B]↓[/B] Sestupně"
 
 msgctxt "#30200"
 msgid "Movies"
@@ -296,3 +308,11 @@ msgstr "Vítejte ve Stream Cinema 2.0 [COLOR red]BETA[/COLOR]"
 msgctxt "#30306"
 msgid "Please be aware of that this version can contain a lot of bugs and is not final release. Visit [COLOR blue]sc2.zone[/COLOR] for information about upcoming releases."
 msgstr "Prosím mějte na paměti, že tato verze může obsahovat spoustu chyb a není finální verzí. Pro více informací navštivte [COLOR blue]sc2.zone[/COLOR]."
+
+msgctxt "#30307"
+msgid "New version available!"
+msgstr "Nová verze je k dispozici!"
+
+msgctxt "#30308"
+msgid "Please download latest plugin release from our website [COLOR blue]sc2.zone[/COLOR]."
+msgstr "Stáhněte si nejnovější verzi pluginu z našeho webu [COLOR blue]sc2.zone[/COLOR]."

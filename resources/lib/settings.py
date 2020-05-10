@@ -1,4 +1,5 @@
-from resources.lib.utils.kodiutils import get_settings, show_settings, set_settings, get_setting_as_bool
+from resources.lib.utils.kodiutils import get_settings, show_settings, set_settings, get_setting_as_bool, \
+    get_setting_as_int
 
 
 class Settings:
@@ -11,6 +12,10 @@ class Settings:
     @staticmethod
     def as_bool(key):
         return get_setting_as_bool(key)
+
+    @staticmethod
+    def as_int(key):
+        return get_setting_as_int(key)
 
     @staticmethod
     def show():

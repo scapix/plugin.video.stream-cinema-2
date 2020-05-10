@@ -29,6 +29,10 @@ msgctxt "#30012"
 msgid "Advanced"
 msgstr "Pokročilé"
 
+msgctxt "#30013"
+msgid "Installation date"
+msgstr "Dátum inštalácie"
+
 msgctxt "#30101"
 msgid "Username"
 msgstr "Užívateľské meno"
@@ -62,8 +66,16 @@ msgid "Clear cache"
 msgstr "Vyčistiť medzipamäť"
 
 msgctxt "#30109"
-msgid "Sort descending"
-msgstr "Zoradiť podľa veľkosti pospiatku"
+msgid "Sort by size"
+msgstr "Zoradiť podľa veľkosti"
+
+msgctxt "#30110"
+msgid "[B]↑[/B] Ascending"
+msgstr "[B]↑[/B] Vzestupně"
+
+msgctxt "#30111"
+msgid "↓ Descending"
+msgstr "↓ Sestupně"
 
 msgctxt "#30200"
 msgid "Movies"
@@ -296,3 +308,11 @@ msgstr ""
 msgctxt "#30306"
 msgid "Please be aware of that this version can contain a lot of bugs and is not final release. Visit [COLOR blue]sc2.zone[/COLOR] for information about upcoming releases."
 msgstr "Berte na vedomie, že toto nie je finálna verzia a môže obsahovať veľa chýb. Informácie o pripravovaných vydaniach nájdete na [COLOR blue] sc2.zone [/COLOR]."
+
+msgctxt "#30307"
+msgid "New version available!"
+msgstr "Nová verzia je k dispozícii!"
+
+msgctxt "#30308"
+msgid "Please download latest plugin release from our website [COLOR blue]sc2.zone[/COLOR]."
+msgstr "Stiahnite si najnovšiu verziu pluginu z nášho webu [COLOR blue]sc2.zone[/COLOR]."

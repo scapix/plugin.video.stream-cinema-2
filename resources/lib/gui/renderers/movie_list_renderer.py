@@ -14,7 +14,7 @@ class MovieListRenderer(MediaListRenderer):
         self.render(built_items)
 
     def select_movie_stream(self, media_id):
-        media = self.get_cached_media_by_id(media_id)
+        media = self._on_media_selected(self.get_collection(), media_id)
         super(MovieListRenderer, self).select_stream(media_id, media['streams'])
 
     def url_builder(self, media):

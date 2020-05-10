@@ -26,15 +26,14 @@ class StreamCinema:
         self._provider = provider
 
         directory_renderer = DirectoryRenderer(router)
-        movie_renderer = MovieListRenderer(router, on_stream_selected=self.play_stream)
-        tv_show_renderer = TvShowListRenderer(router, on_stream_selected=self.play_stream)
+        movie_renderer = MovieListRenderer(router, on_stream_selected=self.play_stream, _on_media_selected=self.get_media_detail)
+        tv_show_renderer = TvShowListRenderer(router, on_stream_selected=self.play_stream, _on_media_selected=self.get_media_detail)
         self.renderers = {
             RENDERER.MOVIES: movie_renderer,
             RENDERER.TV_SHOWS: tv_show_renderer,
             RENDERER.DIRECTORIES: directory_renderer
         }
 
-        router.add_route(movie_renderer.select_movie_stream, ROUTE.SELECT_STREAM)
         router.add_route(tv_show_renderer.select_season, ROUTE.SELECT_SEASON)
         router.add_route(tv_show_renderer.select_episode, ROUTE.SELECT_EPISODE)
         router.add_route(tv_show_renderer.select_tv_show_stream, ROUTE.SELECT_TV_SHOW_STREAM)
@@ -42,7 +41,7 @@ class StreamCinema:
         router.add_route(directory_renderer.main_menu, ROUTE.MAIN_MENU)
         router.add_route(directory_renderer.media_menu, ROUTE.MEDIA_MENU)
         router.add_route(directory_renderer.command, ROUTE.COMMAND)
-        router.add_route(movie_renderer.select_movie_stream, ROUTE.SELECT_STREAM)
+        router.add_route(movie_renderer.select_movie_stream, ROUTE.SELECT_MOVIE_STREAM)
         router.add_route(directory_renderer.a_to_z_menu, ROUTE.A_TO_Z)
         router.add_route(directory_renderer.genre_menu, ROUTE.GENRE_MENU)
         router.add_route(self.next_page, ROUTE.NEXT_PAGE)
@@ -61,7 +60,7 @@ class StreamCinema:
 
     def next_page(self, collection, url):
         url = Url.unquote_plus(url)
-        media = self.get_media(self._api.next_page(url))
+        media = self.process_api_response(self._api.next_page(url))
         self.render_media_list(collection, media)
 
     def filter(self, collection, filter_type, filter_value):
@@ -101,13 +100,13 @@ class StreamCinema:
 
     def popular_media(self, collection):
         api_response = self._api.popular_media(collection)
-        self.show_search_results(collection, self.get_media(api_response))
+        self.show_search_results(collection, self.process_api_response(api_response))
 
     def filter_media(self, collection, filter_name, search_value):
         api_response = self._api.media_filter(collection, filter_name, search_value)
-        return self.get_media(api_response)
+        return self.process_api_response(api_response)
 
-    def get_media(self, api_call):
+    def process_api_response(self, api_call):
         response = self.api_response_handler(api_call)
         if response is None:
             return
@@ -157,6 +156,9 @@ class StreamCinema:
             logger.debug('Stream URL found. Playing %s' % stream_url)
             self.send_service_message(SERVICE.PLAYER_SERVICE, SERVICE_EVENT.PLAYBACK_STARTED)
             self.router.set_resolved_url(stream_url)
+
+    def get_media_detail(self, collection, media_id):
+        return self.process_api_response(self._api.media_detail(collection, media_id))
 
     @staticmethod
     def send_service_message(service_name, service_event):

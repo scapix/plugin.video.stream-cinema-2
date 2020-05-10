@@ -1,5 +1,9 @@
+from datetime import timedelta
+
+
 class GENERAL:
     PLUGIN_ID = 'plugin.video.stream-cinema-2'
+    VERSION_CHECK_INTERVAL = timedelta(days=1)
 
 
 class FILTER_TYPE:
@@ -28,6 +32,7 @@ class ENDPOINT:
     MEDIA_PLAYED = COLLECTION + '/<media_id>/played'
     TV_SHOW_PLAYED = COLLECTION + '/<media_id>/<season>/<episode>/played'
     POPULAR = COLLECTION + '/popular/-1'
+    MEDIA_DETAIL = COLLECTION + '/<media_id>'
 
 
 class PROTOCOL:
@@ -49,7 +54,7 @@ class ROUTE:
     MAIN_MENU = '/main_menu'
     GENRE_MENU = '/genre_menu/<collection>'
     SEARCH_RESULT = '/search_result/<collection>/<search_value>'
-    SELECT_STREAM = '/select_stream/<media_id>'
+    SELECT_MOVIE_STREAM = '/select_stream/<media_id>'
     PLAY_STREAM = '/play_stream/<ident>'
     SELECT_SEASON = '/select_season/<media_id>'
     SELECT_EPISODE = '/select_episode/<media_id>/<season_id>'
@@ -60,6 +65,11 @@ class ROUTE:
 
 class URL:
     API = 'http://beta.plugin.sc2.zone/api'
+    GITLAB_URL = 'https://git.hotshot.sk/api/v4/'
+
+
+class GITLAB_ENDPOINT:
+    RELEASES = 'projects/<project_id>/releases'
 
 
 class COMMAND:
@@ -74,6 +84,7 @@ class STORAGE:
     PLUGIN_LAST_URL_ADDED = 'plugin_last_url_added'
     SELECTED_MEDIA_ID = 'selected_media_id'
     SERVICE = 'service'
+    CLEARED_CACHE = 'cleared_cache'
 
 
 class SERVICE:
@@ -103,7 +114,9 @@ class SETTINGS:
     PROVIDER_TOKEN = 'provider.token'
     EXPLICIT_CONTENT = 'explicit_content'
     ADVANCED_CLEAR_CACHE = 'advanced.clear_cache'
-    SORT_DESCENDING = 'sort_descending'
+    FILE_SIZE_SORT = 'file_size_sort'
+    INSTALLATION_DATE = 'installation_date'
+    LAST_VERSION_CHECK = 'last_version_check'
 
 
 class STRINGS:
@@ -111,6 +124,8 @@ class STRINGS:
     SEASON_TITLE = '{} {}'
     BOLD = '[B]{}[/B]'
     TABLE_SPACES = '  '
+    DATETIME = '%Y-%m-%d %H:%M:%S'
+    ISO_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
 
 class LANG:
@@ -179,6 +194,8 @@ class LANG:
     ACTIVATE_VIP = 30304
     NEWS_TITLE = 30305
     NEWS_TEXT = 30306
+    NEW_VERSION_TITLE = 30307
+    NEW_VERSION_TEXT = 30308
 
 
 api_genres = {

@@ -34,9 +34,10 @@ class API(object):
         )
 
     def popular_media(self, collection):
-        url = replace_url_params(ENDPOINT.POPULAR, collection)
-        return self._get(url)
+        return self._get(replace_url_params(ENDPOINT.POPULAR, collection))
 
     def media_played(self, collection, media_id):
-        url = replace_url_params(ENDPOINT.MEDIA_PLAYED, collection, media_id)
-        return self._get(url)
+        return self._get(replace_url_params(ENDPOINT.MEDIA_PLAYED, collection, media_id))
+
+    def media_detail(self, collection, media_id):
+        return self._get(replace_url_params(ENDPOINT.MEDIA_DETAIL, collection, media_id))

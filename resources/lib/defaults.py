@@ -34,8 +34,3 @@ class Defaults:
             uuid=settings[SETTINGS.UUID],
             api_url=URL.API
         )
-
-    @staticmethod
-    def storage():
-        return storage
-

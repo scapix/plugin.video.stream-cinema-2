@@ -12,37 +12,28 @@ from resources.lib.utils.url import Url
 
 
 class MediaListRenderer(Renderer):
-    def __init__(self, router, on_stream_selected):
+    def __init__(self, router, on_stream_selected, _on_media_selected):
         """
 
         :param callable on_stream_selected: Called when a stream is selected.
         """
         super(MediaListRenderer, self).__init__(router)
-        self._previous_media_list = self.get_cached_media()
         self._on_stream_selected = on_stream_selected
+        self._on_media_selected = _on_media_selected
 
     def __call__(self, collection, media_list):
         logger.debug('Renderer %s call' % self)
-        self.set_cache(STORAGE.COLLECTION, collection)
-        self.set_cache(STORAGE.MEDIA_LIST, media_list)
+        storage[STORAGE.COLLECTION] = collection
 
     def __repr__(self):
         return self.__class__.__name__
 
     def is_same_list(self):
-        prev = self._previous_media_list.get('url')
-        curr = self.get_cached_media().get('url')
+        prev = self._router.history.previous()
+        curr = self._router.history.current()
         if prev and curr:
             return Url.remove_params(prev) == Url.remove_params(curr)
         return False
-
-    @property
-    def media_list_pages(self):
-        return self.build_page_object(self.storage)
-
-    @property
-    def last_media_list_pages(self):
-        return self.build_page_object(self._previous_media_list)
 
     @property
     def storage(self):
@@ -93,19 +84,13 @@ class MediaListRenderer(Renderer):
         self._on_stream_selected(stream['ident'])
 
     def get_cached_media(self):
-        media = self.storage.get(STORAGE.MEDIA_LIST)
-        return {} if media is None else media
+        return self.storage.get(STORAGE.MEDIA_LIST)
 
     def get_collection(self):
         return self.storage.get(STORAGE.COLLECTION)
 
-    def set_cache(self, key, value):
-        self.storage[key] = value
-
-    def get_cached_media_by_id(self, media_id):
-        for media in self.get_cached_media()['data']:
-            if media['_id'] == media_id:
-                return media
+    def set_cached_media(self, value):
+        self.storage[STORAGE.MEDIA_LIST] = value
 
     def build_media_list_gui(self, item_type, media_list_data, url_builder, *args):
         return [self.build_media_item_gui(item_type, media, url_builder, *args) for media in media_list_data]
@@ -115,7 +100,6 @@ class MediaListRenderer(Renderer):
         info_labels = media.get('info_labels')
         info_labels.update({'imdbnumber': str(media.get('services').get('imdb'))})
         del info_labels['playcount']
-
         return item_type(
             title=translate_string(info_labels.get('title')),
             url=url_builder(media, *args),
