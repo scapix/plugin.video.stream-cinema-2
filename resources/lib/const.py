@@ -66,7 +66,7 @@ class ROUTE:
 
 
 class URL:
-    API = 'http://localhost:3000/api'
+    API = 'https://beta.plugin.sc2.zone/api'
     GITLAB_URL = 'https://git.hotshot.sk/api/v4/'
 
 
