@@ -1,6 +1,6 @@
 import xbmcplugin
 
-from resources.lib.const import CACHE, ROUTE, STORAGE
+from resources.lib.const import CACHE, ROUTE, STORAGE, explicit_genres, api_genres
 from resources.lib.gui import MainMenuFolderItem, DirectoryItem
 from resources.lib.gui.renderers import Renderer
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
@@ -28,9 +28,10 @@ class MediaListRenderer(Renderer):
     def __repr__(self):
         return self.__class__.__name__
 
-    def is_same_list(self):
-        prev = self._router.history.previous()
-        curr = self._router.history.current()
+    @staticmethod
+    def is_same_list(router):
+        prev = router.history.previous()
+        curr = router.history.current()
         if prev and curr:
             return Url.remove_params(prev) == Url.remove_params(curr)
         return False
@@ -107,6 +108,18 @@ class MediaListRenderer(Renderer):
             stream_info=MediaListRenderer.stream_info(media),
             services=media.get('services')
         )
+
+    @staticmethod
+    def explicit_filter(media_list):
+        filtered_list = []
+        explicit_genres_str = [api_genres[i] for i in explicit_genres]
+        for media in media_list.get('data'):
+            genres = media.get('info_labels').get('genre')
+            is_blocked = bool(set(genres).intersection(explicit_genres_str))
+            if is_blocked:
+                continue
+            filtered_list.append(media)
+        media_list.update({'data': filtered_list})
 
     @staticmethod
     def stream_info(media):

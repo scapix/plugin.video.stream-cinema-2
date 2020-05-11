@@ -60,19 +60,12 @@ class DirectoryRenderer(Renderer):
 
         if settings.as_bool(SETTINGS.EXPLICIT_CONTENT):
             genres = genres + explicit_genres
-        genre_pairs = {}
-        lang_genres = []
-        for genre in genres:
-            lang_genre = get_string(genre)
-            api_genre = api_genres[genre]
-            genre_pairs[lang_genre] = api_genre
-            lang_genres.append(lang_genre)
-        lang_genres.sort()
+        genres.sort()
         with self.start_directory(self.handle):
-            for lang_genre in lang_genres:
-                DirectoryItem(title=lang_genre,
+            for genre in genres:
+                DirectoryItem(title=get_string(genre),
                               url=router_url_from_string(ROUTE.FILTER, collection, FILTER_TYPE.GENRE,
-                                                         genre_pairs[lang_genre])
+                                                         api_genres[genre])
                               )(self.handle)
 
     def a_to_z_menu(self, collection):

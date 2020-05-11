@@ -28,8 +28,10 @@ class StreamCinema:
         self._provider = provider
 
         directory_renderer = DirectoryRenderer(router, on_a_to_z_menu=self.get_filter_values_count)
-        movie_renderer = MovieListRenderer(router, on_stream_selected=self.play_stream, _on_media_selected=self.get_media_detail)
-        tv_show_renderer = TvShowListRenderer(router, on_stream_selected=self.play_stream, _on_media_selected=self.get_media_detail)
+        movie_renderer = MovieListRenderer(router, on_stream_selected=self.play_stream,
+                                           _on_media_selected=self.get_media_detail)
+        tv_show_renderer = TvShowListRenderer(router, on_stream_selected=self.play_stream,
+                                              _on_media_selected=self.get_media_detail)
         self.renderers = {
             RENDERER.MOVIES: movie_renderer,
             RENDERER.TV_SHOWS: tv_show_renderer,
@@ -54,7 +56,6 @@ class StreamCinema:
         router.add_route(self.popular_media, ROUTE.POPULAR)
         router.add_route(self.watched, ROUTE.WATCHED)
 
-
     @property
     def router(self):
         return self._router
@@ -65,7 +66,7 @@ class StreamCinema:
 
     def _filter_and_render(self, collection, filter_type, filter_value):
         media = self.filter_media(collection, filter_type, filter_value)
-        self.show_search_results(collection, media)
+        self.show_search_results(media, self.render_media_list, collection)
 
     def next_page(self, collection, url):
         url = Url.unquote_plus(url)
@@ -78,7 +79,7 @@ class StreamCinema:
     def search_result(self, collection, search_value):
         self.filter(collection, FILTER_TYPE.TITLE_OR_ACTOR, search_value)
 
-    def show_search_results(self, collection, media_list):
+    def show_search_results(self, media_list, callback, *args):
         if media_list:
             num_media = media_list.get('totalCount')
             if num_media == 0:
@@ -87,29 +88,17 @@ class StreamCinema:
                 #     self.router.back(steps=1, skip_search=True)
             else:
                 if not settings.as_bool(SETTINGS.EXPLICIT_CONTENT):
-                    self.explicit_filter(media_list)
-                self.render_media_list(collection, media_list)
-                if not self.renderers[collection].is_same_list():
+                    MediaListRenderer.explicit_filter(media_list)
+                if not MediaListRenderer.is_same_list(self.router):
                     InfoDialog(get_string(30303).format(number=str(num_media))).notify()
+                return callback(media_list, *args)
 
-    @staticmethod
-    def explicit_filter(media_list):
-        filtered_list = []
-        explicit_genres_str = [get_string(i) for i in explicit_genres]
-        for media in media_list.get('data'):
-            genres = media.get('info_labels').get('genre')
-            is_blocked = bool(set(genres).intersection(explicit_genres_str))
-            if is_blocked:
-                continue
-            filtered_list.append(media)
-        media_list.update({'data': filtered_list})
-
-    def render_media_list(self, collection, media_list):
+    def render_media_list(self, media_list, collection):
         self.renderers[collection](collection, media_list)
 
     def popular_media(self, collection):
         api_response = self._api.popular_media(collection)
-        self.show_search_results(collection, self.process_api_response(api_response))
+        self.show_search_results(self.process_api_response(api_response), self.render_media_list, collection)
 
     def filter_media(self, collection, filter_name, search_value):
         api_response = self._api.media_filter(collection, filter_name, search_value)
@@ -180,14 +169,19 @@ class StreamCinema:
         return self._api.get_filter_values_count(*args, **kwargs).json()
 
     def watched(self):
-        watched_list = self.process_api_response(self._api.watched(settings[SETTINGS.UUID]))
+        media_list = self.process_api_response(self._api.watched(settings[SETTINGS.UUID]))
+        self.show_search_results(media_list, self.show_mixed_media_list)
+
+    def show_mixed_media_list(self, media_list):
         media_list_gui = []
-        for media in watched_list.get('data'):
+        for media in media_list.get('data'):
             media_type = media.get('info_labels').get('mediatype')
             if media_type == MEDIA_TYPE.TV_SHOW:
-                media_list_gui.append(MediaListRenderer.build_media_item_gui(TvShowItem, media, self.renderers[RENDERER.TV_SHOWS].url_builder, COLLECTION.TV_SHOWS).build())
+                media_list_gui.append(MediaListRenderer.build_media_item_gui(TvShowItem, media, self.renderers[
+                    RENDERER.TV_SHOWS].url_builder, COLLECTION.TV_SHOWS).build())
             elif media_type == MEDIA_TYPE.MOVIE:
-                media_list_gui.append(MovieListRenderer.build_media_item_gui(MediaItem, media, self.renderers[RENDERER.MOVIES].url_builder, COLLECTION.MOVIES).build())
+                media_list_gui.append(MovieListRenderer.build_media_item_gui(MediaItem, media, self.renderers[
+                    RENDERER.MOVIES].url_builder, COLLECTION.MOVIES).build())
         with DirectoryRenderer.start_directory(self.router.handle, as_type=COLLECTION.MOVIES):
             xbmcplugin.addDirectoryItems(self.router.handle, media_list_gui)
 

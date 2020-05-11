@@ -28,6 +28,7 @@ class COLLECTION:
     TV_SHOWS = 'tvshows'
     MOVIES = 'movies'
     DIRECTORIES = 'directories'
+    VIDEOS = 'videos'
 
 
 class RENDERER:

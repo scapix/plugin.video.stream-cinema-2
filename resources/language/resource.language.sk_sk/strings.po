@@ -315,7 +315,7 @@ msgstr "Vybrať stream"
 
 msgctxt "#30254"
 msgid "Watch history"
-msgstr "História sledovanie"
+msgstr "História sledovania"
 
 msgctxt "#30920"
 msgid "Season"
