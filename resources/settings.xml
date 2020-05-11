@@ -20,10 +20,12 @@
     </category>
     <category label="30012">
         <setting id="version" label="30015" type="text" enable="false" />
+        <setting id="last_version_available" label="30016" type="text" enable="false"/>
         <setting id="uuid" label="30107" type="text" enable="false" />
         <setting id="installation_date" type="date" label="30013" enable="false"/>
         <setting id="debug" type="bool" label="30105" default="true"/>
         <setting label="30108" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/clear-cache)"/>
         <setting id="last_version_check" type="date" visible="false" enable="false"/>
+        <setting id="is_outdated" type="bool"  visible="false"  enable="false"/>
     </category>
 </settings>

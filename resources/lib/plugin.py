@@ -5,11 +5,10 @@ import os
 import sys
 import uuid
 from datetime import datetime
-
 import requests
 
 from resources.lib.api.gitlab_api import GitLabAPI
-from resources.lib.const import SETTINGS, RENDERER, LANG, STORAGE, ROUTE, GENERAL
+from resources.lib.const import SETTINGS, RENDERER, LANG, STORAGE, ROUTE, GENERAL, STRINGS
 from resources.lib.defaults import Defaults
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.kodilogging import logger, setup_root_logger
@@ -37,6 +36,7 @@ def run():
     first_run()
     setup_root_logger()
     on_clear_cache_redirect()
+    set_settings(SETTINGS.VERSION, get_info('version'))
     logger.debug('Entry point ------- ' + str(sys.argv))
     check_version()
     plugin_url_history.add(get_plugin_url())
@@ -82,11 +82,16 @@ def check_version():
     if can_do_version_check():
         set_settings(SETTINGS.LAST_VERSION_CHECK, datetime.now())
         releases = gitlab_api.get_latest_release()
-        latest_release_at = max(releases, key=lambda x: datetime_from_iso(x['released_at'])).get('released_at')
-        if latest_release_at:
-            latest_release_at = datetime_from_iso(latest_release_at)
-            installation_date = get_setting_as_datetime(SETTINGS.INSTALLATION_DATE)
-            if latest_release_at > installation_date:
-                DialogRenderer.ok(get_string(LANG.NEW_VERSION_TITLE), get_string(LANG.NEW_VERSION_TEXT))
+        latest_release = max(releases, key=lambda x: datetime_from_iso(x['released_at']))
+
+        if latest_release:
+            tag_name = latest_release.get('tag_name')
+            set_settings(SETTINGS.LAST_VERSION_AVAILABLE, STRINGS.COLOR_GREEN.format(STRINGS.BOLD.format(tag_name)))
+            current_version = get_settings(SETTINGS.VERSION)
+            if current_version != tag_name:
+                set_settings(SETTINGS.IS_OUTDATED, True)
+                DialogRenderer.ok(get_string(LANG.NEW_VERSION_TITLE), get_string(LANG.NEW_VERSION_TEXT).format(version=tag_name))
+            else:
+                set_settings(SETTINGS.IS_OUTDATED, False)
 
 

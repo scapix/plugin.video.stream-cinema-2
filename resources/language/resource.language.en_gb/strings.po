@@ -93,6 +93,10 @@ msgctxt "#30015"
 msgid "Version"
 msgstr ""
 
+msgctxt "#30016"
+msgid "Latest available version"
+msgstr ""
+
 msgctxt "#30115"
 msgid "Show codec"
 msgstr ""
@@ -366,5 +370,5 @@ msgid "New version available!"
 msgstr ""
 
 msgctxt "#30308"
-msgid "Please download latest plugin release from our website [COLOR blue]sc2.zone[/COLOR]."
+msgid "Please download latest plugin release [COLOR green]{version}[/COLOR] from our website [COLOR blue]sc2.zone[/COLOR]."
 msgstr ""

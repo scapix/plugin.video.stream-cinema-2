@@ -41,6 +41,10 @@ msgctxt "#30015"
 msgid "Version"
 msgstr "Verzia"
 
+msgctxt "#30016"
+msgid "Latest available version"
+msgstr "Posledná dostupná verzia"
+
 msgctxt "#30115"
 msgid "Show codec"
 msgstr "Zobraziť kodek"
@@ -354,5 +358,5 @@ msgid "New version available!"
 msgstr "Nová verzia je k dispozícii!"
 
 msgctxt "#30308"
-msgid "Please download latest plugin release from our website [COLOR blue]sc2.zone[/COLOR]."
-msgstr "Stiahnite si najnovšiu verziu pluginu z nášho webu [COLOR blue]sc2.zone[/COLOR]."
+msgid "Please download latest plugin release [COLOR green]{version}[/COLOR] from our website [COLOR blue]sc2.zone[/COLOR]."
+msgstr "Stiahnite si najnovšiu verziu pluginu [COLOR green]{version}[/COLOR] z nášho webu [COLOR blue]sc2.zone[/COLOR]."

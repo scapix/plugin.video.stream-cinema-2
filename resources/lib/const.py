@@ -8,7 +8,7 @@ class URL:
 
 class GENERAL:
     PLUGIN_ID = 'plugin.video.stream-cinema-2'
-    VERSION_CHECK_INTERVAL = timedelta(minutes=1)
+    VERSION_CHECK_INTERVAL = timedelta(minutes=10)
     API_TIMEOUT = 10
 
 
@@ -135,7 +135,9 @@ class SETTINGS:
     FILE_SIZE_SORT = 'file_size_sort'
     INSTALLATION_DATE = 'installation_date'
     LAST_VERSION_CHECK = 'last_version_check'
+    LAST_VERSION_AVAILABLE = 'last_version_available'
     A_Z_THRESHOLD = 'a_z_threshold'
+    IS_OUTDATED = 'is_outdated'
 
 
 class STRINGS:
@@ -149,6 +151,8 @@ class STRINGS:
     ISO_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
     A_TO_Z_TITLE = '{}  [I]({})[/I]'
     REGEX_BRACKETS = '[{}]'
+    COLOR_GREEN = '[COLOR green]{}[/COLOR]'
+    COLOR_RED = '[COLOR red]{}[/COLOR]'
 
 
 class CODEC:
