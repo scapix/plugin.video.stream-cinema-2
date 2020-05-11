@@ -69,6 +69,10 @@ msgctxt "#30120"
 msgid "Number of items per page"
 msgstr "Počet položek na stránku"
 
+msgctxt "#30129"
+msgid "Show duration"
+msgstr "Zobrazit délku"
+
 msgctxt "#30101"
 msgid "Username"
 msgstr "Uživatelské jméno"
