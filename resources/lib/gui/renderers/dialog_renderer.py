@@ -35,7 +35,7 @@ class DialogRenderer:
                 SETTINGS.SHOW_BITRATE) else ''
             codec = STRINGS.STREAM_TITLE_BRACKETS.format(codecs[stream.get('codec')]) if settings.as_bool(
                 SETTINGS.SHOW_CODEC) else ''
-            duration = STRINGS.BOLD.format("{}".format(str(datetime.timedelta(seconds=int(stream.get('duration')))))) if settings.as_bool(
+            duration = STRINGS.BOLD.format(str(datetime.timedelta(seconds=int(stream.get('duration'))))) if settings.as_bool(
                                 SETTINGS.SHOW_DURATION) else ''
             stream_labels.append([quality, codec, size, duration, bitrate])
 
