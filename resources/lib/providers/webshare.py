@@ -11,6 +11,7 @@ import requests
 from simpleplugin import Plugin
 
 from resources.lib.const import DOWNLOAD_TYPE, SETTINGS, CACHE
+from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
 from resources.lib.utils.kodiutils import get_screen_width, get_screen_height, common_headers
 from resources.lib.vendor.md5crypt import md5crypt
@@ -28,15 +29,15 @@ class Webshare:
 
     @property
     def username(self):
-        return self._username
+        return self._username()
 
     @property
     def password(self):
-        return self._password
+        return self._password()
 
     @property
     def token(self):
-        return self._token
+        return self._token()
 
     @plugin.mem_cached(CACHE.EXPIRATION_TIME)
     def get_link_for_file_with_id(self, file_id, download_type=DOWNLOAD_TYPE.VIDEO_STREAM):
@@ -55,8 +56,9 @@ class Webshare:
             'device_res_y': get_screen_height(),
         }
         response = self._post('/file_link/', data=data)
-        root = ET.fromstring(response)
-        link = root.find('link').text
+        root = self._parse(response)
+        link = self._find(root, 'link')
+        logger.debug('Getting file link from provider')
         return link
 
     def _post(self, path, data=None):
@@ -65,13 +67,10 @@ class Webshare:
         """
         if data is None:
             data = {}
-        data.setdefault('wst', self._token)
+        data.setdefault('wst', self.token)
         headers = common_headers()
-        headers.update({
-            'Referer': 'https://webshare.cz/',
-        })
-
         response = requests.post('https://webshare.cz/api{}'.format(path), data=data, headers=headers)
+        logger.debug('Response from provider: %s' % response.content)
         return response.content
 
     def _get_salt(self):
@@ -82,10 +81,13 @@ class Webshare:
         Referer: https://webshare.cz/
         Content-Type: application/x-www-form-urlencoded
         """
-        response = self._post('/salt/', data={'username_or_email': self._username})
-        root = ET.fromstring(response)
-        salt = root.find('salt').text
-        return salt
+        response = self._post('/salt/', data={'username_or_email': self.username})
+        root = self._parse(response)
+        logger.debug('Getting user salt from provider')
+        try:
+            return self._find(root, 'salt')
+        except AttributeError:
+            pass
 
     def get_token(self):
         """
@@ -96,16 +98,20 @@ class Webshare:
         Content-Type: application/x-www-form-urlencoded
         """
         salt = self._get_salt()
-        hashed = self._hash_password(self._password, salt)
+        if salt:
+            hashed = self._hash_password(self.password, salt)
 
-        response = self._post('/login/', data={
-            'username_or_email': self._username,
-            'password': hashed,
-            'keep_logged_in': 1,
-        })
-        root = ET.fromstring(response)
-        token = root.find('token').text
-        return token
+            response = self._post('/login/', data={
+                'username_or_email': self.username,
+                'password': hashed,
+                'keep_logged_in': 1,
+            })
+            root = self._parse(response)
+            logger.debug('Getting user token from provider')
+            try:
+                return self._find(root, 'token')
+            except AttributeError:
+                pass
 
     def get_user_data(self):
         """
@@ -116,13 +122,24 @@ class Webshare:
         Content-Type: application/x-www-form-urlencoded
         """
         response = self._post('/user_data/')
-        return response
+        logger.debug('Getting user data from provider')
+        return self._parse(response)
 
-    def is_vip(self):
-        user_data = self.get_user_data()
-        root = ET.fromstring(user_data)
-        vip = root.find('vip').text
-        return bool(vip)
+    def is_vip(self, user_data):
+        vip = self._find(user_data, 'vip')
+        return vip == '1'
+
+    def is_valid_token(self, user_data):
+        return self._find(user_data, 'status') == 'OK'
+
+    @staticmethod
+    def _parse(response):
+        return ET.fromstring(response)
+
+    @staticmethod
+    def _find(xml, key):
+        return xml.find(key).text
+
 
 
     @classmethod

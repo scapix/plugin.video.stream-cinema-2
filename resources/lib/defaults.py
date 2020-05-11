@@ -10,9 +10,9 @@ from resources.lib.utils.kodiutils import get_info
 class Defaults:
     @staticmethod
     def provider():
-        return provider(settings[SETTINGS.PROVIDER_USERNAME],
-                        settings[SETTINGS.PROVIDER_PASSWORD],
-                        settings[SETTINGS.PROVIDER_TOKEN])
+        return provider(settings.dynamic(SETTINGS.PROVIDER_USERNAME),
+                        settings.dynamic(SETTINGS.PROVIDER_PASSWORD),
+                        settings.dynamic(SETTINGS.PROVIDER_TOKEN))
 
     @staticmethod
     def router():

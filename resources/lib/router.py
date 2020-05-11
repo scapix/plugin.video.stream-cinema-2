@@ -57,7 +57,7 @@ class Router:
         xbmcplugin.endOfDirectory(self.handle, cacheToDisc=False)
         self.replace(router_url_from_string(*args))
 
-    def set_resolved_url(self, url):
+    def set_resolved_url(self, url=None):
         set_resolved_url(self.handle, url)
 
 

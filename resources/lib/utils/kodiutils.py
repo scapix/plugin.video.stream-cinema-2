@@ -234,6 +234,13 @@ def delete_try(obj, key):
         pass
 
 
+def apply_strings(text, *args):
+    args = list(args)
+    res = args.pop(0)
+    for string in args:
+        res = res.format(string)
+    return res.format(*text)
+
 # def kodi_json_request(params):
 #     data = json.dumps(params)
 #     request = xbmc.executeJSONRPC(data)

@@ -1,3 +1,5 @@
+from functools import partial
+
 from resources.lib.utils.kodiutils import get_settings, show_settings, set_settings, get_setting_as_bool, \
     get_setting_as_int
 
@@ -20,6 +22,10 @@ class Settings:
     @staticmethod
     def show():
         show_settings()
+
+    @staticmethod
+    def dynamic(key):
+        return partial(get_settings, key)
 
 
 settings = Settings()

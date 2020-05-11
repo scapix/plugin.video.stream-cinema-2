@@ -122,38 +122,49 @@ class StreamCinema:
             return None
 
     def _check_provider(self):
-        if self._provider.username == '' or self._provider.username == '':
+        if self._provider.username == '' or self._provider.password == '':
             InfoDialog(get_string(LANG.MISSING_PROVIDER_CREDENTIALS), sound=True).notify()
             settings.show()
             return False
         return True
 
     def _check_token(self):
-        if self._provider.token == '':
-            if self._check_provider():
-                settings[SETTINGS.PROVIDER_TOKEN] = self._provider.get_token()
-            return False
-        return True
+        return self._provider.is_valid_token()
 
-    def _check_vip(self):
-        if not self._provider.is_vip():
+    def ensure_provider_token(self):
+        token = self._provider.get_token()
+        if token:
+            settings[SETTINGS.PROVIDER_TOKEN] = token
+            return True
+        InfoDialog(get_string(LANG.INCORRECT_PROVIDER_CREDENTIALS), sound=True).notify()
+        return False
+
+    def _check_vip(self, user_data):
+        if not self._provider.is_vip(user_data):
             InfoDialog(get_string(LANG.ACTIVATE_VIP), sound=True).notify()
             return False
         return True
 
     def _check_account(self):
-        if self._check_provider():
-            return self._check_token() and self._check_vip()
-        return False
+        user_data = self._provider.get_user_data()
+        if not self._provider.is_valid_token(user_data):
+            if self._check_provider():
+                if self.ensure_provider_token():
+                    logger.debug('Provider token is valid')
+                    return self._check_vip(self._provider.get_user_data())
+            return False
+        return self._check_vip(self._provider.get_user_data())
 
     def play_stream(self, ident):
         logger.debug('Trying to play stream')
         if self._check_account():
-            logger.debug('Provider token is valid')
+
             stream_url = self._provider.get_link_for_file_with_id(ident)
             logger.debug('Stream URL found. Playing %s' % stream_url)
             self.send_service_message(SERVICE.PLAYER_SERVICE, SERVICE_EVENT.PLAYBACK_STARTED)
             self.router.set_resolved_url(stream_url)
+        else:
+            self.router.set_resolved_url()
 
     def get_media_detail(self, collection, media_id):
         return self.process_api_response(self._api.media_detail(collection, media_id))

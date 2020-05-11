@@ -342,8 +342,8 @@ msgid "Found {number} records"
 msgstr "Nájdených {number} záznamov"
 
 msgctxt "#30304"
-msgid "Activate VIP"
-msgstr "Aktivujte VIP"
+msgid "This account doesn't have active VIP"
+msgstr "Tento účet nemá aktívne VIP"
 
 msgctxt "#30305"
 msgid "Welcome to Stream Cinema 2.0 [COLOR red]BETA[/COLOR]"
@@ -360,3 +360,31 @@ msgstr "Nová verzia je k dispozícii!"
 msgctxt "#30308"
 msgid "Please download latest plugin release [COLOR green]{version}[/COLOR] from our website [COLOR blue]sc2.zone[/COLOR]."
 msgstr "Stiahnite si najnovšiu verziu pluginu [COLOR green]{version}[/COLOR] z nášho webu [COLOR blue]sc2.zone[/COLOR]."
+
+msgctxt "#30121"
+msgid "Token"
+msgstr ""
+
+msgctxt "#30122"
+msgid "Show password and token"
+msgstr "Zobraziť heslo a token"
+
+msgctxt "#30123"
+msgid "Provider details"
+msgstr "Podrobnosti o poskytovateľovi"
+
+msgctxt "#30124"
+msgid "Incorrect provider credentials"
+msgstr "Nesprávne prihlasovacie údaje poskytovateľa"
+
+msgctxt "#30125"
+msgid "Refresh token"
+msgstr "Obnoviť token"
+
+msgctxt "#30126"
+msgid "Info"
+msgstr ""
+
+msgctxt "#30127"
+msgid "Token was successfully refreshed"
+msgstr "Token bol úspešne obnovený"

@@ -354,7 +354,7 @@ msgid "Found {number} records"
 msgstr ""
 
 msgctxt "#30304"
-msgid "Activate VIP"
+msgid "This account doesn't have active VIP"
 msgstr ""
 
 msgctxt "#30305"
@@ -371,4 +371,32 @@ msgstr ""
 
 msgctxt "#30308"
 msgid "Please download latest plugin release [COLOR green]{version}[/COLOR] from our website [COLOR blue]sc2.zone[/COLOR]."
+msgstr ""
+
+msgctxt "#30121"
+msgid "Token"
+msgstr ""
+
+msgctxt "#30122"
+msgid "Show password and token"
+msgstr ""
+
+msgctxt "#30123"
+msgid "Provider details"
+msgstr ""
+
+msgctxt "#30124"
+msgid "Incorrect provider credentials"
+msgstr ""
+
+msgctxt "#30125"
+msgid "Refresh token"
+msgstr ""
+
+msgctxt "#30126"
+msgid "Info"
+msgstr ""
+
+msgctxt "#30127"
+msgid "Token was successfully refreshed"
 msgstr ""

@@ -80,6 +80,8 @@ class ROUTE:
     CLEAR_CACHE = '/clear-cache'
     CLEAR_PATH = '/clear-path'
     WATCHED = '/watched'
+    SHOW_PROVIDER_DETAILS = '/show-provider-details'
+    REFRESH_PROVIDER_TOKEN = '/refresh-provider-token'
 
 
 class GITLAB_ENDPOINT:
@@ -99,6 +101,8 @@ class STORAGE:
     SELECTED_MEDIA_ID = 'selected_media_id'
     SERVICE = 'service'
     CLEARED_CACHE = 'cleared_cache'
+    PROVIDER_USERNAME = 'provider_username'
+    PROVIDER_PASSWORD = 'provider_password'
 
 
 class SERVICE:
@@ -154,6 +158,10 @@ class STRINGS:
     REGEX_BRACKETS = '[{}]'
     COLOR_GREEN = '[COLOR green]{}[/COLOR]'
     COLOR_RED = '[COLOR red]{}[/COLOR]'
+    COLOR_BLUE = '[COLOR blue]{}[/COLOR]'
+    NEW_LINE = '\n'
+    PAIR = '{}: {}'
+    PAIR_BOLD = BOLD + ': {}'
 
 
 class CODEC:
@@ -251,6 +259,12 @@ class LANG:
     NEW_VERSION_TITLE = 30307
     NEW_VERSION_TEXT = 30308
     PAGE_LIMIT = 30120
+    PROVIDER_DETAILS = 30123
+    SHOW_PASSWORD_TOKEN = 30122
+    TOKEN = 30121
+    INCORRECT_PROVIDER_CREDENTIALS = 30124
+    INFO = 30126
+    TOKEN_REFRESHED = 30127
 
 
 api_genres = {

@@ -6,18 +6,21 @@ import sys
 import uuid
 from datetime import datetime
 import requests
+from xbmcgui import DialogBusy, DialogProgress
 
 from resources.lib.api.gitlab_api import GitLabAPI
 from resources.lib.const import SETTINGS, RENDERER, LANG, STORAGE, ROUTE, GENERAL, STRINGS
 from resources.lib.defaults import Defaults
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
+from resources.lib.gui.text_renderer import TextRenderer
 from resources.lib.kodilogging import logger, setup_root_logger
 from resources.lib.plugin_url_history import PluginUrlHistory
+from resources.lib.providers.webshare import plugin
 from resources.lib.settings import settings
 from resources.lib.storage.storage import storage
 from resources.lib.stream_cinema import StreamCinema
 from resources.lib.utils.kodiutils import get_plugin_url, get_string, get_settings, \
-    set_settings, get_current_datetime_str, get_setting_as_datetime, datetime_from_iso, get_info
+    set_settings, get_current_datetime_str, get_setting_as_datetime, datetime_from_iso, get_info, apply_strings
 
 provider = Defaults.provider()
 api = Defaults.api_cached()
@@ -38,6 +41,7 @@ def run():
     on_clear_cache_redirect()
     set_settings(SETTINGS.VERSION, get_info('version'))
     logger.debug('Entry point ------- ' + str(sys.argv))
+    credentials_check()
     check_version()
     plugin_url_history.add(get_plugin_url())
     return router.run()
@@ -53,7 +57,7 @@ def first_run():
         set_settings(SETTINGS.VERSION, get_info('version'))
 
 
-@router.route('/clear-cache')
+@router.route(ROUTE.CLEAR_CACHE)
 def clear_cache():
     del storage[STORAGE.MEDIA_LIST]
     del storage[STORAGE.COLLECTION]
@@ -61,6 +65,24 @@ def clear_cache():
     del storage[STORAGE.PLUGIN_LAST_URL_ADDED]
     del storage[STORAGE.SERVICE]
     storage[STORAGE.CLEARED_CACHE] = True
+
+
+@router.route(ROUTE.SHOW_PROVIDER_DETAILS)
+def show_provider_details():
+    pairs = [
+        [get_string(LANG.PROVIDER), TextRenderer.highlight(provider.__repr__())],
+        [get_string(LANG.USERNAME), settings[SETTINGS.PROVIDER_USERNAME]],
+        [get_string(LANG.PASSWORD), settings[SETTINGS.PROVIDER_PASSWORD]],
+        [get_string(LANG.TOKEN), settings[SETTINGS.PROVIDER_TOKEN]],
+    ]
+    DialogRenderer.ok_multi_line(get_string(LANG.PROVIDER_DETAILS),
+                                 [TextRenderer.make_pair(STRINGS.PAIR_BOLD, pair) for pair in pairs])
+
+
+@router.route(ROUTE.REFRESH_PROVIDER_TOKEN)
+def refresh_provider_token():
+    stream_cinema.ensure_provider_token()
+    DialogRenderer.ok(get_string(LANG.INFO), get_string(LANG.TOKEN_REFRESHED))
 
 
 def on_clear_cache_redirect():
@@ -99,3 +121,16 @@ def get_latest_release_tag_name():
 
     if latest_release:
         return latest_release.get('tag_name')
+
+
+def credentials_check():
+    username = settings[SETTINGS.PROVIDER_USERNAME]
+    password = settings[SETTINGS.PROVIDER_PASSWORD]
+    with plugin.get_storage() as sql_storage:
+        cached_username = sql_storage.get(STORAGE.PROVIDER_USERNAME)
+        cached_password = sql_storage.get(STORAGE.PROVIDER_PASSWORD)
+        sql_storage[STORAGE.PROVIDER_USERNAME] = username
+        sql_storage[STORAGE.PROVIDER_PASSWORD] = password
+
+        if cached_username != username or cached_password != password:
+            set_settings(SETTINGS.PROVIDER_TOKEN, '')
