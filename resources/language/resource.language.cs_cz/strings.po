@@ -319,7 +319,7 @@ msgstr "Historie sledování"
 
 msgctxt "#30920"
 msgid "Season"
-msgstr "Sezóna"
+msgstr "Série"
 
 msgctxt "#30921"
 msgid "Episode"

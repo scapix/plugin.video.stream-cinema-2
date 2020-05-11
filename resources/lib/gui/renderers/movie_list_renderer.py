@@ -5,7 +5,8 @@ from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
 class MovieListRenderer(MediaListRenderer):
     def __call__(self, collection, media_list):
         super(MovieListRenderer, self).__call__(collection, media_list)
-        gui_items = self.build_media_list_gui(MediaItem, media_list.get('data'), self.url_builder, collection)
+        gui_items = [self.build_media_item_gui(MediaItem, media,
+                                               self.url_builder(media, collection)) for media in media_list.get('data')]
         paging = media_list.get('paging')
         is_paging = True if paging else False
         self.add_paging(collection, gui_items, paging)

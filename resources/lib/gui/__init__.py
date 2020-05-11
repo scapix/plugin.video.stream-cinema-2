@@ -67,7 +67,7 @@ class SettingsItem(DirectoryItem):
     DIRECTORY = False
 
 
-class MediaItem:
+class MediaItem(object):
     DIRECTORY = False
 
     def __init__(self, title, url=None, art=None, info_labels=None, stream_info=None, services=None):
@@ -110,8 +110,13 @@ class MediaItem:
         return self._url, item, self.DIRECTORY,
 
 
-class TvShowItem(MediaItem):
+class TvShowMenuItem(MediaItem):
     DIRECTORY = True
+
+
+class TvShowItem(MediaItem):
+    def __init__(self, *args, **kwargs):
+        super(TvShowItem, self).__init__(*args, **kwargs)
 
 
 class InfoDialogType:

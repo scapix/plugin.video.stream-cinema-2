@@ -162,6 +162,7 @@ class STRINGS:
     NEW_LINE = '\n'
     PAIR = '{}: {}'
     PAIR_BOLD = BOLD + ': {}'
+    EPISODE_TITLE = '{} - S{}E{}'
 
 
 class CODEC:

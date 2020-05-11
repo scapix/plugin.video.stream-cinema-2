@@ -1,13 +1,13 @@
 import xbmcplugin
 
-from resources.lib.const import CACHE, ROUTE, STORAGE, explicit_genres, api_genres
+from resources.lib.const import ROUTE, STORAGE, explicit_genres, api_genres
 from resources.lib.gui import MainMenuFolderItem, DirectoryItem
 from resources.lib.gui.renderers import Renderer
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.storage.storage import storage
-from resources.lib.utils.kodiutils import get_string, set_resolved_url, router_url_from_string, translate_string
+from resources.lib.utils.kodiutils import get_string, set_resolved_url, router_url_from_string
 from resources.lib.utils.url import Url
 
 
@@ -92,17 +92,14 @@ class MediaListRenderer(Renderer):
     def set_cached_media(self, value):
         self.storage[STORAGE.MEDIA_LIST] = value
 
-    def build_media_list_gui(self, item_type, media_list_data, url_builder, *args):
-        return [self.build_media_item_gui(item_type, media, url_builder, *args) for media in media_list_data]
-
     @staticmethod
-    def build_media_item_gui(item_type, media, url_builder, *args):
+    def build_media_item_gui(item_type, media, url, title=None):
         info_labels = media.get('info_labels')
         info_labels.update({'imdbnumber': str(media.get('services').get('imdb'))})
         del info_labels['playcount']
         return item_type(
-            title=translate_string(info_labels.get('title')),
-            url=url_builder(media, *args),
+            title=title if title else info_labels.get('title'),
+            url=url,
             art=media.get('art'),
             info_labels=info_labels,
             stream_info=MediaListRenderer.stream_info(media),
