@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.stream-cinema-2" name="Stream Cinema 2.0" version="1.0.0-beta" provider-name="hotshot.sk">
+<addon id="plugin.video.stream-cinema-2" name="Stream Cinema 2.0" version="1.0.1-beta" provider-name="hotshot.sk">
     <requires>
         <import addon="xbmc.python" version="2.26.0"/>
         <import addon="script.module.requests" version="2.22.0"/>
