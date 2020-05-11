@@ -396,3 +396,7 @@ msgstr "Token bol úspešne obnovený"
 msgctxt "#30128"
 msgid "Login successful"
 msgstr "Prihlásenie úspešné"
+
+msgctxt "#30130"
+msgid "Webshare VIP remaining days:"
+msgstr "Webshare VIP zostávajúce dni:"

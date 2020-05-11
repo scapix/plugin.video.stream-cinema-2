@@ -6,8 +6,8 @@ import requests
 import xbmcgui
 import xbmcplugin
 
-from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, STORAGE, SERVICE_EVENT, LANG, \
-    SERVICE, MEDIA_TYPE, COLLECTION
+from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres, STORAGE, SERVICE_EVENT, LANG, \
+    SERVICE, MEDIA_TYPE, COLLECTION, PROVIDER
 from resources.lib.gui import InfoDialog, InfoDialogType, MediaItem, TvShowItem
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
 from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
@@ -143,6 +143,13 @@ class StreamCinema:
             InfoDialog(get_string(LANG.ACTIVATE_VIP), sound=True).notify()
             return False
         return True
+
+    def vip_remains(self):
+        self.ensure_provider_token()
+        user_data = self._provider.get_user_data()
+        days_to = self._provider.vip_remains(user_data)
+        if days_to < PROVIDER.VIP_REMAINING_WARN:
+            DialogRenderer.ok(get_string(LANG.VIP_REMAINS), str(days_to))
 
     def _check_account(self):
         user_data = self._provider.get_user_data()

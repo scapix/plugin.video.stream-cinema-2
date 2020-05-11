@@ -58,6 +58,10 @@ class REGEX:
     ROUTER_PARAMS = r"<.*?>"
 
 
+class PROVIDER:
+    VIP_REMAINING_WARN = 7
+
+
 class ROUTE:
     ROOT = '/'
     A_TO_Z = '/a_to_z/<collection>'
@@ -269,6 +273,7 @@ class LANG:
     TOKEN_REFRESHED = 30127
     CORRECT_PROVIDER_CREDENTIALS = 30128
     SHOW_DURATION = 30129
+    VIP_REMAINS = 30130
 
 
 api_genres = {
