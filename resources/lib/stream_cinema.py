@@ -76,7 +76,7 @@ class StreamCinema:
         self._filter_and_render(collection, filter_type, filter_value)
 
     def search_result(self, collection, search_value):
-        self.filter(collection, FILTER_TYPE.STARTS_WITH, Url.unquote_plus(search_value))
+        self.filter(collection, FILTER_TYPE.TITLE_OR_ACTOR, Url.unquote_plus(search_value))
 
     def show_search_results(self, media_list, callback, *args):
         if media_list:
