@@ -192,7 +192,7 @@ class StreamCinema:
                     RENDERER.TV_SHOWS].url_builder, COLLECTION.TV_SHOWS).build())
             elif media_type == MEDIA_TYPE.MOVIE:
                 media_list_gui.append(MovieListRenderer.build_media_item_gui(MediaItem, media, self.renderers[
-                    RENDERER.MOVIES].url_builder, COLLECTION.MOVIES).build())
+                    RENDERER.MOVIES].url_builder(media, COLLECTION.MOVIES)).build())
         with DirectoryRenderer.start_directory(self.router.handle, as_type=COLLECTION.MOVIES):
             xbmcplugin.addDirectoryItems(self.router.handle, media_list_gui)
 
