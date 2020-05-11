@@ -2,7 +2,7 @@ from datetime import timedelta
 
 
 class URL:
-    API = 'http://localhost:3000/api'
+    API = 'https://beta.plugin.sc2.zone/api'
     GITLAB_URL = 'https://git.hotshot.sk/api/v4/'
 
 
@@ -111,6 +111,7 @@ class SERVICE_EVENT:
 
 class CACHE:
     EXPIRATION_TIME = 10
+    EXPIRATION_TIME_BIGGER = 30
     PLUGIN_URL_HISTORY_LIMIT = 5
 
 
