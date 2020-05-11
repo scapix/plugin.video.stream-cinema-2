@@ -79,19 +79,23 @@ def can_do_version_check():
 
 
 def check_version():
-    if can_do_version_check():
+    if can_do_version_check() or settings[SETTINGS.LAST_VERSION_AVAILABLE] == '':
         set_settings(SETTINGS.LAST_VERSION_CHECK, datetime.now())
-        releases = gitlab_api.get_latest_release()
-        latest_release = max(releases, key=lambda x: datetime_from_iso(x['released_at']))
-
-        if latest_release:
-            tag_name = latest_release.get('tag_name')
+        tag_name = get_latest_release_tag_name()
+        if tag_name:
             set_settings(SETTINGS.LAST_VERSION_AVAILABLE, STRINGS.COLOR_GREEN.format(STRINGS.BOLD.format(tag_name)))
             current_version = get_settings(SETTINGS.VERSION)
             if current_version != tag_name:
                 set_settings(SETTINGS.IS_OUTDATED, True)
-                DialogRenderer.ok(get_string(LANG.NEW_VERSION_TITLE), get_string(LANG.NEW_VERSION_TEXT).format(version=tag_name))
+                DialogRenderer.ok(get_string(LANG.NEW_VERSION_TITLE),
+                                  get_string(LANG.NEW_VERSION_TEXT).format(version=tag_name))
             else:
                 set_settings(SETTINGS.IS_OUTDATED, False)
 
 
+def get_latest_release_tag_name():
+    releases = gitlab_api.get_latest_release()
+    latest_release = max(releases, key=lambda x: datetime_from_iso(x['released_at']))
+
+    if latest_release:
+        return latest_release.get('tag_name')
