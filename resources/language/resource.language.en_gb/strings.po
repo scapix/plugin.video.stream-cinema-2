@@ -121,6 +121,10 @@ msgctxt "#30120"
 msgid "Number of items per page"
 msgstr ""
 
+msgctxt "#30129"
+msgid "Show duration"
+msgstr ""
+
 msgctxt "#30200"
 msgid "Movies"
 msgstr ""

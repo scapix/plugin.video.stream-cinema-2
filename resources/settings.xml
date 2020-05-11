@@ -8,6 +8,7 @@
         <setting label="30117" type="lsep"/>
         <setting id="show_codec" type="bool" label="30115" default="false"/>
         <setting id="show_bitrate" type="bool" label="30116" default="false"/>
+        <setting id="show_duration" type="bool" label="30129" default="false"/>
         <setting label="30118" type="lsep"/>
         <setting id="a_z_threshold" type="number" label="30119" default="10"/>
         <setting id="page_limit" type="number" label="30120" default="250"/>
