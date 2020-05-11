@@ -11,6 +11,7 @@ from xbmcgui import DialogBusy, DialogProgress
 from resources.lib.api.gitlab_api import GitLabAPI
 from resources.lib.const import SETTINGS, RENDERER, LANG, STORAGE, ROUTE, GENERAL, STRINGS
 from resources.lib.defaults import Defaults
+from resources.lib.gui import InfoDialog
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.gui.text_renderer import TextRenderer
 from resources.lib.kodilogging import logger, setup_root_logger
@@ -67,16 +68,10 @@ def clear_cache():
     storage[STORAGE.CLEARED_CACHE] = True
 
 
-@router.route(ROUTE.SHOW_PROVIDER_DETAILS)
-def show_provider_details():
-    pairs = [
-        [get_string(LANG.PROVIDER), TextRenderer.highlight(provider.__repr__())],
-        [get_string(LANG.USERNAME), settings[SETTINGS.PROVIDER_USERNAME]],
-        [get_string(LANG.PASSWORD), settings[SETTINGS.PROVIDER_PASSWORD]],
-        [get_string(LANG.TOKEN), settings[SETTINGS.PROVIDER_TOKEN]],
-    ]
-    DialogRenderer.ok_multi_line(get_string(LANG.PROVIDER_DETAILS),
-                                 [TextRenderer.make_pair(STRINGS.PAIR_BOLD, pair) for pair in pairs])
+@router.route(ROUTE.CHECK_PROVIDER_CREDENTIALS)
+def check_provider_credentials():
+    if stream_cinema.ensure_provider_token():
+        InfoDialog(get_string(LANG.CORRECT_PROVIDER_CREDENTIALS), sound=True).notify()
 
 
 @router.route(ROUTE.REFRESH_PROVIDER_TOKEN)

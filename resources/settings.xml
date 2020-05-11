@@ -16,8 +16,8 @@
         <setting id="provider.name" type="select" label="30103" lvalues="30104" />
         <setting label="30101" id="provider.username" type="text" default="" />
         <setting label="30102" id="provider.password" type="text" default="" option="hidden" />
+        <setting label="30122" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/check-provider-credentials)"/>
         <setting label="30121" id="provider.token" type="text" default="" option="hidden" enable="false" />
-        <setting label="30122" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/show-provider-details)"/>
         <setting label="30125" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/refresh-provider-token)"/>
     </category>
     <category label="30012">

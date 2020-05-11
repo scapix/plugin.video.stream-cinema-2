@@ -366,8 +366,8 @@ msgid "Token"
 msgstr ""
 
 msgctxt "#30122"
-msgid "Show password and token"
-msgstr "Zobrazit heslo a token"
+msgid "Verify login information"
+msgstr "Ověřit přihlašovací údaje"
 
 msgctxt "#30123"
 msgid "Provider details"
@@ -388,3 +388,7 @@ msgstr ""
 msgctxt "#30127"
 msgid "Token was successfully refreshed"
 msgstr "Token byl úspěšně obnoven"
+
+msgctxt "#30128"
+msgid "Login successful"
+msgstr "Přihlášení úspěšné"

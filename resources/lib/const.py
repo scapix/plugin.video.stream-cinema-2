@@ -80,7 +80,7 @@ class ROUTE:
     CLEAR_CACHE = '/clear-cache'
     CLEAR_PATH = '/clear-path'
     WATCHED = '/watched'
-    SHOW_PROVIDER_DETAILS = '/show-provider-details'
+    CHECK_PROVIDER_CREDENTIALS = '/check-provider-credentials'
     REFRESH_PROVIDER_TOKEN = '/refresh-provider-token'
 
 
@@ -260,11 +260,12 @@ class LANG:
     NEW_VERSION_TEXT = 30308
     PAGE_LIMIT = 30120
     PROVIDER_DETAILS = 30123
-    SHOW_PASSWORD_TOKEN = 30122
+    VERIFY_LOGIN_INFORMATION = 30122
     TOKEN = 30121
     INCORRECT_PROVIDER_CREDENTIALS = 30124
     INFO = 30126
     TOKEN_REFRESHED = 30127
+    CORRECT_PROVIDER_CREDENTIALS = 30128
 
 
 api_genres = {
