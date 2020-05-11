@@ -6,18 +6,17 @@ import requests
 import xbmcgui
 import xbmcplugin
 
-from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres, STORAGE, SERVICE_EVENT, LANG, \
+from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, STORAGE, SERVICE_EVENT, LANG, \
     SERVICE, MEDIA_TYPE, COLLECTION
 from resources.lib.gui import InfoDialog, InfoDialogType, MediaItem, TvShowItem
-from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
 from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
 from resources.lib.gui.renderers.movie_list_renderer import MovieListRenderer
 from resources.lib.gui.renderers.tv_show_list_renderer import TvShowListRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
-from resources.lib.storage.storage import Storage, storage
-from resources.lib.utils.kodiutils import get_string, router_url_from_string, replace_plugin_url
+from resources.lib.storage.storage import storage
+from resources.lib.utils.kodiutils import get_string
 from resources.lib.utils.url import Url
 
 
@@ -77,7 +76,7 @@ class StreamCinema:
         self._filter_and_render(collection, filter_type, filter_value)
 
     def search_result(self, collection, search_value):
-        self.filter(collection, FILTER_TYPE.STARTS_WITH, search_value)
+        self.filter(collection, FILTER_TYPE.STARTS_WITH, Url.unquote_plus(search_value))
 
     def show_search_results(self, media_list, callback, *args):
         if media_list:

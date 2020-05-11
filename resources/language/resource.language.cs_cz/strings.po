@@ -102,7 +102,7 @@ msgid "Clear cache"
 msgstr "Vyčistit mezipaměť"
 
 msgctxt "#30109"
-msgid "↓ Sort by size"
+msgid "Sort by size"
 msgstr "Seřadit dle velikosti"
 
 msgctxt "#30110"
