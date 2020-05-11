@@ -1,3 +1,4 @@
+import datetime
 import operator
 import xbmc
 from xbmcgui import Dialog
@@ -34,7 +35,9 @@ class DialogRenderer:
                 SETTINGS.SHOW_BITRATE) else ''
             codec = STRINGS.STREAM_TITLE_BRACKETS.format(codecs[stream.get('codec')]) if settings.as_bool(
                 SETTINGS.SHOW_CODEC) else ''
-            stream_labels.append([quality, codec, size, bitrate])
+            duration = STRINGS.BOLD.format(str(datetime.timedelta(seconds=int(stream.get('duration'))))) if settings.as_bool(
+                                SETTINGS.SHOW_DURATION) else ''
+            stream_labels.append([quality, codec, size, duration, bitrate])
 
         table = make_table(stream_labels)
         table = append_list_items_to_nested_list_items(table, audio_info_list)

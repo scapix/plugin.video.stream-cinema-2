@@ -135,6 +135,7 @@ class SETTINGS:
     PROVIDER_TOKEN = 'provider.token'
     SHOW_CODEC = 'show_codec'
     SHOW_BITRATE = 'show_bitrate'
+    SHOW_DURATION = 'show_duration'
     EXPLICIT_CONTENT = 'explicit_content'
     ADVANCED_CLEAR_CACHE = 'advanced.clear_cache'
     FILE_SIZE_SORT = 'file_size_sort'
@@ -267,6 +268,7 @@ class LANG:
     INFO = 30126
     TOKEN_REFRESHED = 30127
     CORRECT_PROVIDER_CREDENTIALS = 30128
+    SHOW_DURATION = 30129
 
 
 api_genres = {
