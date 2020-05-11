@@ -8,7 +8,7 @@ class URL:
 
 class GENERAL:
     PLUGIN_ID = 'plugin.video.stream-cinema-2'
-    VERSION_CHECK_INTERVAL = timedelta(hours=1)
+    VERSION_CHECK_INTERVAL = timedelta(minutes=1)
     API_TIMEOUT = 10
 
 
