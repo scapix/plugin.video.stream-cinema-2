@@ -79,10 +79,9 @@ class DirectoryRenderer(Renderer):
         import string
         filter_type = FILTER_TYPE.STARTS_WITH
         zero_nine = get_string(LANG.ZERO_NINE)
-        zero_nine_regex = STRINGS.REGEX_BRACKETS.format(zero_nine)
-        letter_counts = self._on_a_to_z_menu(collection, filter_type, [c for c in string.ascii_uppercase] + [zero_nine_regex])
+        letter_counts = self._on_a_to_z_menu(collection, filter_type, [c for c in string.ascii_uppercase] + [zero_nine])
         with self.start_directory(self.handle):
-            DirectoryItem(title=self._a_to_z_title(get_string(LANG.ZERO_NINE), letter_counts.get(zero_nine_regex)),
+            DirectoryItem(title=self._a_to_z_title(get_string(LANG.ZERO_NINE), letter_counts.get(zero_nine)),
                           url=router_url_from_string(ROUTE.FILTER, collection, filter_type,
                                                      zero_nine))(self.handle)
             for c in string.ascii_uppercase:
