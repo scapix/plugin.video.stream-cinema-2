@@ -71,7 +71,7 @@ class StreamCinema:
     def next_page(self, collection, url):
         url = Url.unquote_plus(url)
         media = self.process_api_response(self._api.next_page(url))
-        self.render_media_list(collection, media)
+        self.render_media_list(media, collection)
 
     def filter(self, collection, filter_type, filter_value):
         self._filter_and_render(collection, filter_type, filter_value)
