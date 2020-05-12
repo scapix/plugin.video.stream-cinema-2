@@ -4,9 +4,9 @@
 import os
 import sys
 import uuid
+import xbmc
 from datetime import datetime
 import requests
-import xbmc
 from xbmcgui import DialogBusy, DialogProgress
 
 from resources.lib.api.gitlab_api import GitLabAPI
@@ -76,7 +76,6 @@ def clear_cache():
 
 @router.route(ROUTE.CHECK_PROVIDER_CREDENTIALS)
 def check_provider_credentials():
-    xbmc.executebuiltin('Container.Refresh')
     if stream_cinema.ensure_provider_token():
         InfoDialog(get_string(LANG.CORRECT_PROVIDER_CREDENTIALS), sound=True).notify()
 
@@ -120,6 +119,8 @@ def check_version():
             current_version = settings[SETTINGS.VERSION]
             if current_version != tag_name:
                 settings[SETTINGS.IS_OUTDATED] = True
+                xbmc.executebuiltin("UpdateLocalAddons")
+                xbmc.executebuiltin('UpdateAddonRepos')
                 DialogRenderer.ok(get_string(LANG.NEW_VERSION_TITLE),
                                   get_string(LANG.NEW_VERSION_TEXT).format(version=tag_name))
             else:
