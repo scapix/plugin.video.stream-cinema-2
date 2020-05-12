@@ -79,7 +79,7 @@ class MediaListRenderer(Renderer):
         stream = DialogRenderer.choose_video_stream(streams)
         if stream is None:
             # Dialog cancel.
-            # set_resolved_url(self.handle)
+            set_resolved_url(self.handle)
             return False
 
         logger.info('Got movie stream')

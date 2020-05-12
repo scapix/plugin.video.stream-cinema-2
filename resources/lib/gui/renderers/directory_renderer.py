@@ -54,7 +54,7 @@ class DirectoryRenderer(Renderer):
 
     def add_extra_items(self, collection):
         if collection == COLLECTION.MOVIES:
-            DirectoryItem(title=get_string(LANG.CSFD_TIPS), url=self._router.url_for(self.csfd_tips, collection))(
+            DirectoryItem(title=get_string(LANG.CSFD_TIPS), url=router_url_from_string(ROUTE.CSFD_TIPS, collection))(
                 self.handle)
 
     def genre_menu(self, collection):
@@ -117,17 +117,6 @@ class DirectoryRenderer(Renderer):
                     SETTINGS.A_Z_THRESHOLD) else self._url_for(self.a_to_z_submenu,
                                                                collection, letters)
                 DirectoryItem(title=self._a_to_z_title(letters, count), url=url)(self.handle)
-
-    def csfd_tips(self, collection):
-        logger.debug('CSFD tips search opened')
-        with self.start_directory(self.handle, as_type=collection):
-            for tip in get_csfd_tips():
-                name = tip[0][:-7]
-                name_quoted = tip[0][:-7].replace(' ', '%20')
-                year = tip[0][-7:]
-                tip_joined = name + year + ' [' + tip[1] + ']'
-                DirectoryItem(title=tip_joined,
-                              url=router_url_from_string(ROUTE.SEARCH_CSFD_ITEM, collection, name_quoted))(self.handle)
 
     # Cannot be more than 1 dir deep due to path history reset
     def search(self, collection):
