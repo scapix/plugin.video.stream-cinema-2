@@ -4,6 +4,7 @@
 import os
 import sys
 import uuid
+import xbmc
 from datetime import datetime
 import requests
 from xbmcgui import DialogBusy, DialogProgress
@@ -105,6 +106,8 @@ def check_version():
             current_version = get_settings(SETTINGS.VERSION)
             if current_version != tag_name:
                 set_settings(SETTINGS.IS_OUTDATED, True)
+                xbmc.executebuiltin("UpdateLocalAddons")
+                xbmc.executebuiltin('UpdateAddonRepos')
                 DialogRenderer.ok(get_string(LANG.NEW_VERSION_TITLE),
                                   get_string(LANG.NEW_VERSION_TEXT).format(version=tag_name))
             else:
