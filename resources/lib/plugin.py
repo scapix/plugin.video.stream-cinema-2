@@ -77,8 +77,8 @@ def check_provider_credentials():
 
 @router.route(ROUTE.REFRESH_PROVIDER_TOKEN)
 def refresh_provider_token():
-    stream_cinema.ensure_provider_token()
-    DialogRenderer.ok(get_string(LANG.INFO), get_string(LANG.TOKEN_REFRESHED))
+    if stream_cinema.ensure_provider_token():
+        DialogRenderer.ok(get_string(LANG.INFO), get_string(LANG.TOKEN_REFRESHED))
 
 
 def on_clear_cache_redirect():
