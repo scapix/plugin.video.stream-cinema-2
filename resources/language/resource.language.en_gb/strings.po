@@ -408,3 +408,7 @@ msgstr ""
 msgctxt "#30128"
 msgid "Login was successful"
 msgstr ""
+
+msgctxt "#30130"
+msgid "Webshare VIP remaining days:"
+msgstr ""
