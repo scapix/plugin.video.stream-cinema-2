@@ -1,29 +1,22 @@
 """
     # Main routing to go through different menu screens. 
 """
-import os
 import sys
 import uuid
-import xbmc
 from datetime import datetime
-import requests
-from xbmcgui import DialogBusy, DialogProgress
-
 from resources.lib.api.gitlab_api import GitLabAPI
 from resources.lib.const import SETTINGS, RENDERER, LANG, STORAGE, ROUTE, GENERAL, STRINGS
 from resources.lib.defaults import Defaults
 from resources.lib.gui import InfoDialog
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
-from resources.lib.gui.text_renderer import TextRenderer
 from resources.lib.kodilogging import logger, setup_root_logger
 from resources.lib.plugin_url_history import PluginUrlHistory
-from resources.lib.providers.webshare import plugin
 from resources.lib.settings import settings
 from resources.lib.storage.storage import storage
 from resources.lib.stream_cinema import StreamCinema
-from resources.lib.utils.kodiutils import get_plugin_url, get_string, get_settings, \
-    set_settings, get_current_datetime_str, get_setting_as_datetime, datetime_from_iso, get_info, apply_strings, \
-    time_limit_expired
+from resources.lib.utils.kodiutils import get_plugin_url, get_string, set_settings, get_current_datetime_str, \
+    datetime_from_iso, get_info, apply_strings, \
+    time_limit_expired, clear_kodi_addon_cache
 
 provider = Defaults.provider()
 api = Defaults.api_cached()
@@ -119,8 +112,7 @@ def check_version():
             current_version = settings[SETTINGS.VERSION]
             if current_version != tag_name:
                 settings[SETTINGS.IS_OUTDATED] = True
-                xbmc.executebuiltin("UpdateLocalAddons")
-                xbmc.executebuiltin('UpdateAddonRepos')
+                clear_kodi_addon_cache()
                 DialogRenderer.ok(get_string(LANG.NEW_VERSION_TITLE),
                                   get_string(LANG.NEW_VERSION_TEXT).format(version=tag_name))
             else:

@@ -249,6 +249,11 @@ def time_limit_expired(settings, limit):
         return True
     return current_datetime - limit > last_version_check
 
+
+def clear_kodi_addon_cache():
+    xbmc.executebuiltin("UpdateLocalAddons")
+    xbmc.executebuiltin('UpdateAddonRepos')
+
 # def kodi_json_request(params):
 #     data = json.dumps(params)
 #     request = xbmc.executeJSONRPC(data)
