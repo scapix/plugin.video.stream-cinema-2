@@ -343,7 +343,7 @@ msgstr "Nic nenalezeno"
 
 msgctxt "#30303"
 msgid "Found {number} records"
-msgstr "Nalezeno {number} záznamů""
+msgstr "Nalezeno {number} záznamů"
 
 msgctxt "#30304"
 msgid "This account doesn't have active VIP"
@@ -396,3 +396,7 @@ msgstr "Token byl úspěšně obnoven"
 msgctxt "#30128"
 msgid "Login successful"
 msgstr "Přihlášení úspěšné"
+
+msgctxt "#30130"
+msgid "Webshare VIP remaining days:"
+msgstr "Webshare VIP zbývající dny:"

@@ -43,6 +43,7 @@ def run():
     set_settings(SETTINGS.VERSION, get_info('version'))
     logger.debug('Entry point ------- ' + str(sys.argv))
     credentials_check()
+    stream_cinema.vip_remains()
     check_version()
     plugin_url_history.add(get_plugin_url())
     return router.run()
