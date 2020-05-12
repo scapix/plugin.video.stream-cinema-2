@@ -432,3 +432,7 @@ msgstr ""
 msgctxt "#30134"
 msgid "Change credentials"
 msgstr ""
+
+msgctxt "#30309"
+msgid "TV tips of the day (by CSFD)"
+msgstr ""

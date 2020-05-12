@@ -12,6 +12,7 @@ from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
 from resources.lib.utils.kodiutils import show_settings, router_url_from_string, get_string
 from resources.lib.utils.url import Url
+from resources.lib.utils.csfd_tips import get_csfd_tips
 
 
 class DirectoryRenderer(Renderer):
@@ -48,6 +49,11 @@ class DirectoryRenderer(Renderer):
             DirectoryItem(title=get_string(LANG.POPULAR), url=router_url_from_string(ROUTE.POPULAR, collection))(self.handle)
             DirectoryItem(title=get_string(LANG.A_Z), url=self._url_for(self.a_to_z_menu, collection))(self.handle)
             DirectoryItem(title=get_string(LANG.GENRE), url=self._url_for(self.genre_menu, collection))(self.handle)
+            self.add_extra_items(collection)
+
+    def add_extra_items(self, collection):
+        if collection == COLLECTION.MOVIES:
+            DirectoryItem(title=get_string(LANG.CSFD_TIPS), url=self._router.url_for(self.csfd_tips, collection))(self.handle)
 
     def genre_menu(self, collection):
         genres = [LANG.ACTION, LANG.ANIMATED, LANG.ADVENTURE, LANG.DOCUMENTARY, LANG.DRAMA,
@@ -107,6 +113,21 @@ class DirectoryRenderer(Renderer):
                                              letters) if count <= settings.as_int(SETTINGS.A_Z_THRESHOLD) else self._url_for(self.a_to_z_submenu,
                                                                                        collection, letters)
                 DirectoryItem(title=self._a_to_z_title(letters, count), url=url)(self.handle)
+
+    def csfd_tips(self, collection):
+        logger.debug('CSFD tips search opened')
+        with self.start_directory(self.handle):
+            for tip in get_csfd_tips():
+                name = tip[0][:-7]
+                name_quoted = tip[0][:-7].replace(' ', '%20')  # W/A to bypass quote_plus as it can't parse certain uni chars
+                year = tip[0][-7:]
+                tip_joined = name + year + ' [' + tip[1] + ']'
+                DirectoryItem(title=tip_joined,
+                              url=self._url_for(self.search_for_csfd_tips, collection, name_quoted))(self.handle)
+
+    def search_for_csfd_tips(self, collection, item):
+        self._router.go_to_route(ROUTE.SEARCH_RESULT, collection, item)
+        # BUG stays in a loop if no items are returned from search
 
     # Cannot be more than 1 dir deep due to path history reset
     def search(self, collection):

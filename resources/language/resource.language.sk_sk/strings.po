@@ -416,3 +416,7 @@ msgstr "Neaktívne"
 msgctxt "#30134"
 msgid "Change credentials"
 msgstr "Zmeniť prihlasovacie údaje"
+
+msgctxt "#30309"
+msgid "TV tips of the day (by CSFD)"
+msgstr "Dnešné TV tipy (od ČSFD)"

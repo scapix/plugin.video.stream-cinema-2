@@ -56,6 +56,8 @@ class StreamCinema:
         router.add_route(self.filter, ROUTE.FILTER)
         router.add_route(self.popular_media, ROUTE.POPULAR)
         router.add_route(self.watched, ROUTE.WATCHED)
+        router.add_route(directory_renderer.csfd_tips, ROUTE.CSFD_TIPS)
+        router.add_route(directory_renderer.search_for_csfd_tips, ROUTE.SEARCH_FOR_CSFD_TIPS)
 
     @property
     def router(self):

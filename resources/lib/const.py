@@ -85,6 +85,8 @@ class ROUTE:
     CHECK_PROVIDER_CREDENTIALS = '/check-provider-credentials'
     REFRESH_PROVIDER_TOKEN = '/refresh-provider-token'
     SET_PROVIDER_CREDENTIALS = '/set-provider-credentials'
+    CSFD_TIPS = '/csfd_tips/<collection>'
+    SEARCH_FOR_CSFD_TIPS = '/search_for_csfd_tip/<collection>/<item>'
 
 
 class GITLAB_ENDPOINT:
@@ -277,6 +279,7 @@ class LANG:
     VIP_REMAINS = 30130
     DAYS = 30132
     NOT_ACTIVE = 30133
+    CSFD_TIPS = 30309
 
 
 api_genres = {
