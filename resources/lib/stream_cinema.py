@@ -1,14 +1,16 @@
 """
     Main GUI.
 """
+from datetime import datetime
 
 import requests
 import xbmcgui
 import xbmcplugin
 
-from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, explicit_genres, STORAGE, SERVICE_EVENT, LANG, \
-    SERVICE, MEDIA_TYPE, COLLECTION, PROVIDER
+from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, STORAGE, SERVICE_EVENT, LANG, \
+    SERVICE, MEDIA_TYPE, COLLECTION, STRINGS, GENERAL
 from resources.lib.gui import InfoDialog, InfoDialogType, MediaItem, TvShowItem
+from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
 from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
 from resources.lib.gui.renderers.movie_list_renderer import MovieListRenderer
@@ -16,7 +18,7 @@ from resources.lib.gui.renderers.tv_show_list_renderer import TvShowListRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
 from resources.lib.storage.storage import storage
-from resources.lib.utils.kodiutils import get_string
+from resources.lib.utils.kodiutils import get_string, time_limit_expired
 from resources.lib.utils.url import Url
 
 
@@ -120,7 +122,7 @@ class StreamCinema:
             logger.error(e)
             return None
 
-    def _check_provider(self):
+    def _check_provider_settings(self):
         if self._provider.username == '' or self._provider.password == '':
             InfoDialog(get_string(LANG.MISSING_PROVIDER_CREDENTIALS), sound=True).notify()
             settings.show()
@@ -139,27 +141,42 @@ class StreamCinema:
         return False
 
     def _check_vip(self, user_data):
-        if not self._provider.is_vip(user_data):
+        is_vip = self._provider.is_vip(user_data)
+        if not is_vip:
             InfoDialog(get_string(LANG.ACTIVATE_VIP), sound=True).notify()
-            return False
-        return True
+            vip_string = get_string(LANG.NOT_ACTIVE)
+        else:
+            vip_string = STRINGS.VIP_INFO.format(self._provider.vip_until(user_data),
+                                                 get_string(LANG.DAYS),
+                                                 self._provider.vip_remains(user_data))
+        settings[SETTINGS.VIP_DURATION] = vip_string
+        return is_vip
 
     def vip_remains(self):
-        self.ensure_provider_token()
-        user_data = self._provider.get_user_data()
-        days_to = self._provider.vip_remains(user_data)
-        if days_to < PROVIDER.VIP_REMAINING_WARN:
-            DialogRenderer.ok(get_string(LANG.VIP_REMAINS), str(days_to))
+        if time_limit_expired(SETTINGS.LAST_VIP_CHECK, GENERAL.VIP_CHECK_INTERVAL):
+            settings[SETTINGS.LAST_VIP_CHECK] = datetime.now()
+            valid_token, user_data = self._check_token_and_return_user_data()
+            if valid_token:
+                if self._check_vip(user_data):
+                    days_to = self._provider.vip_remains(user_data)
+                    if days_to < GENERAL.VIP_REMAINING_WARN:
+                        DialogRenderer.ok(get_string(LANG.VIP_REMAINS).format(provider=self._provider),
+                                          STRINGS.PAIR_BOLD.format(get_string(LANG.DAYS), str(days_to)))
+
+    def _check_token_and_return_user_data(self):
+        if self._check_provider_settings():
+            user_data = self._provider.get_user_data()
+            if not self._provider.is_valid_token(user_data):
+                return self.ensure_provider_token(), self._provider.get_user_data()
+            return True, user_data
+        return False, None
 
     def _check_account(self):
-        user_data = self._provider.get_user_data()
-        if not self._provider.is_valid_token(user_data):
-            if self._check_provider():
-                if self.ensure_provider_token():
-                    logger.debug('Provider token is valid')
-                    return self._check_vip(self._provider.get_user_data())
-            return False
-        return self._check_vip(self._provider.get_user_data())
+        valid_token, user_data = self._check_token_and_return_user_data()
+        if valid_token:
+            logger.debug('Provider token is valid')
+            return self._check_vip(user_data)
+        return False
 
     def play_stream(self, ident):
         logger.debug('Trying to play stream')

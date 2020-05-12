@@ -15,11 +15,15 @@
     </category>
     <category label="30011">
         <setting id="provider.name" type="select" label="30103" lvalues="30104" />
-        <setting label="30101" id="provider.username" type="text" default="" />
-        <setting label="30102" id="provider.password" type="text" default="" option="hidden" />
+        <setting label="30101" id="provider.username" type="text" default="" enable="false"  />
+        <setting label="30102" id="provider.password" type="text" default="" option="hidden" enable="false"  />
+        <setting label="30134" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/set-provider-credentials)"/>
         <setting label="30122" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/check-provider-credentials)"/>
+        <setting label="30000" type="text" enable="false" default="" />
+        <setting label="30131" id="provider.vip_duration" type="text" enable="false" />
         <setting label="30121" id="provider.token" type="text" default="" option="hidden" enable="false" />
         <setting label="30125" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/refresh-provider-token)"/>
+        <setting id="last_vip_check" type="date" visible="false" enable="false"/>
     </category>
     <category label="30012">
         <setting id="version" label="30015" type="text" enable="false" />

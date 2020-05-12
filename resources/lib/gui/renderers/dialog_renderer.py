@@ -48,8 +48,8 @@ class DialogRenderer:
         return streams[ret]
 
     @staticmethod
-    def keyboard(title):
-        keyboard = xbmc.Keyboard('', title)
+    def keyboard(title, *args, **kwargs):
+        keyboard = xbmc.Keyboard('', title, *args, **kwargs)
         keyboard.doModal()
         if keyboard.isConfirmed():
             search_entered = keyboard.getText()

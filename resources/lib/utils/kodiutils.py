@@ -241,6 +241,14 @@ def apply_strings(text, *args):
         res = res.format(string)
     return res.format(*text)
 
+
+def time_limit_expired(settings, limit):
+    last_version_check = get_setting_as_datetime(settings)
+    current_datetime = datetime.now()
+    if last_version_check is None:
+        return True
+    return current_datetime - limit > last_version_check
+
 # def kodi_json_request(params):
 #     data = json.dumps(params)
 #     request = xbmc.executeJSONRPC(data)

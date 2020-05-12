@@ -17,6 +17,10 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+msgctxt "#30000"
+msgid ""
+msgstr ""
+
 msgctxt "#30010"
 msgid "General"
 msgstr ""
@@ -410,5 +414,21 @@ msgid "Login was successful"
 msgstr ""
 
 msgctxt "#30130"
-msgid "Webshare VIP remaining days:"
+msgid "Remaining days of {provider} VIP"
+msgstr ""
+
+msgctxt "#30131"
+msgid "VIP"
+msgstr ""
+
+msgctxt "#30132"
+msgid "Days"
+msgstr ""
+
+msgctxt "#30133"
+msgid "Not active"
+msgstr ""
+
+msgctxt "#30134"
+msgid "Change credentials"
 msgstr ""

@@ -8,8 +8,10 @@ class URL:
 
 class GENERAL:
     PLUGIN_ID = 'plugin.video.stream-cinema-2'
-    VERSION_CHECK_INTERVAL = timedelta(minutes=10)
+    VERSION_CHECK_INTERVAL = timedelta(minutes=2)
     API_TIMEOUT = 10
+    VIP_REMAINING_WARN = 700
+    VIP_CHECK_INTERVAL = timedelta(days=1)
 
 
 class FILTER_TYPE:
@@ -58,10 +60,6 @@ class REGEX:
     ROUTER_PARAMS = r"<.*?>"
 
 
-class PROVIDER:
-    VIP_REMAINING_WARN = 7
-
-
 class ROUTE:
     ROOT = '/'
     A_TO_Z = '/a_to_z/<collection>'
@@ -86,6 +84,7 @@ class ROUTE:
     WATCHED = '/watched'
     CHECK_PROVIDER_CREDENTIALS = '/check-provider-credentials'
     REFRESH_PROVIDER_TOKEN = '/refresh-provider-token'
+    SET_PROVIDER_CREDENTIALS = '/set-provider-credentials'
 
 
 class GITLAB_ENDPOINT:
@@ -105,8 +104,7 @@ class STORAGE:
     SELECTED_MEDIA_ID = 'selected_media_id'
     SERVICE = 'service'
     CLEARED_CACHE = 'cleared_cache'
-    PROVIDER_USERNAME = 'provider_username'
-    PROVIDER_PASSWORD = 'provider_password'
+    IS_OLD_KODI_SESSION = 'is_new_kodi_session'
 
 
 class SERVICE:
@@ -148,6 +146,8 @@ class SETTINGS:
     LAST_VERSION_AVAILABLE = 'last_version_available'
     A_Z_THRESHOLD = 'a_z_threshold'
     IS_OUTDATED = 'is_outdated'
+    VIP_DURATION = 'provider.vip_duration'
+    LAST_VIP_CHECK = 'last_vip_check'
 
 
 class STRINGS:
@@ -168,6 +168,7 @@ class STRINGS:
     PAIR = '{}: {}'
     PAIR_BOLD = BOLD + ': {}'
     EPISODE_TITLE = '{} - S{}E{}'
+    VIP_INFO = '{} ({}: {})'
 
 
 class CODEC:
@@ -274,6 +275,8 @@ class LANG:
     CORRECT_PROVIDER_CREDENTIALS = 30128
     SHOW_DURATION = 30129
     VIP_REMAINS = 30130
+    DAYS = 30132
+    NOT_ACTIVE = 30133
 
 
 api_genres = {

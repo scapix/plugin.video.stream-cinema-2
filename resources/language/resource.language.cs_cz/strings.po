@@ -362,8 +362,8 @@ msgid "New version available!"
 msgstr "Nová verze je k dispozici!"
 
 msgctxt "#30308"
-msgid "Please download latest plugin release [COLOR green]{version}[/COLOR] from our website [COLOR blue]sc2.zone[/COLOR]."
-msgstr "Stáhněte si nejnovější verzi pluginu [COLOR green]{version}[/COLOR] z našeho webu [COLOR blue]sc2.zone[/COLOR]."
+msgid "Please download latest plugin release [COLOR green]{version}[/COLOR] from the reposiroty or from our website [COLOR blue]sc2.zone[/COLOR]."
+msgstr "Stáhněte si nejnovější verzi pluginu [COLOR green]{version}[/COLOR] z repozitáře nebo z našeho webu [COLOR blue]sc2.zone[/COLOR]."
 
 msgctxt "#30121"
 msgid "Token"
@@ -398,5 +398,21 @@ msgid "Login successful"
 msgstr "Přihlášení úspěšné"
 
 msgctxt "#30130"
-msgid "Webshare VIP remaining days:"
-msgstr "Webshare VIP zbývající dny:"
+msgid "Remaining days of {provider} VIP"
+msgstr "Zbývající dny {provider} VIP"
+
+msgctxt "#30131"
+msgid "VIP"
+msgstr "VIP"
+
+msgctxt "#30132"
+msgid "Days"
+msgstr "Dny"
+
+msgctxt "#30133"
+msgid "Not active"
+msgstr "Neaktivní"
+
+msgctxt "#30134"
+msgid "Change credentials"
+msgstr "Změnit přihlašovací údaje"

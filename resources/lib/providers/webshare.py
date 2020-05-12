@@ -134,6 +134,9 @@ class Webshare:
         logger.debug('VIP days remaining: %s', vip_days)
         return int(vip_days)
 
+    def vip_until(self, user_data):
+        return self._find(user_data, 'vip_until')
+
     def is_valid_token(self, user_data):
         return self._find(user_data, 'status') == 'OK'
 

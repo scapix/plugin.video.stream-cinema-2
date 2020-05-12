@@ -1,3 +1,5 @@
+from functools import partial
+
 from simpleplugin import MemStorage
 from resources.lib.kodilogging import logger
 from resources.lib.utils.kodiutils import get_info
@@ -32,6 +34,9 @@ class Storage:
         except:
             self[key] = {}
             return self[key]
+
+    def dynamic(self, key):
+        return partial(self.get, key)
 
 
 storage = Storage()
