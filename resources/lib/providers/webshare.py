@@ -2,8 +2,6 @@
     Webshare link resolver.
 """
 
-from __future__ import print_function
-
 import hashlib
 import xml.etree.ElementTree as ET
 

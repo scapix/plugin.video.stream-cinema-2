@@ -9,7 +9,7 @@ def get_csfd_tips():
     headers = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
     }
-
+    # TODO: OBRAZKY A POPIS
     result = requests.get(data_url, headers=headers)
     soup = BeautifulSoup(result.content, 'html.parser')
     main = soup.find_all('ul', class_="content ui-image-list" )

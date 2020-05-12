@@ -86,7 +86,7 @@ class ROUTE:
     REFRESH_PROVIDER_TOKEN = '/refresh-provider-token'
     SET_PROVIDER_CREDENTIALS = '/set-provider-credentials'
     CSFD_TIPS = '/csfd_tips/<collection>'
-    SEARCH_FOR_CSFD_TIPS = '/search_for_csfd_tip/<collection>/<item>'
+    SEARCH_CSFD_ITEM = '/csfd_search/<collection>/<search_value>'
 
 
 class GITLAB_ENDPOINT:

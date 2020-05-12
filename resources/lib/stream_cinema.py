@@ -57,7 +57,7 @@ class StreamCinema:
         router.add_route(self.popular_media, ROUTE.POPULAR)
         router.add_route(self.watched, ROUTE.WATCHED)
         router.add_route(directory_renderer.csfd_tips, ROUTE.CSFD_TIPS)
-        router.add_route(directory_renderer.search_for_csfd_tips, ROUTE.SEARCH_FOR_CSFD_TIPS)
+        router.add_route(self.search_for_csfd_item, ROUTE.SEARCH_CSFD_ITEM)
 
     @property
     def router(self):
@@ -113,6 +113,17 @@ class StreamCinema:
             return
         json = response.json()
         return json
+
+    def search_for_csfd_item(self, collection, search_value):
+        media_list = self.filter_media(collection, FILTER_TYPE.TITLE_OR_ACTOR, search_value).get('data')
+        num_media = len(media_list)
+        if num_media == 1:
+            media_id = media_list.pop().get('_id')
+            streams = self.get_media_detail(collection, media_id).get('streams')
+            self.renderers[RENDERER.MOVIES].select_stream(media_id, streams)
+        elif num_media == 0:
+            InfoDialog(get_string(30303).format(number=str(num_media))).notify()
+
 
     @staticmethod
     def api_response_handler(response):
@@ -220,23 +231,3 @@ class StreamCinema:
                     RENDERER.MOVIES].url_builder(media, COLLECTION.MOVIES)).build())
         with DirectoryRenderer.start_directory(self.router.handle, as_type=COLLECTION.MOVIES):
             xbmcplugin.addDirectoryItems(self.router.handle, media_list_gui)
-
-    def SIGNIN(self):
-        dialog = xbmcgui.Dialog()
-        # if dialog.yesno("%s"%(addon_name), 'Do you Wish To Sign In','', "",'Dont Have An Account','Sign In'):
-        #     email=Search('username')
-        #     ADDON.setSetting('username',email)
-        #     password=Search('Password')
-        #     ADDON.setSetting('password',password)
-        #     logincheck=urllib.urlopen('%s/logincheck.php?username=%s&password=%s'%(BASE,email,password)).read()
-        #     if logincheck == "wrong":
-        #         dialog.ok("Error", "Wrong Username And Password")
-        #         return
-        #     if logincheck == "correct":
-        #         fullname=urllib.urlopen('%s/username.php?username=%s'%(BASE,email)).read()
-        #         dialog.ok("Login Successful !", " Thank You For Login In %s Enjoy The VIP Channels"%(fullname))
-        #         ADDON.setSetting('login','true')
-        #         xbmc.executebuiltin('Container.Refresh')
-        # else:
-        #     dialog.ok("Get An Account", "Head Over To http://mykodi.co.uk And Sign Up ")
-        #     return
