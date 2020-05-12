@@ -188,7 +188,7 @@ class StreamCinema:
             media_type = media.get('info_labels').get('mediatype')
             if media_type == MEDIA_TYPE.TV_SHOW:
                 media_list_gui.append(MediaListRenderer.build_media_item_gui(TvShowItem, media, self.renderers[
-                    RENDERER.TV_SHOWS].url_builder, COLLECTION.TV_SHOWS).build())
+                    RENDERER.TV_SHOWS].url_builder(media, COLLECTION.TV_SHOWS)).build())
             elif media_type == MEDIA_TYPE.MOVIE:
                 media_list_gui.append(MovieListRenderer.build_media_item_gui(MediaItem, media, self.renderers[
                     RENDERER.MOVIES].url_builder(media, COLLECTION.MOVIES)).build())
