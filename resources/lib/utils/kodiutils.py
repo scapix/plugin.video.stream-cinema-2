@@ -172,7 +172,7 @@ def get_screen_height():
 
 
 def convert_size(size_bytes):
-    if size_bytes == 0:
+    if size_bytes == 0 or size_bytes is None:
         return "0 B"
     size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
     i = int(math.floor(math.log(size_bytes, 1024)))
@@ -182,16 +182,17 @@ def convert_size(size_bytes):
 
 
 def convert_bitrate(mbit):
-    if mbit == 0:
+    if mbit == 0 or mbit is None:
         return "0 Mbit/s"
-    i = int(math.floor(math.log(mbit, 1024)))
-    p = math.pow(1024, i)
+    p = math.pow(1024, 2)
     s = round(mbit / p, 2)
     return "%s %s" % (s, "Mbit/s")
 
 
 def make_table(matrix):
     matrix_length = len(matrix)
+    if matrix_length == 0:
+        return matrix
     for i in range(len(matrix[0])):
         longest = len(matrix[0][i])
         for r in range(matrix_length):

@@ -16,6 +16,7 @@ from resources.lib.vendor.md5crypt import md5crypt
 
 plugin = Plugin()
 
+
 class Webshare:
     def __init__(self, username, password, token=None):
         self._username = username
@@ -94,7 +95,7 @@ class Webshare:
         Content-Type: application/x-www-form-urlencoded
         """
         salt = self._get_salt()
-        if salt is not None:
+        if salt:
             hashed = self._hash_password(self.password, salt)
 
             response = self._post('/login/', data={
@@ -108,7 +109,7 @@ class Webshare:
 
     def get_user_data(self):
         """
-        POST /api/salt/ HTTP/1.1
+        POST /api/user_data/ HTTP/1.1
         Accept-Encoding: identity
         Host: webshare.cz
         Referer: https://webshare.cz/
@@ -120,9 +121,7 @@ class Webshare:
         return self._parse(response)
 
     def is_vip(self, user_data):
-
-        vip = self._find(user_data, 'vip')
-        return vip == '1'
+        return self._find(user_data, 'vip') == '1'
 
     def vip_remains(self, user_data):
         vip_days = self._find(user_data, 'vip_days')
@@ -141,12 +140,8 @@ class Webshare:
 
     @staticmethod
     def _find(xml, key):
-        try:
-            return xml.find(key).text
-        except AttributeError:
-            pass
-
-
+        """Find text for element. If element is not found empty string is returned"""
+        return xml.findtext(key, '')
 
     @classmethod
     def _hash_password(cls, password, salt):
