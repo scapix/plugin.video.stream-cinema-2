@@ -82,10 +82,7 @@ class Webshare:
         response = self._post('/salt/', data={'username_or_email': self.username})
         root = self._parse(response)
         logger.debug('Getting user salt from provider')
-        try:
-            return self._find(root, 'salt')
-        except AttributeError:
-            pass
+        return self._find(root, 'salt')
 
     def get_token(self):
         """
@@ -106,14 +103,11 @@ class Webshare:
             })
             root = self._parse(response)
             logger.debug('Getting user token from provider')
-            try:
-                return self._find(root, 'token')
-            except AttributeError:
-                pass
+            return self._find(root, 'token')
 
     def get_user_data(self):
         """
-        POST /api/salt/ HTTP/1.1
+        POST /api/user_data/ HTTP/1.1
         Accept-Encoding: identity
         Host: webshare.cz
         Referer: https://webshare.cz/
@@ -124,8 +118,7 @@ class Webshare:
         return self._parse(response)
 
     def is_vip(self, user_data):
-        vip = self._find(user_data, 'vip')
-        return vip == '1'
+        return self._find(user_data, 'vip') == '1'
 
     def vip_remains(self, user_data):
         vip_days = self._find(user_data, 'vip_days')
@@ -144,9 +137,8 @@ class Webshare:
 
     @staticmethod
     def _find(xml, key):
-        return xml.find(key).text
-
-
+        """Find text for element. If element is not found empty string is returned"""
+        return xml.findtext(key, '')
 
     @classmethod
     def _hash_password(cls, password, salt):
