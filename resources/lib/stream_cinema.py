@@ -4,12 +4,11 @@
 from datetime import datetime
 
 import requests
-import xbmcgui
 import xbmcplugin
 
 from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, STORAGE, SERVICE_EVENT, LANG, \
     SERVICE, MEDIA_TYPE, COLLECTION, STRINGS, GENERAL
-from resources.lib.gui import InfoDialog, InfoDialogType, MediaItem, TvShowItem
+from resources.lib.gui import InfoDialog, InfoDialogType, MediaItem, TvShowMenuItem
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
 from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
@@ -115,7 +114,7 @@ class StreamCinema:
         return json
 
     def search_for_csfd_item(self, collection, search_value):
-        media_list = self.filter_media(collection, FILTER_TYPE.TITLE_OR_ACTOR, Url.unquote_plus(search_value.decode('utf8'))).get('data')
+        media_list = self.filter_media(collection, FILTER_TYPE.EXACT_TITLE, search_value).get('data')
         num_media = len(media_list)
         if num_media == 1:
             media_id = media_list.pop().get('_id')
@@ -230,7 +229,7 @@ class StreamCinema:
         for media in media_list.get('data'):
             media_type = media.get('info_labels').get('mediatype')
             if media_type == MEDIA_TYPE.TV_SHOW:
-                media_list_gui.append(MediaListRenderer.build_media_item_gui(TvShowItem, media, self.renderers[
+                media_list_gui.append(MediaListRenderer.build_media_item_gui(TvShowMenuItem, media, self.renderers[
                     RENDERER.TV_SHOWS].url_builder(media, COLLECTION.TV_SHOWS)).build())
             elif media_type == MEDIA_TYPE.MOVIE:
                 media_list_gui.append(MovieListRenderer.build_media_item_gui(MediaItem, media, self.renderers[

@@ -19,6 +19,7 @@ class FILTER_TYPE:
     STARTS_WITH_LETTER = 'startsWithL'
     STARTS_WITH = 'startsWith'
     GENRE = 'genre'
+    EXACT_TITLE = 'exactTitle'
 
 
 class MEDIA_TYPE:

@@ -55,8 +55,9 @@ def first_run():
 
     if settings[SETTINGS.PROVIDER_USERNAME] == '':
         settings[SETTINGS.PROVIDER_TOKEN] = ''
-        if get_plugin_route() != ROUTE.CHECK_PROVIDER_CREDENTIALS:
-            settings.load_to_cache(SETTINGS.PROVIDER_USERNAME, SETTINGS.PROVIDER_PASSWORD, SETTINGS.PROVIDER_TOKEN)
+
+    if get_plugin_route() != ROUTE.CHECK_PROVIDER_CREDENTIALS:
+        settings.load_to_cache(SETTINGS.PROVIDER_USERNAME, SETTINGS.PROVIDER_PASSWORD, SETTINGS.PROVIDER_TOKEN)
 
     if not storage.get(STORAGE.IS_OLD_KODI_SESSION):
         storage[STORAGE.IS_OLD_KODI_SESSION] = True
