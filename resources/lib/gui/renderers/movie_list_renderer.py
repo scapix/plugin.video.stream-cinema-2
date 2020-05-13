@@ -5,6 +5,7 @@ from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.utils.csfd_tips import get_csfd_tips
 from resources.lib.utils.kodiutils import router_url_from_string
+from resources.lib.utils.url import Url
 
 
 class MovieListRenderer(MediaListRenderer):
@@ -39,4 +40,4 @@ class MovieListRenderer(MediaListRenderer):
                     'year': int(year[2:-1])
                 }
                 MediaItem(title=tip_joined,
-                          url=router_url_from_string(ROUTE.SEARCH_CSFD_ITEM, collection, name_quoted), info_labels=info_labels)(self.handle)
+                          url=router_url_from_string(ROUTE.SEARCH_CSFD_ITEM, collection, Url.quote_plus(name_quoted.encode('utf8'))), info_labels=info_labels)(self.handle)

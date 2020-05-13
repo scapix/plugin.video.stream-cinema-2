@@ -12,6 +12,7 @@
         <setting label="30118" type="lsep"/>
         <setting id="a_z_threshold" type="number" label="30119" default="10"/>
         <setting id="page_limit" type="number" label="30120" default="250"/>
+        <setting id="show_results_count" type="bool" label="30135" default="true"/>
     </category>
     <category label="30011">
         <setting id="provider.name" type="select" label="30103" lvalues="30104" />

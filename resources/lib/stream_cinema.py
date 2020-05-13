@@ -92,7 +92,7 @@ class StreamCinema:
             else:
                 if not settings.as_bool(SETTINGS.EXPLICIT_CONTENT):
                     MediaListRenderer.explicit_filter(media_list)
-                if not MediaListRenderer.is_same_list(self.router):
+                if not MediaListRenderer.is_same_list(self.router) and settings.as_bool(SETTINGS.SHOW_RESULTS_COUNT):
                     InfoDialog(get_string(30303).format(number=str(num_media))).notify()
                 return callback(media_list, *args)
 
@@ -115,7 +115,7 @@ class StreamCinema:
         return json
 
     def search_for_csfd_item(self, collection, search_value):
-        media_list = self.filter_media(collection, FILTER_TYPE.TITLE_OR_ACTOR, search_value).get('data')
+        media_list = self.filter_media(collection, FILTER_TYPE.TITLE_OR_ACTOR, Url.unquote_plus(search_value.decode('utf8'))).get('data')
         num_media = len(media_list)
         if num_media == 1:
             media_id = media_list.pop().get('_id')
@@ -123,7 +123,6 @@ class StreamCinema:
             self.renderers[RENDERER.MOVIES].select_stream(media_id, streams)
         elif num_media == 0:
             InfoDialog(get_string(30303).format(number=str(num_media))).notify()
-
 
     @staticmethod
     def api_response_handler(response):
@@ -148,17 +147,20 @@ class StreamCinema:
     def ensure_provider_token(self):
         token = self._provider.get_token()
         if token:
-            settings[SETTINGS.PROVIDER_TOKEN] = token
+            settings.set_cache(SETTINGS.PROVIDER_TOKEN, token)
             return True
         InfoDialog(get_string(LANG.INCORRECT_PROVIDER_CREDENTIALS), sound=True).notify()
         return False
 
     def _check_vip(self, user_data):
+        logger.debug('Checking VIP')
         is_vip = self._provider.is_vip(user_data)
         if not is_vip:
+            logger.debug('VIP is not active')
             InfoDialog(get_string(LANG.ACTIVATE_VIP), sound=True).notify()
             vip_string = get_string(LANG.NOT_ACTIVE)
         else:
+            logger.debug('VIP is active')
             vip_string = STRINGS.VIP_INFO.format(self._provider.vip_until(user_data),
                                                  get_string(LANG.DAYS),
                                                  self._provider.vip_remains(user_data))
@@ -177,14 +179,18 @@ class StreamCinema:
                                           STRINGS.PAIR_BOLD.format(get_string(LANG.DAYS), str(days_to)))
 
     def _check_token_and_return_user_data(self):
+        logger.debug('Checking token and returning user data.')
         if self._check_provider_settings():
             user_data = self._provider.get_user_data()
             if not self._provider.is_valid_token(user_data):
+                logger.debug('Token is not valid. Getting new one and then new user data.')
                 return self.ensure_provider_token(), self._provider.get_user_data()
+            logger.debug('Token is valid.')
             return True, user_data
         return False, None
 
     def _check_account(self):
+        logger.debug('Checking account.')
         valid_token, user_data = self._check_token_and_return_user_data()
         if valid_token:
             logger.debug('Provider token is valid')
@@ -192,7 +198,7 @@ class StreamCinema:
         return False
 
     def play_stream(self, ident):
-        logger.debug('Trying to play stream')
+        logger.debug('Trying to play stream.')
         if self._check_account():
 
             stream_url = self._provider.get_link_for_file_with_id(ident)

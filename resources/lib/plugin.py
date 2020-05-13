@@ -16,7 +16,7 @@ from resources.lib.storage.storage import storage
 from resources.lib.stream_cinema import StreamCinema
 from resources.lib.utils.kodiutils import get_plugin_url, get_string, set_settings, get_current_datetime_str, \
     datetime_from_iso, get_info, apply_strings, \
-    time_limit_expired, clear_kodi_addon_cache
+    time_limit_expired, clear_kodi_addon_cache, get_plugin_route
 
 provider = Defaults.provider()
 api = Defaults.api_cached()
@@ -38,6 +38,7 @@ def run():
     set_settings(SETTINGS.VERSION, get_info('version'))
     logger.debug('Entry point ------- ' + str(sys.argv))
     stream_cinema.vip_remains()
+    # settings.load_to_cache(SETTINGS.PROVIDER_USERNAME, SETTINGS.PROVIDER_PASSWORD, SETTINGS.PROVIDER_TOKEN)
     check_version()
     plugin_url_history.add(get_plugin_url())
     return router.run()
@@ -52,9 +53,13 @@ def first_run():
     if settings[SETTINGS.VERSION] == '':
         set_settings(SETTINGS.VERSION, get_info('version'))
 
+    if settings[SETTINGS.PROVIDER_USERNAME] == '':
+        settings[SETTINGS.PROVIDER_TOKEN] = ''
+        if get_plugin_route() != ROUTE.CHECK_PROVIDER_CREDENTIALS:
+            settings.load_to_cache(SETTINGS.PROVIDER_USERNAME, SETTINGS.PROVIDER_PASSWORD, SETTINGS.PROVIDER_TOKEN)
+
     if not storage.get(STORAGE.IS_OLD_KODI_SESSION):
         storage[STORAGE.IS_OLD_KODI_SESSION] = True
-        load_settings()
 
 
 @router.route(ROUTE.CLEAR_CACHE)
@@ -89,10 +94,7 @@ def set_provider_credentials():
         settings.set_cache(SETTINGS.PROVIDER_TOKEN, '')
     if password:
         settings.set_cache(SETTINGS.PROVIDER_PASSWORD, password)
-
-
-def load_settings():
-    settings.load_to_cache(SETTINGS.PROVIDER_USERNAME, SETTINGS.PROVIDER_PASSWORD, SETTINGS.PROVIDER_TOKEN)
+    logger.debug('Saving credentials to cache')
 
 
 def on_clear_cache_redirect():

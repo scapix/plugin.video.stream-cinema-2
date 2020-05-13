@@ -410,7 +410,7 @@ msgid "Token was successfully refreshed"
 msgstr ""
 
 msgctxt "#30128"
-msgid "Login was successful"
+msgid "Login successful"
 msgstr ""
 
 msgctxt "#30130"
@@ -433,6 +433,11 @@ msgctxt "#30134"
 msgid "Change credentials"
 msgstr ""
 
+msgctxt "#30135"
+msgid "Show search results notifications"
+msgstr ""
+
 msgctxt "#30309"
 msgid "TV tips of the day (by CSFD)"
 msgstr ""
+

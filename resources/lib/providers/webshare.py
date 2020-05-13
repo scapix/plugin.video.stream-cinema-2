@@ -66,6 +66,7 @@ class Webshare:
         if data is None:
             data = {}
         data.setdefault('wst', self.token)
+        logger.debug("WS token %s " % self.token)
         headers = common_headers()
         response = requests.post('https://webshare.cz/api{}'.format(path), data=data, headers=headers)
         logger.debug('Response from provider: %s' % response.content)
@@ -82,10 +83,7 @@ class Webshare:
         response = self._post('/salt/', data={'username_or_email': self.username})
         root = self._parse(response)
         logger.debug('Getting user salt from provider')
-        try:
-            return self._find(root, 'salt')
-        except AttributeError:
-            pass
+        return self._find(root, 'salt')
 
     def get_token(self):
         """
@@ -96,7 +94,7 @@ class Webshare:
         Content-Type: application/x-www-form-urlencoded
         """
         salt = self._get_salt()
-        if salt:
+        if salt is not None:
             hashed = self._hash_password(self.password, salt)
 
             response = self._post('/login/', data={
@@ -106,10 +104,7 @@ class Webshare:
             })
             root = self._parse(response)
             logger.debug('Getting user token from provider')
-            try:
-                return self._find(root, 'token')
-            except AttributeError:
-                pass
+            return self._find(root, 'token')
 
     def get_user_data(self):
         """
@@ -121,9 +116,11 @@ class Webshare:
         """
         response = self._post('/user_data/')
         logger.debug('Getting user data from provider')
+        logger.debug(response)
         return self._parse(response)
 
     def is_vip(self, user_data):
+
         vip = self._find(user_data, 'vip')
         return vip == '1'
 
@@ -144,7 +141,10 @@ class Webshare:
 
     @staticmethod
     def _find(xml, key):
-        return xml.find(key).text
+        try:
+            return xml.find(key).text
+        except AttributeError:
+            pass
 
 
 

@@ -1,5 +1,7 @@
 from functools import partial
 
+from resources.lib.const import SETTINGS
+from resources.lib.kodilogging import logger
 from resources.lib.storage.storage import storage
 from resources.lib.utils.kodiutils import get_settings, show_settings, set_settings, get_setting_as_bool, \
     get_setting_as_int
@@ -34,8 +36,10 @@ class Settings:
 
     def load_to_cache(self, *args):
         for key in args:
-            self.set_cache(key, self[key])
-
+            storage[key] = self[key]
+            logger.debug('Loading to cache %s' % key)
+            logger.debug(self[key])
+            logger.debug(storage[key])
 
 
 settings = Settings()

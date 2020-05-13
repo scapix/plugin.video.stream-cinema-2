@@ -15,11 +15,11 @@ class Storage:
         return self._storage
 
     def __setitem__(self, key, value):
-        logger.debug('[Cache:%s] Set cache' % (self._id + '.' + key))
+        logger.debug('[Cache:%s] Set cache' % key)
         self._storage[key] = value
 
     def __getitem__(self, key):
-        logger.debug('[Cache:%s] Get cache' % (self._id + '.' + key))
+        logger.debug('[Cache:%s] Get cache' % key)
         return self._storage[key]
 
     def __delitem__(self, key):

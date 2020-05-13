@@ -114,8 +114,8 @@ msgid "[B]↑[/B] Ascending"
 msgstr "[B]↑[/B] Vzestupně"
 
 msgctxt "#30111"
-msgid "↓ Descending"
-msgstr "↓ Sestupně"
+msgid "[B]↓[/B] Descending"
+msgstr "[B]↓[/B] Sestupně"
 
 msgctxt "#30200"
 msgid "Movies"
@@ -175,7 +175,7 @@ msgstr "Dobrodružný"
 
 msgctxt "#30216"
 msgid "Documentary"
-msgstr "Dokumentárný"
+msgstr "Dokumentárny"
 
 msgctxt "#30217"
 msgid "Drama"
@@ -215,11 +215,11 @@ msgstr "Komédia"
 
 msgctxt "#30226"
 msgid "Short"
-msgstr "Krátkometrážný"
+msgstr "Krátkometrážny"
 
 msgctxt "#30227"
 msgid "Crime"
-msgstr "Kriminálný"
+msgstr "Kriminálny"
 
 msgctxt "#30228"
 msgid "Musical"
@@ -227,7 +227,7 @@ msgstr "Muzikál"
 
 msgctxt "#30229"
 msgid "Mysterious"
-msgstr "Mysteriozný"
+msgstr "Mysteriózny"
 
 msgctxt "#30230"
 msgid "Educational"
@@ -351,7 +351,7 @@ msgstr "Tento účet nemá aktívne VIP"
 
 msgctxt "#30305"
 msgid "Welcome to Stream Cinema 2.0 [COLOR red]BETA[/COLOR]"
-msgstr ""
+msgstr "Vitajte v Stream Cinema 2.0 [COLOR red]BETA[/COLOR]"
 
 msgctxt "#30306"
 msgid "Please be aware of that this version can contain a lot of bugs and is not final release. Visit [COLOR blue]sc2.zone[/COLOR] for information about upcoming releases."
@@ -416,6 +416,10 @@ msgstr "Neaktívne"
 msgctxt "#30134"
 msgid "Change credentials"
 msgstr "Zmeniť prihlasovacie údaje"
+
+msgctxt "#30135"
+msgid "Show search results notifications"
+msgstr "Zobraziť oznámenie o výsledkoch vyhľadávania"
 
 msgctxt "#30309"
 msgid "TV tips of the day (by CSFD)"

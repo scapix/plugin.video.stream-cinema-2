@@ -150,6 +150,7 @@ class SETTINGS:
     IS_OUTDATED = 'is_outdated'
     VIP_DURATION = 'provider.vip_duration'
     LAST_VIP_CHECK = 'last_vip_check'
+    SHOW_RESULTS_COUNT = 'show_results_count'
 
 
 class STRINGS:
@@ -280,6 +281,7 @@ class LANG:
     DAYS = 30132
     NOT_ACTIVE = 30133
     CSFD_TIPS = 30309
+    SHOW_SEARCH_RESULTS_NOTIFICATIONS = 30135
 
 
 api_genres = {
