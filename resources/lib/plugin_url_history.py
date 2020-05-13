@@ -49,10 +49,6 @@ class PluginUrlHistory:
         urls = self.storage.get(STORAGE.PLUGIN_URL_HISTORY)
         return urls if urls else []
 
-    @property
-    def current(self):
-        return get_plugin_url()
-
     def is_same_url(self):
         return self.current() == self.previous()
 
@@ -76,6 +72,10 @@ class PluginUrlHistory:
             if item in url:
                 return False
         return True
+
+    @staticmethod
+    def current():
+        return get_plugin_url()
 
     @staticmethod
     def clear():
