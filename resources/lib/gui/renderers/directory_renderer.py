@@ -12,7 +12,6 @@ from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
 from resources.lib.utils.kodiutils import show_settings, router_url_from_string, get_string
 from resources.lib.utils.url import Url
-from resources.lib.utils.csfd_tips import get_csfd_tips
 
 
 class DirectoryRenderer(Renderer):

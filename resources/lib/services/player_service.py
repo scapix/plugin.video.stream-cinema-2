@@ -27,5 +27,3 @@ class PlayerService(Service):
     def media_stopped():
         service_logger.debug('Playback stopped. Removing media ID.')
         storage[STORAGE.SELECTED_MEDIA_ID] = None
-
-

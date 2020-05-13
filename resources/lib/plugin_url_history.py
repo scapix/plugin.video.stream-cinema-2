@@ -2,7 +2,7 @@ from resources.lib.const import CACHE, STORAGE
 from resources.lib.kodilogging import logger
 
 from resources.lib.storage.storage import storage
-from resources.lib.utils.kodiutils import get_plugin_url, replace_plugin_url
+from resources.lib.utils.kodiutils import get_plugin_url
 
 url_blacklist = [
     '/search/'
@@ -78,15 +78,9 @@ class PluginUrlHistory:
         return True
 
     @staticmethod
-    def current():
-        return get_plugin_url()
-
-    @staticmethod
     def clear():
         storage[STORAGE.PLUGIN_URL_HISTORY] = []
 
     @staticmethod
     def last_added():
         return storage.get(STORAGE.PLUGIN_LAST_URL_ADDED)
-
-

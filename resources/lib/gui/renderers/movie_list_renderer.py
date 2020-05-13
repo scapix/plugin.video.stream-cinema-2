@@ -32,7 +32,7 @@ class MovieListRenderer(MediaListRenderer):
         with DirectoryRenderer.start_directory(self.handle, as_type=collection):
             for tip in get_csfd_tips():
                 name = tip[0][:-7]
-                name_quoted = tip[0][:-7].replace(' ', '%20')
+                name_quoted = tip[0][:-7].replace(' ', '%20').encode('utf-8')
                 year = tip[0][-7:]
                 tip_joined = name + year + ' [' + tip[1] + ']'
                 info_labels = {
@@ -40,4 +40,4 @@ class MovieListRenderer(MediaListRenderer):
                     'year': int(year[2:-1])
                 }
                 MediaItem(title=tip_joined,
-                          url=router_url_from_string(ROUTE.SEARCH_CSFD_ITEM, collection, Url.quote(name_quoted.encode('utf-8'))), info_labels=info_labels)(self.handle)
+                          url=router_url_from_string(ROUTE.SEARCH_CSFD_ITEM, collection, Url.quote(name_quoted)), info_labels=info_labels)(self.handle)

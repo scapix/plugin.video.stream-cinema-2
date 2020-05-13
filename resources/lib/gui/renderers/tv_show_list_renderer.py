@@ -1,5 +1,5 @@
 from resources.lib.const import STRINGS, ROUTE, LANG
-from resources.lib.gui import DirectoryItem, TvShowItem, MediaItem, MainMenuFolderItem, TvShowMenuItem
+from resources.lib.gui import DirectoryItem, TvShowItem, MainMenuFolderItem, TvShowMenuItem
 from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.utils.kodiutils import get_string, router_url_from_string

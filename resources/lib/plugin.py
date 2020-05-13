@@ -5,7 +5,7 @@ import sys
 import uuid
 from datetime import datetime
 from resources.lib.api.gitlab_api import GitLabAPI
-from resources.lib.const import SETTINGS, RENDERER, LANG, STORAGE, ROUTE, GENERAL, STRINGS
+from resources.lib.const import SETTINGS, RENDERER, LANG, STORAGE, ROUTE, GENERAL
 from resources.lib.defaults import Defaults
 from resources.lib.gui import InfoDialog
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
@@ -15,8 +15,7 @@ from resources.lib.settings import settings
 from resources.lib.storage.storage import storage
 from resources.lib.stream_cinema import StreamCinema
 from resources.lib.utils.kodiutils import get_plugin_url, get_string, set_settings, get_current_datetime_str, \
-    datetime_from_iso, get_info, apply_strings, \
-    time_limit_expired, clear_kodi_addon_cache, get_plugin_route
+    datetime_from_iso, get_info, time_limit_expired, clear_kodi_addon_cache, get_plugin_route
 
 provider = Defaults.provider()
 api = Defaults.api_cached()
