@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
+	<!-- kodion General -->
     <category label="30010">
         <setting id="explicit_content" type="bool" label="30106" default="false"/>
-        <setting id="file_size_sort" type="select" label="30109" lvalues="30110|30111" />
+        <setting id="file_size_sort" type="enum" label="30109" lvalues="30110|30111" default="0" />
     </category>
+
+	<!-- kodion Interface -->
     <category label="30014">
         <setting label="30117" type="lsep"/>
         <setting id="show_codec" type="bool" label="30115" default="false"/>
         <setting id="show_bitrate" type="bool" label="30116" default="false"/>
         <setting id="show_duration" type="bool" label="30129" default="false"/>
         <setting label="30118" type="lsep"/>
-        <setting id="a_z_threshold" type="number" label="30119" default="10"/>
-        <setting id="page_limit" type="number" label="30120" default="250"/>
+        <setting id="a_z_threshold" type="enum" label="30119" values="10|20|30" default="0"/>
+        <setting id="page_limit" type="enum" label="30120" values="50|100|150|200|250" default="0"/>
         <setting id="show_results_count" type="bool" label="30135" default="true"/>
     </category>
+
+    <!-- kodion Source -->
     <category label="30011">
         <setting id="provider.name" type="select" label="30103" lvalues="30104" />
-        <setting label="30101" id="provider.username" type="text" default="" enable="false"  />
-        <setting label="30102" id="provider.password" type="text" default="" option="hidden" enable="false"  />
-        <setting label="30134" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/set-provider-credentials)"/>
-        <setting label="30122" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/check-provider-credentials)"/>
-        <setting label="30000" type="text" enable="false" default="" />
-        <setting label="30131" id="provider.vip_duration" type="text" enable="false" />
-        <setting label="30121" id="provider.token" type="text" default="" option="hidden" enable="false" />
-        <setting label="30125" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/refresh-provider-token)"/>
+        <setting id="provider.username" type="text" label="30101" default="" enable="false"  />
+        <setting id="provider.password" label="30102" type="text" default="" option="hidden" enable="false"  />
+        <setting type="action" label="30134" action="RunPlugin(plugin://plugin.video.stream-cinema-2/set-provider-credentials)"/>
+        <setting type="action" label="30122" action="RunPlugin(plugin://plugin.video.stream-cinema-2/check-provider-credentials)"/>
+        <setting label="30000" type="lsep" />
+        <setting id="provider.vip_duration" type="text" label="30131" enable="false" />
+        <setting id="provider.token" type="text" label="30121" default="" option="hidden" enable="false" />
+        <setting type="action" label="30125" action="RunPlugin(plugin://plugin.video.stream-cinema-2/refresh-provider-token)"/>
         <setting id="last_vip_check" type="date" visible="false" enable="false"/>
     </category>
+
+	<!-- kodion Advanced -->
     <category label="30012">
-        <setting id="version" label="30015" type="text" enable="false" />
-        <setting id="last_version_available" label="30016" type="text" enable="false"/>
-        <setting id="uuid" label="30107" type="text" enable="false" />
+        <setting id="version" type="text" label="30015" enable="false" />
+        <setting id="last_version_available" type="text" label="30016" enable="false"/>
+        <setting id="uuid" type="text" label="30107" enable="false" />
         <setting id="installation_date" type="date" label="30013" enable="false"/>
         <setting id="debug" type="bool" label="30105" default="true"/>
-        <setting label="30108" type="action" action="RunPlugin(plugin://plugin.video.stream-cinema-2/clear-cache)"/>
+        <setting type="action" label="30108" action="RunPlugin(plugin://plugin.video.stream-cinema-2/clear-cache)"/>
         <setting id="last_version_check" type="date" visible="false" enable="false"/>
         <setting id="is_outdated" type="bool"  visible="false"  enable="false"/>
     </category>
