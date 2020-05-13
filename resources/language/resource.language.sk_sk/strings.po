@@ -313,6 +313,10 @@ msgctxt "#30251"
 msgid "0-9"
 msgstr ""
 
+msgctxt "#30252"
+msgid "Search for {letters}"
+msgstr "Hľadať {letters}"
+
 msgctxt "#30253"
 msgid "Choose the stream"
 msgstr "Vybrať stream"

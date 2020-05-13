@@ -111,7 +111,7 @@ def check_version():
         settings[SETTINGS.LAST_VERSION_CHECK] = datetime.now()
         tag_name = get_latest_release_tag_name()
         if tag_name:
-            settings[SETTINGS.LAST_VERSION_AVAILABLE] = apply_strings(tag_name, STRINGS.BOLD, STRINGS.COLOR_GREEN)
+            settings[SETTINGS.LAST_VERSION_AVAILABLE] = tag_name
             current_version = settings[SETTINGS.VERSION]
             if current_version != tag_name:
                 settings[SETTINGS.IS_OUTDATED] = True

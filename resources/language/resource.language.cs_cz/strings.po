@@ -313,6 +313,10 @@ msgctxt "#30251"
 msgid "0-9"
 msgstr ""
 
+msgctxt "#30252"
+msgid "Search for {letters}"
+msgstr "Hledat {letters}"
+
 msgctxt "#30253"
 msgid "Choose the stream"
 msgstr "Vybrat stream"
