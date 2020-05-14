@@ -3,7 +3,7 @@
 """
 
 import hashlib
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ElementTree
 
 import requests
 from simpleplugin import Plugin
@@ -136,7 +136,7 @@ class Webshare:
 
     @staticmethod
     def _parse(response):
-        return ET.fromstring(response)
+        return ElementTree.fromstring(response)
 
     @staticmethod
     def _find(xml, key):

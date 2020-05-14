@@ -1,6 +1,5 @@
 from functools import partial
 
-from resources.lib.const import SETTINGS
 from resources.lib.kodilogging import logger
 from resources.lib.storage.storage import storage
 from resources.lib.utils.kodiutils import get_settings, show_settings, set_settings, get_setting_as_bool, \

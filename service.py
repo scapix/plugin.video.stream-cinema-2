@@ -2,8 +2,6 @@
     Stream cinema service.
 """
 
-import logging
-
 import xbmc
 
 from resources.lib.defaults import Defaults
