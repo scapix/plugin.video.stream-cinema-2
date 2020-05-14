@@ -8,7 +8,7 @@ from resources.lib.utils.kodiutils import get_string
 LANG_PATTERN = re.compile(r'\$(\d{5})')
 
 
-def templated_string(self, text):
+def templated_string(text):
     """Replaces Localization templates in the given string.
 
     Pattern: $300123 is replaced with the string ID 300123 from .po file.

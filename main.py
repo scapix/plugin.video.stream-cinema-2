@@ -1,10 +1,6 @@
-from resources.lib import plugin, kodilogging
-import sys
+from resources.lib import plugin
 
-# # Keep this file to a minimum, as Kodi
-# # doesn't keep a compiled copy of this
-
-# reload(sys)
-# sys.setdefaultencoding('utf-8')
+# Keep this file to a minimum, as Kodi
+# doesn't keep a compiled copy of this
 
 plugin.run()
