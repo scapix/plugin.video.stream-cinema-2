@@ -9,8 +9,7 @@ select_providers = {
 
 def get_provider():
     for lang_id, p in select_providers.items():
-        if lang_id == settings[SETTINGS.PROVIDER_NAME]:
-            return p
+        return p
 
 
 provider = get_provider()
