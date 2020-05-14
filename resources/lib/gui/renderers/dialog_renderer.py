@@ -53,7 +53,8 @@ class DialogRenderer:
         keyboard.doModal()
         if keyboard.isConfirmed():
             return keyboard.getText().strip()
-        return False
+        else:
+            return None
 
     @staticmethod
     def ok(heading, *args, **kwargs):
