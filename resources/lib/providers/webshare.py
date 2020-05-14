@@ -18,7 +18,7 @@ plugin = Plugin()
 
 
 class Webshare:
-    def __init__(self, username, password, token=None):
+    def __init__(self, username, password, token):
         self._username = username
         self._password = password
         self._token = token
@@ -94,9 +94,10 @@ class Webshare:
         Referer: https://webshare.cz/
         Content-Type: application/x-www-form-urlencoded
         """
-        self._post('/logout/')
+        response = self._post('/logout/')
+        root = self._parse(response)
         logger.debug('User logout from provider')
-        return
+        return self._find(root, 'status') == 'OK'
 
     def login(self):
         """
