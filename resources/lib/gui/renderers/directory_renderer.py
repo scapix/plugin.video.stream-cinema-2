@@ -3,7 +3,7 @@ import contextlib
 import xbmcplugin
 
 from resources.lib.const import COMMAND, FILTER_TYPE, ROUTE, COLLECTION, LANG, SETTINGS, explicit_genres, api_genres, \
-    STRINGS
+    STRINGS, a_z_threshold_options
 from resources.lib.gui import MoviesItem, SettingsItem, SearchItem, DirectoryItem, TvShowsItem, MainMenuFolderItem, \
     WatchHistoryItem
 from resources.lib.gui.renderers import Renderer
@@ -113,8 +113,8 @@ class DirectoryRenderer(Renderer):
 
             if count > 0:
                 url = router_url_from_string(ROUTE.FILTER, collection, filter_type,
-                                             letters) if count <= settings.as_int(
-                    SETTINGS.A_Z_THRESHOLD) else self._url_for(self.a_to_z_submenu,
+                                             letters) if count <= a_z_threshold_options[settings.as_int(
+                    SETTINGS.A_Z_THRESHOLD)] else self._url_for(self.a_to_z_submenu,
                                                                collection, letters)
                 DirectoryItem(title=self._a_to_z_title(letters, count), url=url)(self.handle)
 

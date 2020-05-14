@@ -325,3 +325,18 @@ api_genres = {
 }
 
 explicit_genres = [LANG.EROTIC, LANG.PORNOGRAPHIC]
+
+
+a_z_threshold_options = {
+    0: 10,
+    1: 20,
+    2: 30,
+}
+
+page_limit_options = {
+    0: 50,
+    1: 100,
+    2: 150,
+    3: 200,
+    4: 250
+}
