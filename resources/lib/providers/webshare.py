@@ -95,9 +95,8 @@ class Webshare:
         Content-Type: application/x-www-form-urlencoded
         """
         salt = self._get_salt()
-        if salt:
+        if salt is not None:
             hashed = self._hash_password(self.password, salt)
-
             response = self._post('/login/', data={
                 'username_or_email': self.username,
                 'password': hashed,
