@@ -41,4 +41,4 @@ class Settings:
             logger.debug(storage[key])
 
 
-settings = Settings()
+ settings = Settings()

@@ -149,7 +149,7 @@ class StreamCinema:
         return self._provider.is_valid_token()
 
     def ensure_provider_token(self):
-        token = self._provider.get_token()
+        token = self._provider.login()
         if token:
             settings.set_cache(SETTINGS.PROVIDER_TOKEN, token)
             return True
@@ -200,6 +200,14 @@ class StreamCinema:
             logger.debug('Provider token is valid')
             return self._check_vip(user_data)
         return False
+
+    def logout(self):
+        logger.debug('Logging out account.')
+        self._provider.logout()
+        settings.set_cache(SETTINGS.PROVIDER_USERNAME, '')
+        settings.set_cache(SETTINGS.PROVIDER_PASSWORD, '')
+        settings.set_cache(SETTINGS.PROVIDER_TOKEN, '')
+        InfoDialog(get_string(LANG.SUCCESS_LOGOUT), sound=True).notify()
 
     def play_stream(self, ident):
         logger.debug('Trying to play stream.')

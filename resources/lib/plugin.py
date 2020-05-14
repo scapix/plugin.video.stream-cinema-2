@@ -96,16 +96,28 @@ def refresh_provider_token():
 
 @router.route(ROUTE.SET_PROVIDER_CREDENTIALS)
 def set_provider_credentials():
-    username = DialogRenderer.keyboard(get_string(LANG.USERNAME))
+    oldusername = settings[SETTINGS.PROVIDER_USERNAME]
+    username = DialogRenderer.keyboard(get_string(LANG.USERNAME), settings[SETTINGS.PROVIDER_USERNAME])
+
+    if not oldusername and not username:
+        return
 
     if username:
-        password = DialogRenderer.keyboard(get_string(LANG.PASSWORD), True)
+        password = DialogRenderer.keyboard(get_string(LANG.PASSWORD), '', True)
         if password:
             settings.set_cache(SETTINGS.PROVIDER_USERNAME, username)
+            settings.set_cache(SETTINGS.PROVIDER_PASSWORD, password)
             settings.set_cache(SETTINGS.PROVIDER_TOKEN, '')
             settings.set_cache(SETTINGS.VIP_DURATION, '')
-            settings.set_cache(SETTINGS.PROVIDER_PASSWORD, password)
+            set_settings(SETTINGS.PROVIDER_USERNAME, username)
+            set_settings(SETTINGS.PROVIDER_PASSWORD, password)
+            set_settings(SETTINGS.PROVIDER_TOKEN, '')
+            set_settings(SETTINGS.VIP_DURATION, '')
             logger.debug('Saving credentials to cache')
+            if stream_cinema.ensure_provider_token():
+                InfoDialog(get_string(LANG.CORRECT_PROVIDER_CREDENTIALS), sound=True).notify()
+    else:
+        stream_cinema.logout()
 
 
 def on_clear_cache_redirect():

@@ -445,6 +445,10 @@ msgctxt "#30137"
 msgid "Last added"
 msgstr "Poslední přidané"
 
+msgctxt "#30138"
+msgid "User successfully logged out"
+msgstr "Uživatel byl úspěšně odhlášen"
+
 msgctxt "#30309"
 msgid "TV tips of the day (by CSFD)"
 msgstr "Dnešní TV tipy (od ČSFD)"
