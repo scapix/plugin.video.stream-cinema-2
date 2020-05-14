@@ -98,9 +98,11 @@ class DirectoryRenderer(Renderer):
         filter_type = FILTER_TYPE.STARTS_WITH
         letter_counts = self._on_a_to_z_menu(collection, filter_type,
                                              [previous_letter + c for c in string.ascii_uppercase])
+        parent_count = sum([letter for letter in letter_counts.values()])
         with self.start_directory(self.handle):
             MainMenuFolderItem(url=router_url_from_string(ROUTE.CLEAR_PATH))(self.handle)
-            SearchItem(title=get_string(LANG.SEARCH_FOR_LETTERS).format(letters=previous_letter),
+            SearchItem(title=self._a_to_z_title(
+                get_string(LANG.SEARCH_FOR_LETTERS).format(letters=previous_letter), parent_count),
                        url=router_url_from_string(ROUTE.FILTER, collection, filter_type, previous_letter))(self.handle)
             self._a_to_z_submenu_items(collection, filter_type, previous_letter, letter_counts)
 
