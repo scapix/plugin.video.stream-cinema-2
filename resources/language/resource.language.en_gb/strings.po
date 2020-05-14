@@ -326,7 +326,7 @@ msgid "0-9"
 msgstr ""
 
 msgctxt "#30252"
-msgid "Search for {letters}"
+msgid "Show all from {letters}"
 msgstr ""
 
 msgctxt "#30253"

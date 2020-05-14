@@ -314,8 +314,8 @@ msgid "0-9"
 msgstr ""
 
 msgctxt "#30252"
-msgid "Search for {letters}"
-msgstr "Hľadať {letters}"
+msgid "Show all from {letters}"
+msgstr "Zobraziť všetko od {letters}"
 
 msgctxt "#30253"
 msgid "Choose the stream"
