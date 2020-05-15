@@ -18,6 +18,6 @@ class StreamCinemaPlayer(BasePlayer):
     def onPlayBackEnded(self):
         service_logger.debug("onPlayBackEnded")
 
-    def onPlaybackStopped(self):
+    def onPlayBackStopped(self):
         service_logger.debug("onPlaybackStopped")
 
