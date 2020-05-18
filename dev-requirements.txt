@@ -1,0 +1,4 @@
+requests
+KodiStubs
+git+https://github.com/romanvm/script.module.simpleplugin.git#egg=SimplePlugin
+git+https://github.com/tamland/kodi-plugin-routing
