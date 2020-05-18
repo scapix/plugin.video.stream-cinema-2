@@ -123,6 +123,9 @@ class Webshare:
         return self._find(user_data, 'vip') == '1'
 
     def vip_remains(self, user_data):
+        """
+        Get user's ramaining days as VIP.
+        """
         vip_days = self._find(user_data, 'vip_days')
         logger.debug('VIP days remaining: %s', vip_days)
         return int(vip_days)
