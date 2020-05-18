@@ -1,6 +1,9 @@
+import json
+
 import xbmcplugin
 
-from resources.lib.const import ROUTE, STORAGE, explicit_genres, api_genres
+from resources.lib.api.api import API
+from resources.lib.const import ROUTE, STORAGE, explicit_genres, api_genres, STRINGS
 from resources.lib.gui import MainMenuFolderItem, DirectoryItem
 from resources.lib.gui.renderers import Renderer
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
@@ -59,17 +62,18 @@ class MediaListRenderer(Renderer):
             list_items.append(MainMenuFolderItem(url=router_url_from_string(ROUTE.CLEAR_PATH)))
 
     @staticmethod
-    def add_paging(collection, list_items, paging):
-        next_page = None if paging is None else 'next' in paging
+    def add_pagination(collection, list_items, pagination):
+        next_page = None if pagination is None else pagination.get('next')
         if next_page:
-            list_items.insert(0, MediaListRenderer.next_page_item(collection, paging))
-            list_items.append(MediaListRenderer.next_page_item(collection, paging))
+            list_items.insert(0, MediaListRenderer.next_page_item(collection, pagination))
+            list_items.append(MediaListRenderer.next_page_item(collection, pagination))
 
     @staticmethod
-    def next_page_item(collection, media_list):
+    def next_page_item(collection, pagination):
+        body = json.dumps(pagination['body'])
         return DirectoryItem(
-            title=MediaListRenderer.next_page_title(media_list['page'], media_list['pageCount']),
-            url=router_url_from_string(ROUTE.NEXT_PAGE, collection, Url.quote_plus(media_list['next'])))
+            title=MediaListRenderer.next_page_title(pagination['page'], pagination['pageCount']),
+            url=router_url_from_string(ROUTE.NEXT_PAGE, collection, Url.quote_plus(pagination['next']), Url.encode_param(body)))
 
     @staticmethod
     def next_page_title(page, page_count):
@@ -94,16 +98,17 @@ class MediaListRenderer(Renderer):
 
     @staticmethod
     def build_media_item_gui(item_type, media, url, title=None):
-        info_labels = media.get('info_labels')
-        info_labels.update({'imdbnumber': str(media.get('services').get('imdb'))})
+        source = API.get_source(media)
+        info_labels = source.get('info_labels')
+        info_labels.update({'imdbnumber': str(source.get('services').get('imdb'))})
         del info_labels['playcount']
         return item_type(
-            title=title if title else info_labels.get('title'),
+            title=title if title else STRINGS.TITLE_YEAR.format(title=info_labels.get('title').encode('utf-8'), year=info_labels.get('year')),
             url=url,
-            art=media.get('art'),
+            art=source.get('art'),
             info_labels=info_labels,
-            stream_info=MediaListRenderer.stream_info(media),
-            services=media.get('services')
+            stream_info=MediaListRenderer.stream_info(source),
+            services=source.get('services')
         )
 
     @staticmethod
@@ -111,7 +116,8 @@ class MediaListRenderer(Renderer):
         filtered_list = []
         explicit_genres_str = [api_genres[i] for i in explicit_genres]
         for media in media_list.get('data'):
-            genres = media.get('info_labels').get('genre')
+            source = API.get_source(media)
+            genres = source.get('info_labels').get('genre')
             is_blocked = bool(set(genres).intersection(explicit_genres_str))
             if is_blocked:
                 continue

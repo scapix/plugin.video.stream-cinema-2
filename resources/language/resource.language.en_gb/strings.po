@@ -437,6 +437,14 @@ msgctxt "#30135"
 msgid "Show search results notifications"
 msgstr ""
 
+msgctxt "#30136"
+msgid "News"
+msgstr ""
+
+msgctxt "#30137"
+msgid "Last added"
+msgstr ""
+
 msgctxt "#30309"
 msgid "TV tips of the day (by CSFD)"
 msgstr ""

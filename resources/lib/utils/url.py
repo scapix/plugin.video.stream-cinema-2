@@ -1,3 +1,5 @@
+import base64
+import json
 import sys
 if sys.version_info >= (3, 0, 0,):
     from urllib.parse import urlparse, urlencode, quote_plus, unquote_plus, unquote, quote
@@ -34,3 +36,11 @@ class Url:
     @staticmethod
     def remove_params(url):
         return url.split('?', 1)[0]
+
+    @staticmethod
+    def encode_param(data):
+        return base64.b64encode(json.dumps(data))
+
+    @staticmethod
+    def decode_param(data):
+        return json.loads(base64.b64decode(data))

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import base64
+import json
 import math
 import re
 import sys
@@ -11,7 +13,7 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
-from resources.lib.const import PROTOCOL, REGEX, STRINGS, SETTINGS
+from resources.lib.const import PROTOCOL, REGEX, STRINGS, SETTINGS, api_genres
 
 try:
     from urllib import quote
@@ -254,6 +256,17 @@ def time_limit_expired(settings, limit):
 def clear_kodi_addon_cache():
     xbmc.executebuiltin("UpdateLocalAddons")
     xbmc.executebuiltin('UpdateAddonRepos')
+
+
+def get_genre_lang(api_genre):
+    for key, genre in api_genres.items():
+        if genre == api_genre:
+            return get_string(key)
+    return ''
+
+
+def translate_genres(genre_list):
+    return [get_genre_lang(genre) for genre in genre_list]
 
 # def kodi_json_request(params):
 #     data = json.dumps(params)

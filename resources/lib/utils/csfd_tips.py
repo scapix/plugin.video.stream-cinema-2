@@ -19,7 +19,7 @@ def get_csfd_tips():
 
     final_list = []
     for elem in tvtips:
-        cont = elem.get_text()
+        cont = elem.get_text().encode('utf-8')
         cont_list = cont.split('\n')
         final_list.append(cont_list[1:3])
 

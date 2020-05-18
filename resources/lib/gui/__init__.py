@@ -1,7 +1,7 @@
 import xbmcgui
 import xbmcplugin
 
-from resources.lib.const import LANG
+from resources.lib.const import LANG, STRINGS
 from resources.lib.utils.kodiutils import get_string, ADDON
 
 

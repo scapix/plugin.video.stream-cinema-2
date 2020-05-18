@@ -1,13 +1,15 @@
 """
     Main GUI.
 """
+import json
 from datetime import datetime
 
 import requests
 import xbmcplugin
 
+from resources.lib.api.api import API
 from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, STORAGE, SERVICE_EVENT, LANG, \
-    SERVICE, MEDIA_TYPE, COLLECTION, STRINGS, GENERAL
+    SERVICE, MEDIA_TYPE, COLLECTION, STRINGS, GENERAL, ORDER, SORT_TYPE
 from resources.lib.gui import InfoDialog, InfoDialogType, MediaItem, TvShowMenuItem
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
@@ -17,7 +19,7 @@ from resources.lib.gui.renderers.tv_show_list_renderer import TvShowListRenderer
 from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
 from resources.lib.storage.storage import storage
-from resources.lib.utils.kodiutils import get_string, time_limit_expired
+from resources.lib.utils.kodiutils import get_string, time_limit_expired, translate_genres
 from resources.lib.utils.url import Url
 
 
@@ -57,6 +59,7 @@ class StreamCinema:
         router.add_route(self.watched, ROUTE.WATCHED)
         router.add_route(movie_renderer.csfd_tips, ROUTE.CSFD_TIPS)
         router.add_route(self.search_for_csfd_item, ROUTE.SEARCH_CSFD_ITEM)
+        router.add_route(self.sort, ROUTE.SORT)
 
     @property
     def router(self):
@@ -66,20 +69,22 @@ class StreamCinema:
         logger.debug('Clearing path')
         self.router.replace_route(ROUTE.ROOT)
 
-    def _filter_and_render(self, collection, filter_type, filter_value):
-        media = self.filter_media(collection, filter_type, filter_value)
-        self.show_search_results(media, self.render_media_list, collection)
+    def _filter_and_render(self, collection, filter_type, filter_value, order):
+        media = self.filter_media(collection, filter_type, filter_value, order)
+        self.show_search_results(media, self.show_mixed_media_list)
 
-    def next_page(self, collection, url):
+    def next_page(self, collection, url, body):
         url = Url.unquote_plus(url)
-        media = self.process_api_response(self._api.next_page(url))
+        body = json.loads(Url.decode_param(body))
+        media = self.process_api_response(self._api.post(url, body))
         self.render_media_list(media, collection)
 
-    def filter(self, collection, filter_type, filter_value):
-        self._filter_and_render(collection, filter_type, filter_value)
+    def filter(self, collection, filter_type, filter_value, order):
+        self._filter_and_render(collection, filter_type, filter_value, order)
 
     def search_result(self, collection, search_value):
-        self.filter(collection, FILTER_TYPE.TITLE_OR_ACTOR, Url.unquote_plus(search_value))
+        self.filter(collection, FILTER_TYPE.FUZZY_SEARCH,
+                    Url.unquote_plus(search_value).encode('utf-8'), ORDER.DESCENDING)
 
     def show_search_results(self, media_list, callback, *args):
         if media_list:
@@ -102,23 +107,23 @@ class StreamCinema:
         api_response = self._api.popular_media(collection)
         self.show_search_results(self.process_api_response(api_response), self.render_media_list, collection)
 
-    def filter_media(self, collection, filter_name, search_value):
-        api_response = self._api.media_filter(collection, filter_name, search_value)
+    def filter_media(self, collection, filter_name, search_value, order):
+        api_response = self._api.media_filter(collection, filter_name, Url.decode_param(search_value), order)
         return self.process_api_response(api_response)
 
     def process_api_response(self, api_call):
         response = self.api_response_handler(api_call)
         if response is None:
             return
-        json = response.json()
-        return json
+        return response.json()
 
     def search_for_csfd_item(self, collection, search_value):
-        media_list = self.filter_media(collection, FILTER_TYPE.EXACT_TITLE, search_value).get('data')
+        # No idea how to decode search_value to correct format. It must be decoded on the server right now.
+        media_list = self.filter_media(collection, FILTER_TYPE.EXACT_TITLE, Url.encode_param([search_value]), ORDER.ASCENDING).get('data')
         num_media = len(media_list)
         if num_media == 1:
             media_id = media_list.pop().get('_id')
-            streams = self.get_media_detail(collection, media_id).get('streams')
+            streams = API.get_source(self.get_media_detail(collection, media_id)).get('streams')
             self.renderers[RENDERER.MOVIES].select_stream(media_id, streams)
         elif num_media == 0:
             InfoDialog(get_string(30303).format(number=str(num_media))).notify()
@@ -224,15 +229,23 @@ class StreamCinema:
         media_list = self.process_api_response(self._api.watched(settings[SETTINGS.UUID]))
         self.show_search_results(media_list, self.show_mixed_media_list)
 
+    def sort(self, collection, sort_type, order):
+        media_list = self.process_api_response(self._api.sort(collection, sort_type, order))
+        self.show_search_results(media_list, self.show_mixed_media_list)
+
     def show_mixed_media_list(self, media_list):
         media_list_gui = []
         for media in media_list.get('data'):
-            media_type = media.get('info_labels').get('mediatype')
+            source = API.get_source(media)
+            media_type = source.get('info_labels').get('mediatype')
+            info_labels = source.get('info_labels')
+            genres = translate_genres(info_labels.get('genre'))
+            title = STRINGS.TITLE_GENRE_YEAR.format(title=info_labels.get('title').encode('utf-8'), genre=' / '.join(genres), year=info_labels.get('year'))
             if media_type == MEDIA_TYPE.TV_SHOW:
-                media_list_gui.append(MediaListRenderer.build_media_item_gui(TvShowMenuItem, media, self.renderers[
-                    RENDERER.TV_SHOWS].url_builder(media, COLLECTION.TV_SHOWS)).build())
+                media_list_gui.append(MediaListRenderer.build_media_item_gui(TvShowMenuItem, source, self.renderers[
+                    RENDERER.TV_SHOWS].url_builder(media, COLLECTION.TV_SHOWS), title=title).build())
             elif media_type == MEDIA_TYPE.MOVIE:
-                media_list_gui.append(MovieListRenderer.build_media_item_gui(MediaItem, media, self.renderers[
-                    RENDERER.MOVIES].url_builder(media, COLLECTION.MOVIES)).build())
+                media_list_gui.append(MovieListRenderer.build_media_item_gui(MediaItem, source, self.renderers[
+                    RENDERER.MOVIES].url_builder(media, COLLECTION.MOVIES), title=title).build())
         with DirectoryRenderer.start_directory(self.router.handle, as_type=COLLECTION.MOVIES):
             xbmcplugin.addDirectoryItems(self.router.handle, media_list_gui)

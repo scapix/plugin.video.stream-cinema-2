@@ -18,7 +18,7 @@ class CachedAPI(API):
         return super(CachedAPI, self).media_filter(*args, **kwargs)
 
     @plugin.mem_cached(CACHE.EXPIRATION_TIME_BIGGER)
-    def next_page(self, *args, **kwargs):
+    def get(self, *args, **kwargs):
         return super(CachedAPI, self).get(*args, **kwargs)
 
     @plugin.mem_cached(CACHE.EXPIRATION_TIME_BIGGER)

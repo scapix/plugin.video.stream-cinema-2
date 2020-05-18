@@ -18,7 +18,7 @@ from resources.lib.utils.kodiutils import get_plugin_url, get_string, set_settin
     datetime_from_iso, get_info, time_limit_expired, clear_kodi_addon_cache, get_plugin_route
 
 provider = Defaults.provider()
-api = Defaults.api_cached()
+api = Defaults.api()
 gitlab_api = GitLabAPI()
 router = Defaults.router()
 plugin_url_history = PluginUrlHistory()

@@ -1,9 +1,10 @@
 import contextlib
+import json
 
 import xbmcplugin
 
 from resources.lib.const import COMMAND, FILTER_TYPE, ROUTE, COLLECTION, LANG, SETTINGS, explicit_genres, api_genres, \
-    STRINGS, a_z_threshold_options
+    STRINGS, a_z_threshold_options, ORDER, SORT_TYPE
 from resources.lib.gui import MoviesItem, SettingsItem, SearchItem, DirectoryItem, TvShowsItem, MainMenuFolderItem, \
     WatchHistoryItem
 from resources.lib.gui.renderers import Renderer
@@ -31,6 +32,9 @@ class DirectoryRenderer(Renderer):
     def main_menu(self):
         logger.debug('Rendering main menu')
         with self.start_directory(self.handle):
+            SearchItem(url=self._router.url_for(self.search, COLLECTION.ALL))(self.handle)
+            DirectoryItem(title=get_string(LANG.NEWS), url=router_url_from_string(ROUTE.SORT, COLLECTION.ALL, SORT_TYPE.AIRED, ORDER.DESCENDING))(self.handle)
+            DirectoryItem(title=get_string(LANG.LAST_ADDED), url=router_url_from_string(ROUTE.SORT, COLLECTION.ALL, SORT_TYPE.DATE_ADDED, ORDER.DESCENDING))(self.handle)
             MoviesItem(url=self._router.url_for(self.media_menu, COLLECTION.MOVIES))(self.handle)
             TvShowsItem(url=self._router.url_for(self.media_menu, COLLECTION.TV_SHOWS))(self.handle)
             WatchHistoryItem(url=router_url_from_string(ROUTE.WATCHED))(self.handle)
@@ -44,9 +48,14 @@ class DirectoryRenderer(Renderer):
 
     def media_menu(self, collection):
         with self.start_directory(self.handle):
-            SearchItem(url=self._router.url_for(self.search, collection))(self.handle)
             DirectoryItem(title=get_string(LANG.POPULAR), url=router_url_from_string(ROUTE.POPULAR, collection))(
                 self.handle)
+            DirectoryItem(title=get_string(LANG.NEWS),
+                          url=router_url_from_string(ROUTE.SORT, collection, SORT_TYPE.AIRED, ORDER.DESCENDING))(
+                self.handle)
+            DirectoryItem(title=get_string(LANG.LAST_ADDED),
+                          url=router_url_from_string(ROUTE.SORT, collection, SORT_TYPE.DATE_ADDED,
+                                                     ORDER.DESCENDING))(self.handle)
             DirectoryItem(title=get_string(LANG.A_Z), url=self._url_for(self.a_to_z_menu, collection))(self.handle)
             DirectoryItem(title=get_string(LANG.GENRE), url=self._url_for(self.genre_menu, collection))(self.handle)
             self.add_extra_items(collection)
@@ -72,52 +81,54 @@ class DirectoryRenderer(Renderer):
             for genre in genres:
                 DirectoryItem(title=get_string(genre),
                               url=router_url_from_string(ROUTE.FILTER, collection, FILTER_TYPE.GENRE,
-                                                         api_genres[genre])
+                                                         Url.encode_param([api_genres[genre]]), ORDER.ASCENDING)
                               )(self.handle)
 
     def a_to_z_menu(self, collection):
         import string
         filter_type = FILTER_TYPE.STARTS_WITH
-        zero_nine = get_string(LANG.ZERO_NINE)
-        letter_counts = self._on_a_to_z_menu(collection, filter_type, [c for c in string.ascii_uppercase] + [zero_nine])
+        zero_nine = [i for i in range(10)]
+        _0_9 = get_string(LANG.ZERO_NINE)
+        letter_counts = self._on_a_to_z_menu(collection, filter_type, [c for c in string.ascii_lowercase] + zero_nine)
         with self.start_directory(self.handle):
-            DirectoryItem(title=self._a_to_z_title(get_string(LANG.ZERO_NINE), letter_counts.get(zero_nine)),
+            DirectoryItem(title=self._a_to_z_title(_0_9, sum([letter_counts[str(i)] for i in range(10)])),
                           url=router_url_from_string(ROUTE.FILTER, collection, filter_type,
-                                                     zero_nine))(self.handle)
-            for c in string.ascii_uppercase:
-                DirectoryItem(title=self._a_to_z_title(c, letter_counts.get(c)),
-                              url=self._url_for(self.a_to_z_submenu, collection, c))(
+                                                     Url.encode_param(zero_nine), ORDER.ASCENDING))(self.handle)
+            for c in string.ascii_lowercase:
+                letter_count = letter_counts.get(c)
+                DirectoryItem(title=self._a_to_z_title(c.upper(), letter_count),
+                              url=self._url_for(self.a_to_z_submenu, collection, c, letter_count))(
                     self.handle)
 
     @staticmethod
     def _a_to_z_title(letter, count):
         return STRINGS.A_TO_Z_TITLE.format(letter, str(count))
 
-    def a_to_z_submenu(self, collection, previous_letter):
+    def a_to_z_submenu(self, collection, previous_letter, previous_letter_count):
         import string
         filter_type = FILTER_TYPE.STARTS_WITH
         letter_counts = self._on_a_to_z_menu(collection, filter_type,
-                                             [previous_letter + c for c in string.ascii_uppercase])
-        parent_count = sum([letter for letter in letter_counts.values()])
+                                             [previous_letter + c for c in string.ascii_lowercase])
         with self.start_directory(self.handle):
             MainMenuFolderItem(url=router_url_from_string(ROUTE.CLEAR_PATH))(self.handle)
             SearchItem(title=self._a_to_z_title(
-                get_string(LANG.SEARCH_FOR_LETTERS).format(letters=previous_letter), parent_count),
-                       url=router_url_from_string(ROUTE.FILTER, collection, filter_type, previous_letter))(self.handle)
-            self._a_to_z_submenu_items(collection, filter_type, previous_letter, letter_counts)
+                get_string(LANG.SEARCH_FOR_LETTERS).format(letters=previous_letter.upper()), previous_letter_count),
+                url=router_url_from_string(ROUTE.FILTER, collection, filter_type, Url.encode_param([previous_letter]), ORDER.ASCENDING))(
+                self.handle)
+            self._a_to_z_submenu_items(collection, filter_type, previous_letter, letter_counts, previous_letter_count)
 
-    def _a_to_z_submenu_items(self, collection, filter_type, previous_letter, letter_counts):
+    def _a_to_z_submenu_items(self, collection, filter_type, previous_letter, letter_counts, previous_letter_count):
         import string
-        for c in string.ascii_uppercase:
+        for c in string.ascii_lowercase:
             letters = previous_letter + c
             count = letter_counts.get(letters)
 
             if count > 0:
-                url = router_url_from_string(ROUTE.FILTER, collection, filter_type,
-                                             letters) if count <= a_z_threshold_options[settings.as_int(
-                    SETTINGS.A_Z_THRESHOLD)] else self._url_for(self.a_to_z_submenu,
-                                                               collection, letters)
-                DirectoryItem(title=self._a_to_z_title(letters, count), url=url)(self.handle)
+                if count <= a_z_threshold_options[settings.as_int(SETTINGS.A_Z_THRESHOLD)]:
+                    url = router_url_from_string(ROUTE.FILTER, collection, filter_type, Url.encode_param([letters]), ORDER.ASCENDING)
+                else:
+                    url = self._url_for(self.a_to_z_submenu, collection, letters, previous_letter_count)
+                DirectoryItem(title=self._a_to_z_title(letters.upper(), count), url=url)(self.handle)
 
     # Cannot be more than 1 dir deep due to path history reset
     def search(self, collection):
@@ -125,7 +136,7 @@ class DirectoryRenderer(Renderer):
         search_value = DialogRenderer.search()
         xbmcplugin.endOfDirectory(self.handle)
         if search_value:
-            self._router.go_to_route(ROUTE.SEARCH_RESULT, collection, Url.quote_plus(search_value))
+            self._router.go_to_route(ROUTE.SEARCH_RESULT, collection, Url.encode_param([search_value]))
         else:
             logger.debug('No value for search. Returning.')
-            self._router.replace_route(ROUTE.MEDIA_MENU, collection)
+            self._router.replace_route(ROUTE.MAIN_MENU, collection)

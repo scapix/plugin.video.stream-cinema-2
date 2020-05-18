@@ -1,8 +1,9 @@
+# coding=utf-8
 from datetime import timedelta
 
 
 class URL:
-    API = 'https://beta.plugin.sc2.zone/api'
+    API = 'https://beta.plugin.sc2.zone'
     GITLAB_URL = 'https://git.hotshot.sk/api/v4/'
 
 
@@ -20,6 +21,12 @@ class FILTER_TYPE:
     STARTS_WITH = 'startsWith'
     GENRE = 'genre'
     EXACT_TITLE = 'exactTitle'
+    FUZZY_SEARCH = 'fuzzySearch'
+
+
+class SORT_TYPE:
+    AIRED = 'aired'
+    DATE_ADDED = 'dateAdded'
 
 
 class MEDIA_TYPE:
@@ -32,6 +39,7 @@ class COLLECTION:
     MOVIES = 'movies'
     DIRECTORIES = 'directories'
     VIDEOS = 'videos'
+    ALL = 'tvshows,movies'
 
 
 class RENDERER:
@@ -41,16 +49,23 @@ class RENDERER:
 
 
 class ENDPOINT:
-    MEDIA = 'media'
+    API = '/api'
+    MEDIA = API + '/media'
     COLLECTION = MEDIA + '/<collection>'
-    FILTER = COLLECTION + '/filter/<filter_name>/<filter_value>'
+    FILTER = COLLECTION + '/filter/<filter_name>/<order>'
     MEDIA_PLAYED = COLLECTION + '/<media_id>/played/<uuid>'
     TV_SHOW_PLAYED = COLLECTION + '/<media_id>/<season>/<episode>/played'
-    POPULAR = COLLECTION + '/popular/-1'
+    POPULAR = COLLECTION + '/popular/desc'
     MEDIA_DETAIL = COLLECTION + '/<media_id>'
-    FILTER_COUNT = COLLECTION + '/filter/<filter_name>/count'
-    USER = 'user'
-    WATCHED = USER + '/watched/<uuid>'
+    FILTER_COUNT = COLLECTION + '/count/filter/<filter_name>'
+    USERS = API + '/users'
+    WATCHED = USERS + '/watched/<uuid>'
+    SORT = COLLECTION + '/sort/<sort_type>/<order>'
+
+
+class ORDER:
+    ASCENDING = 'asc'
+    DESCENDING = 'desc'
 
 
 class PROTOCOL:
@@ -64,10 +79,10 @@ class REGEX:
 class ROUTE:
     ROOT = '/'
     A_TO_Z = '/a_to_z/<collection>'
-    A_TO_Z_SUBMENU = '/a_to_z/<collection>/<previous_letter>'
+    A_TO_Z_SUBMENU = '/a_to_z/<collection>/<previous_letter>/<previous_letter_count>'
     SHOW_CACHED_MEDIA = '/show_cached_media/<collection>'
-    NEXT_PAGE = '/next_page/<collection>/<url>'
-    FILTER = '/filter/<collection>/<filter_type>/<filter_value>'
+    NEXT_PAGE = '/next_page/<collection>/<url>/<body>'
+    FILTER = '/filter/<collection>/<filter_type>/<filter_value>/<order>'
     SEARCH = '/search/<collection>'
     COMMAND = '/command/<what>'
     MEDIA_MENU = '/media/<collection>'
@@ -88,6 +103,7 @@ class ROUTE:
     SET_PROVIDER_CREDENTIALS = '/set-provider-credentials'
     CSFD_TIPS = '/csfd_tips/<collection>'
     SEARCH_CSFD_ITEM = '/csfd_search/<collection>/<search_value>'
+    SORT = '/sort/<collection>/<sort_type>/<order>'
 
 
 class GITLAB_ENDPOINT:
@@ -173,6 +189,8 @@ class STRINGS:
     PAIR_BOLD = BOLD + ': {}'
     EPISODE_TITLE = '{} - S{}E{}'
     VIP_INFO = '{} ({}: {})'
+    TITLE_YEAR = '{title} [COLOR grey][I]({year})[/I][/COLOR]'
+    TITLE_GENRE_YEAR = '{title}  [LIGHT][COLOR grey]{genre}[I] ({year})[/I][/COLOR][/LIGHT]'
 
 
 class CODEC:
@@ -283,6 +301,8 @@ class LANG:
     NOT_ACTIVE = 30133
     CSFD_TIPS = 30309
     SHOW_SEARCH_RESULTS_NOTIFICATIONS = 30135
+    NEWS = 30136
+    LAST_ADDED = 30137
 
 
 api_genres = {
@@ -325,7 +345,6 @@ api_genres = {
 }
 
 explicit_genres = [LANG.EROTIC, LANG.PORNOGRAPHIC]
-
 
 a_z_threshold_options = {
     0: 10,

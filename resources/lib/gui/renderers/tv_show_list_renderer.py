@@ -1,3 +1,4 @@
+from resources.lib.api.api import API
 from resources.lib.const import STRINGS, ROUTE, LANG
 from resources.lib.gui import DirectoryItem, TvShowItem, MainMenuFolderItem, TvShowMenuItem
 from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
@@ -10,10 +11,10 @@ class TvShowListRenderer(MediaListRenderer):
         super(TvShowListRenderer, self).__call__(collection, media_list)
         gui_items = [self.build_media_item_gui(TvShowMenuItem, media,
                                                self.url_builder(media, collection)) for media in media_list.get('data')]
-        paging = media_list.get('paging')
-        is_paging = True if paging else False
-        self.add_paging(collection, gui_items, paging)
-        self.add_navigation(gui_items, bottom=is_paging)
+        pagination = media_list.get('pagination')
+        is_pagination = True if pagination else False
+        self.add_pagination(collection, gui_items, pagination)
+        self.add_navigation(gui_items, bottom=is_pagination)
         built_items = [media.build() for media in gui_items]
         self.render(collection, built_items)
 
@@ -28,7 +29,7 @@ class TvShowListRenderer(MediaListRenderer):
         MainMenuFolderItem(url=router_url_from_string(ROUTE.CLEAR_PATH))(self.handle)
         media = self._on_media_selected(collection, media_id)
         self.set_cached_media(media)
-        season_list = media.get('seasons')
+        season_list = API.get_source(media).get('seasons')
         if season_list:
             list_items = [movie.build() for movie in self.build_season_list_gui(collection, media_id, season_list)]
             self.render(collection, list_items)
@@ -63,10 +64,10 @@ class TvShowListRenderer(MediaListRenderer):
     def select_tv_show_stream(self, media_id, season_id, episode_id):
         logger.debug('Showing stream list')
         media = self.get_episode(int(season_id), int(episode_id))
-        self.select_stream(media_id, media['streams'])
+        self.select_stream(media_id, API.get_source(media)['streams'])
 
     def get_season(self, season_id):
-        return self.get_cached_media().get('seasons')[season_id]
+        return API.get_source(self.get_cached_media()).get('seasons')[season_id]
 
     def get_episode(self, season_id, episode_id):
         return self.get_season(season_id).get('episodes')[episode_id]
