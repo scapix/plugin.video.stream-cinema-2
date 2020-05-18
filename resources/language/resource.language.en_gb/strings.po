@@ -438,7 +438,7 @@ msgid "Show search results notifications"
 msgstr ""
 
 msgctxt "#30136"
-msgid "News"
+msgid "New"
 msgstr ""
 
 msgctxt "#30137"

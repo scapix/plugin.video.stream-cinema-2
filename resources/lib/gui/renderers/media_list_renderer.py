@@ -26,7 +26,6 @@ class MediaListRenderer(Renderer):
 
     def __call__(self, collection, media_list):
         logger.debug('Renderer %s call' % self)
-        storage[STORAGE.COLLECTION] = collection
 
     def __repr__(self):
         return self.__class__.__name__
@@ -87,7 +86,6 @@ class MediaListRenderer(Renderer):
             return False
 
         logger.info('Got movie stream')
-        self.storage[STORAGE.SELECTED_MEDIA_ID] = media_id
         self._on_stream_selected(stream['ident'])
 
     def get_cached_media(self):

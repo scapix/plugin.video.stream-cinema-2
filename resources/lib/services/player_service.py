@@ -23,6 +23,7 @@ class PlayerService(Service):
             uuid = settings[SETTINGS.UUID]
             self._api.media_played(collection, media_id, uuid)
 
+
     @staticmethod
     def media_stopped():
         service_logger.debug('Playback stopped. Removing media ID.')

@@ -190,7 +190,7 @@ class STRINGS:
     EPISODE_TITLE = '{} - S{}E{}'
     VIP_INFO = '{} ({}: {})'
     TITLE_YEAR = '{title} [COLOR grey][I]({year})[/I][/COLOR]'
-    TITLE_GENRE_YEAR = '{title}  [LIGHT][COLOR grey]{genre}[I] ({year})[/I][/COLOR][/LIGHT]'
+    TITLE_GENRE_YEAR = '{title} [LIGHT][COLOR darkgray]({year}) {genre}[/COLOR][/LIGHT]'
 
 
 class CODEC:

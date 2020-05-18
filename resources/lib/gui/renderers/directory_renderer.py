@@ -1,5 +1,6 @@
 import contextlib
 import json
+import operator
 
 import xbmcplugin
 
@@ -76,12 +77,13 @@ class DirectoryRenderer(Renderer):
 
         if settings.as_bool(SETTINGS.EXPLICIT_CONTENT):
             genres = genres + explicit_genres
-        genres.sort()
+        genres = [{'lang_id': genre, 'string': get_string(genre)} for genre in genres]
+        genres.sort(key=operator.itemgetter('string'))
         with self.start_directory(self.handle):
             for genre in genres:
-                DirectoryItem(title=get_string(genre),
+                DirectoryItem(title=genre.get('string'),
                               url=router_url_from_string(ROUTE.FILTER, collection, FILTER_TYPE.GENRE,
-                                                         Url.encode_param([api_genres[genre]]), ORDER.ASCENDING)
+                                                         Url.encode_param([api_genres[genre.get('lang_id')]]), ORDER.DESCENDING)
                               )(self.handle)
 
     def a_to_z_menu(self, collection):

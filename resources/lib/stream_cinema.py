@@ -213,6 +213,8 @@ class StreamCinema:
             self.router.set_resolved_url()
 
     def get_media_detail(self, collection, media_id):
+        storage[STORAGE.SELECTED_MEDIA_ID] = media_id
+        storage[STORAGE.COLLECTION] = collection
         return self.process_api_response(self._api.media_detail(collection, media_id))
 
     @staticmethod

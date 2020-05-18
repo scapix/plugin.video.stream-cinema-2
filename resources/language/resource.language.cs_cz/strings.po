@@ -426,7 +426,7 @@ msgid "Show search results notifications"
 msgstr "Zobrazit oznámení o výsledcích vyhledávání"
 
 msgctxt "#30136"
-msgid "News"
+msgid "New"
 msgstr "Novinky"
 
 msgctxt "#30137"
