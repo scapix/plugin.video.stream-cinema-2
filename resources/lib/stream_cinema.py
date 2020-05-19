@@ -134,7 +134,7 @@ class StreamCinema:
             response.raise_for_status()
             return response
         except requests.exceptions.HTTPError as e:
-            InfoDialog(get_string(30301), icon=InfoDialogType.ERROR).notify()
+            InfoDialog(get_string(LANG.HTTP_ERROR), icon=InfoDialogType.ERROR).notify()
             logger.error(e)
             return None
 

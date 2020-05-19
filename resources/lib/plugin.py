@@ -1,8 +1,9 @@
 """
-    # Main routing to go through different menu screens. 
+    # Main routing to go through different menu screens.
 """
 import sys
 import uuid
+import requests
 from datetime import datetime
 from resources.lib.api.gitlab_api import GitLabAPI
 from resources.lib.const import SETTINGS, RENDERER, LANG, STORAGE, ROUTE, GENERAL
@@ -16,6 +17,7 @@ from resources.lib.storage.storage import storage
 from resources.lib.stream_cinema import StreamCinema
 from resources.lib.utils.kodiutils import get_plugin_url, get_string, set_settings, get_current_datetime_str, \
     datetime_from_iso, get_info, time_limit_expired, clear_kodi_addon_cache, get_plugin_route
+from xbmcgui import Dialog
 
 provider = Defaults.provider()
 api = Defaults.api()
@@ -36,11 +38,15 @@ def run():
     on_clear_cache_redirect()
     set_settings(SETTINGS.VERSION, get_info('version'))
     logger.debug('Entry point ------- ' + str(sys.argv))
-    stream_cinema.vip_remains()
-    # settings.load_to_cache(SETTINGS.PROVIDER_USERNAME, SETTINGS.PROVIDER_PASSWORD, SETTINGS.PROVIDER_TOKEN)
-    check_version()
-    plugin_url_history.add(get_plugin_url())
-    return router.run()
+    try:
+        stream_cinema.vip_remains()
+        # settings.load_to_cache(SETTINGS.PROVIDER_USERNAME, SETTINGS.PROVIDER_PASSWORD, SETTINGS.PROVIDER_TOKEN)
+        check_version()
+        plugin_url_history.add(get_plugin_url())
+        return router.run()
+    except requests.exceptions.ConnectionError as e:
+        Dialog().ok(get_string(LANG.CONNECTION_ERROR), get_string(LANG.NO_CONNECTION_HELP))
+        logger.error(e)
 
 
 def first_run():
