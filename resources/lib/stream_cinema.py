@@ -178,7 +178,7 @@ class StreamCinema:
             if valid_token:
                 if self._check_vip(user_data):
                     days_to = self._provider.vip_remains(user_data)
-                    if days_to < GENERAL.VIP_REMAINING_WARN:
+                    if days_to <= GENERAL.VIP_REMAINING_DAYS_WARN:
                         DialogRenderer.ok(get_string(LANG.VIP_REMAINS).format(provider=self._provider),
                                           STRINGS.PAIR_BOLD.format(get_string(LANG.DAYS), str(days_to)))
 
