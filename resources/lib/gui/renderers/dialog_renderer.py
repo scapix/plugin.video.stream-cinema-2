@@ -48,11 +48,14 @@ class DialogRenderer:
         return streams[ret]
 
     @staticmethod
-    def keyboard(title, value='', hidden=False):
-        keyboard = xbmc.Keyboard(value, title, hidden)
+    def keyboard(title, hidden=False):
+        keyboard = xbmc.Keyboard('', title, hidden)
         keyboard.doModal()
         if keyboard.isConfirmed():
-            return keyboard.getText().strip()
+            search_entered = keyboard.getText()
+            if search_entered == 0 or search_entered is None:
+                return False
+            return search_entered
         return False
 
     @staticmethod

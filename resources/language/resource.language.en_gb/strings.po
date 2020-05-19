@@ -457,10 +457,6 @@ msgctxt "#30137"
 msgid "Last added"
 msgstr "Recently added"
 
-msgctxt "#30138"
-msgid "User successfully logged out"
-msgstr ""
-
 msgctxt "#30309"
 msgid "TV tips of the day (by CSFD)"
 msgstr "TV picks of the day (CSFD.cz)"

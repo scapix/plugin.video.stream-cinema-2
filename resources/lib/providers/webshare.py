@@ -86,19 +86,7 @@ class Webshare:
         logger.debug('Getting user salt from provider')
         return self._find(root, 'salt')
 
-    def logout(self):
-        """
-        POST /api/logout/ HTTP/1.1
-        Accept-Encoding: identity
-        Host: webshare.cz
-        Referer: https://webshare.cz/
-        Content-Type: application/x-www-form-urlencoded
-        """
-        self._post('/logout/')
-        logger.debug('User logout from provider')
-        return
-
-    def login(self):
+    def get_token(self):
         """
         POST /api/login/ HTTP/1.1
         Accept-Encoding: identity
@@ -107,18 +95,16 @@ class Webshare:
         Content-Type: application/x-www-form-urlencoded
         """
         salt = self._get_salt()
-        if salt is None:
-            salt = ''
-
-        hashed = self._hash_password(self.password, salt)
-        response = self._post('/login/', data={
-            'username_or_email': self.username,
-            'password': hashed,
-            'keep_logged_in': 1,
-        })
-        root = self._parse(response)
-        logger.debug('Getting user token from provider')
-        return self._find(root, 'token')
+        if salt is not None:
+            hashed = self._hash_password(self.password, salt)
+            response = self._post('/login/', data={
+                'username_or_email': self.username,
+                'password': hashed,
+                'keep_logged_in': 1,
+            })
+            root = self._parse(response)
+            logger.debug('Getting user token from provider')
+            return self._find(root, 'token')
 
     def get_user_data(self):
         """
