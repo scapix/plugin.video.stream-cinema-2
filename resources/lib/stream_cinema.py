@@ -17,9 +17,9 @@ from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
 from resources.lib.gui.renderers.movie_list_renderer import MovieListRenderer
 from resources.lib.gui.renderers.tv_show_list_renderer import TvShowListRenderer
 from resources.lib.kodilogging import logger
-from resources.lib.settings import settings, get_uuid
+from resources.lib.settings import settings
 from resources.lib.storage.storage import storage
-from resources.lib.utils.kodiutils import get_string, time_limit_expired, set_settings, translate_genres
+from resources.lib.utils.kodiutils import get_string, time_limit_expired, translate_genres
 from resources.lib.utils.url import Url
 
 
@@ -171,12 +171,12 @@ class StreamCinema:
             vip_string = STRINGS.VIP_INFO.format(self._provider.vip_until(user_data),
                                                  get_string(LANG.DAYS),
                                                  self._provider.vip_remains(user_data))
-        set_settings(SETTINGS.VIP_DURATION, vip_string)
+        settings.set_cache(SETTINGS.VIP_DURATION, vip_string)
         return is_vip
 
     def vip_remains(self):
         if time_limit_expired(SETTINGS.LAST_VIP_CHECK, GENERAL.VIP_CHECK_INTERVAL):
-            set_settings(SETTINGS.LAST_VIP_CHECK, datetime.now())
+            settings.set_cache(SETTINGS.LAST_VIP_CHECK, datetime.now())
             valid_token, user_data = self._check_token_and_return_user_data()
             if valid_token:
                 if self._check_vip(user_data):
@@ -239,7 +239,7 @@ class StreamCinema:
         return self._api.get_filter_values_count(*args, **kwargs).json()
 
     def watched(self):
-        media_list = self.process_api_response(self._api.watched(get_uuid()))
+        media_list = self.process_api_response(self._api.watched(settings[SETTINGS.UUID]))
         self.show_search_results(media_list, self.show_mixed_media_list)
 
     def sort(self, collection, sort_type, order):

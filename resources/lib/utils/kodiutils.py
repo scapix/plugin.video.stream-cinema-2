@@ -13,7 +13,7 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
-from resources.lib.const import PROTOCOL, REGEX, STRINGS, GENERAL, api_genres
+from resources.lib.const import PROTOCOL, REGEX, STRINGS, SETTINGS, api_genres
 
 try:
     from urllib import quote
@@ -223,6 +223,13 @@ def user_agent():
     return xbmc.getUserAgent()
 
 
+def common_headers():
+    return {
+        'User-Agent': user_agent(),
+        'X-Uuid': get_settings(SETTINGS.UUID)
+    }
+
+
 def delete_try(obj, key):
     try:
         del obj[key]
@@ -238,13 +245,12 @@ def apply_strings(text, *args):
     return res.format(*text)
 
 
-def time_limit_expired(settings, limit=GENERAL.VERSION_CHECK_INTERVAL):
-    datetime_to_check = get_setting_as_datetime(settings)
-    if datetime_to_check is None:
-        return True
-
+def time_limit_expired(settings, limit):
+    last_version_check = get_setting_as_datetime(settings)
     current_datetime = datetime.now()
-    return current_datetime - limit > datetime_to_check
+    if last_version_check is None:
+        return True
+    return current_datetime - limit > last_version_check
 
 
 def clear_kodi_addon_cache():

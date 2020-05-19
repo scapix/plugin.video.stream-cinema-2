@@ -3,7 +3,7 @@ from resources.lib.api.cached_api import CachedAPI
 from resources.lib.const import SETTINGS, URL
 from resources.lib.provider import provider
 from resources.lib.router import Router
-from resources.lib.settings import get_uuid
+from resources.lib.settings import settings
 from resources.lib.storage.storage import storage
 from resources.lib.utils.kodiutils import get_info
 
@@ -23,7 +23,7 @@ class Defaults:
     def api():
         return API(
             plugin_version=get_info('version'),
-            uuid=get_uuid(),
+            uuid=settings[SETTINGS.UUID],
             api_url=URL.API
         )
 
@@ -32,6 +32,6 @@ class Defaults:
         return CachedAPI(
             'main',
             plugin_version=get_info('version'),
-            uuid=get_uuid(),
+            uuid=settings[SETTINGS.UUID],
             api_url=URL.API
         )

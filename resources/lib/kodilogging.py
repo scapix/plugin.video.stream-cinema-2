@@ -3,7 +3,6 @@ import logging
 import xbmc
 
 from resources.lib.utils.kodiutils import get_setting_as_bool, get_info
-from resources.lib.const import SETTINGS
 
 levels = {
     'CRITICAL': xbmc.LOGFATAL,
@@ -22,7 +21,7 @@ class KodiLogHandler(logging.StreamHandler):
         self.setFormatter(formatter)
 
     def emit(self, record):
-        if get_setting_as_bool(SETTINGS.DEBUG):
+        if get_setting_as_bool('debug'):
             xbmc.log(self.format(record), levels[record.levelname])
 
     def flush(self):

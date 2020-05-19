@@ -5,8 +5,8 @@
 import requests
 
 from resources.lib.const import ENDPOINT, GENERAL, ORDER
-from resources.lib.utils.kodiutils import replace_url_params, user_agent
-from resources.lib.settings import get_uuid
+from resources.lib.utils.kodiutils import replace_url_params, common_headers
+
 
 class API(object):
     def __init__(self, plugin_version, uuid, api_url):
@@ -32,20 +32,13 @@ class API(object):
     def post(self, url, body):
         return self._post(url, body)
 
-    @staticmethod
-    def common_headers():
-        return {
-            'User-Agent': user_agent(),
-            'X-Uuid': get_uuid()
-        }
-
     def _post(self, url_path, body):
         sanitized_api_path = self._api_url.strip('/')
         sanitized_url_path = url_path.strip('/')
         return requests.post(
             '{}/{}'.format(sanitized_api_path, sanitized_url_path),
             json=body,
-            headers=self.common_headers(),
+            headers=common_headers(),
             timeout=GENERAL.API_TIMEOUT
         )
 

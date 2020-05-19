@@ -8,10 +8,10 @@ import xml.etree.ElementTree as ElementTree
 import requests
 from simpleplugin import Plugin
 
-from resources.lib.const import DOWNLOAD_TYPE, CACHE
+from resources.lib.const import DOWNLOAD_TYPE, SETTINGS, CACHE
 from resources.lib.kodilogging import logger
-from resources.lib.settings import get_uuid
-from resources.lib.utils.kodiutils import get_screen_width, get_screen_height, user_agent
+from resources.lib.settings import settings
+from resources.lib.utils.kodiutils import get_screen_width, get_screen_height, common_headers
 from resources.lib.vendor.md5crypt import md5crypt
 
 plugin = Plugin()
@@ -38,12 +38,6 @@ class Webshare:
     def token(self):
         return self._token()
 
-    @property
-    def headers(self):
-        return {
-            'User-Agent': user_agent()
-        }
-
     @plugin.mem_cached(CACHE.EXPIRATION_TIME)
     def get_link_for_file_with_id(self, file_id, download_type=DOWNLOAD_TYPE.VIDEO_STREAM):
         """
@@ -56,7 +50,7 @@ class Webshare:
         data = {
             'ident': file_id,
             'download_type': download_type,
-            'device_uuid': get_uuid(),
+            'device_uuid': settings[SETTINGS.UUID],
             'device_res_x': get_screen_width(),
             'device_res_y': get_screen_height(),
         }
@@ -74,7 +68,8 @@ class Webshare:
             data = {}
         data.setdefault('wst', self.token)
         logger.debug("WS token %s " % self.token)
-        response = requests.post('https://webshare.cz/api{}'.format(path), data=data, headers=self.headers)
+        headers = common_headers()
+        response = requests.post('https://webshare.cz/api{}'.format(path), data=data, headers=headers)
         logger.debug('Response from provider: %s' % response.content)
         return response.content
 

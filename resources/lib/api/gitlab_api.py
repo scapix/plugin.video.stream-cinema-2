@@ -1,7 +1,7 @@
 import requests
 
 from resources.lib.const import GITLAB_ENDPOINT, URL, GENERAL
-from resources.lib.utils.kodiutils import user_agent, replace_url_params, datetime_from_iso
+from resources.lib.utils.kodiutils import common_headers, replace_url_params
 
 
 class GitLabAPI:
@@ -10,10 +10,9 @@ class GitLabAPI:
 
     @property
     def headers(self):
-        return {
-            'User-Agent': user_agent(),
-            'PRIVATE-TOKEN': self.PRIVATE_TOKEN
-        }
+        common = common_headers()
+        common['PRIVATE-TOKEN'] = self.PRIVATE_TOKEN
+        return common
 
     def _get(self, url):
         sanitized_url = url.strip('/')
@@ -24,7 +23,4 @@ class GitLabAPI:
         )
 
     def get_latest_release(self):
-        releases = self._get(replace_url_params(GITLAB_ENDPOINT.RELEASES, self.PROJECT_ID)).json()
-        latest_release = max(releases, key=lambda x: datetime_from_iso(x['released_at']))
-        if latest_release:
-            return latest_release.get('tag_name')
+        return self._get(replace_url_params(GITLAB_ENDPOINT.RELEASES, self.PROJECT_ID)).json()

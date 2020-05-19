@@ -41,5 +41,6 @@
         <setting id="debug" type="bool" label="30105" default="true"/>
         <setting type="action" label="30108" action="RunPlugin(plugin://plugin.video.stream-cinema-2/clear-cache)"/>
         <setting id="last_version_check" type="date" visible="false" enable="false"/>
+        <setting id="is_outdated" type="bool"  visible="false"  enable="false"/>
     </category>
 </settings>
