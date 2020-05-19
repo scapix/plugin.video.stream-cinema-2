@@ -353,12 +353,16 @@ msgctxt "#30500"
 msgid "Server error"
 msgstr ""
 
+msgctxt "#30501"
+msgid "SC2.0 servers are experiencing issues. Please try again later."
+msgstr ""
+
 msgctxt "#30510"
 msgid "Server connection failure"
 msgstr ""
 
 msgctxt "#30511"
-msgid "Please check your Internet connection. If your Internet works fine then re-try the operation later."
+msgid "Please check your Internet connection or re-try the operation later."
 msgstr ""
 
 msgctxt "#30302"

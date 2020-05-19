@@ -17,6 +17,7 @@ from resources.lib.storage.storage import storage
 from resources.lib.stream_cinema import StreamCinema
 from resources.lib.utils.kodiutils import get_plugin_url, get_string, set_settings, get_current_datetime_str, \
     datetime_from_iso, get_info, time_limit_expired, clear_kodi_addon_cache, get_plugin_route
+import socket
 from xbmcgui import Dialog
 
 provider = Defaults.provider()
@@ -45,8 +46,11 @@ def run():
         plugin_url_history.add(get_plugin_url())
         return router.run()
     except requests.exceptions.ConnectionError as e:
-        Dialog().ok(get_string(LANG.CONNECTION_ERROR), get_string(LANG.NO_CONNECTION_HELP))
         logger.error(e)
+        if _can_connect_google():
+            Dialog().ok(get_string(LANG.CONNECTION_ERROR), get_string(LANG.SERVER_ERROR_HELP))
+        else:
+            Dialog().ok(get_string(LANG.CONNECTION_ERROR), get_string(LANG.NO_CONNECTION_HELP))
 
 
 def first_run():
@@ -132,3 +136,16 @@ def get_latest_release_tag_name():
     latest_release = max(releases, key=lambda x: datetime_from_iso(x['released_at']))
     if latest_release:
         return latest_release.get('tag_name')
+
+def _can_connect_google():
+    google_addr = ("www.google.com", 443)
+    soc = None
+    try:
+        soc = socket.create_connection(google_addr)
+        return True
+    except Exception as e:
+        logger.debug("failed to connect to %s: %s", google_addr, e)
+        return False
+    finally:
+        if soc is not None:
+            soc.close()

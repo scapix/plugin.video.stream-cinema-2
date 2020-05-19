@@ -341,13 +341,17 @@ msgctxt "#30500"
 msgid "Server error"
 msgstr "Chyba serveru"
 
+msgctxt "#30501"
+msgid "SC2.0 servers are experiencing issues. Please try again later."
+msgstr "SC2.0 servery majú problémy. Prosím opakujte akciu neskôr."
+
 msgctxt "#30510"
 msgid "Server connection failure"
 msgstr "Chyba spojenia se serverom"
 
 msgctxt "#30511"
-msgid "Please check your internet connection. If your internet works fine, then please re-try the operation later."
-msgstr "Skontrolujte prosím pripojenie k internetu. Ak je pripojenie funkčné, zopakujte akciu neskôr."
+msgid "Please check your Internet connection or re-try the operation later."
+msgstr "Skontrolujte prosím pripojenie k internetu alebo zopakujte akciu neskôr."
 
 
 msgctxt "#30302"

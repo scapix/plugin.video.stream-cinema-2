@@ -305,6 +305,7 @@ class LANG:
 
     # network errors
     HTTP_ERROR = 30500
+    SERVER_ERROR_HELP = 30501
     CONNECTION_ERROR = 30510
     NO_CONNECTION_HELP = 30511
 
