@@ -29,20 +29,8 @@ class API(object):
     def get_hits(response):
         return response.get('hits')
 
-    def get(self, url):
-        return self._get(url)
-
     def post(self, url, body):
         return self._post(url, body)
-
-    def _get(self, url_path):
-        sanitized_api_path = self._api_url.strip('/')
-        sanitized_url_path = url_path.strip('/')
-        return requests.get(
-            '{}/{}'.format(sanitized_api_path, sanitized_url_path),
-            headers=common_headers(),
-            timeout=GENERAL.API_TIMEOUT
-        )
 
     def _post(self, url_path, body):
         sanitized_api_path = self._api_url.strip('/')
@@ -62,13 +50,13 @@ class API(object):
         return self._post(url, body)
 
     def popular_media(self, collection):
-        return self._get(replace_url_params(ENDPOINT.POPULAR, collection))
+        return self._post(replace_url_params(ENDPOINT.POPULAR, collection), None)
 
     def media_played(self, collection, media_id, uuid):
-        return self._get(replace_url_params(ENDPOINT.MEDIA_PLAYED, collection, media_id, uuid))
+        return self._post(replace_url_params(ENDPOINT.MEDIA_PLAYED, collection, media_id, uuid), None)
 
     def media_detail(self, collection, media_id):
-        return self._get(replace_url_params(ENDPOINT.MEDIA_DETAIL, collection, media_id))
+        return self._post(replace_url_params(ENDPOINT.MEDIA_DETAIL, collection, media_id), None)
 
     def get_filter_values_count(self, collection, filter_name, filter_values):
         body = {
@@ -77,8 +65,8 @@ class API(object):
         return self._post(replace_url_params(ENDPOINT.FILTER_COUNT, collection, filter_name), body)
 
     def watched(self, uuid):
-        return self._get(replace_url_params(ENDPOINT.WATCHED, uuid))
+        return self._post(replace_url_params(ENDPOINT.WATCHED, uuid), None)
 
     def sort(self, collection, sort_type, order):
-        return self._get(replace_url_params(ENDPOINT.SORT, collection, sort_type, order))
+        return self._post(replace_url_params(ENDPOINT.SORT, collection, sort_type, order), None)
 

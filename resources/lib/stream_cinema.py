@@ -9,7 +9,7 @@ import xbmcplugin
 
 from resources.lib.api.api import API
 from resources.lib.const import SETTINGS, FILTER_TYPE, ROUTE, RENDERER, STORAGE, SERVICE_EVENT, LANG, \
-    SERVICE, MEDIA_TYPE, COLLECTION, STRINGS, GENERAL, ORDER, SORT_TYPE
+    SERVICE, MEDIA_TYPE, COLLECTION, STRINGS, GENERAL, ORDER
 from resources.lib.gui import InfoDialog, InfoDialogType, MediaItem, TvShowMenuItem
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
 from resources.lib.gui.renderers.directory_renderer import DirectoryRenderer
@@ -77,7 +77,7 @@ class StreamCinema:
         url = Url.unquote_plus(url)
         body = json.loads(Url.decode_param(body))
         media = self.process_api_response(self._api.post(url, body))
-        self.render_media_list(media, collection)
+        self.show_search_results(media, self.show_mixed_media_list)
 
     def filter(self, collection, filter_type, filter_value, order):
         self._filter_and_render(collection, filter_type, filter_value, order)
@@ -245,9 +245,14 @@ class StreamCinema:
             title = STRINGS.TITLE_GENRE_YEAR.format(title=info_labels.get('title').encode('utf-8'), genre=' / '.join(genres), year=info_labels.get('year'))
             if media_type == MEDIA_TYPE.TV_SHOW:
                 media_list_gui.append(MediaListRenderer.build_media_item_gui(TvShowMenuItem, source, self.renderers[
-                    RENDERER.TV_SHOWS].url_builder(media, COLLECTION.TV_SHOWS), title=title).build())
+                    RENDERER.TV_SHOWS].url_builder(media, COLLECTION.TV_SHOWS), title=title))
             elif media_type == MEDIA_TYPE.MOVIE:
                 media_list_gui.append(MovieListRenderer.build_media_item_gui(MediaItem, source, self.renderers[
-                    RENDERER.MOVIES].url_builder(media, COLLECTION.MOVIES), title=title).build())
+                    RENDERER.MOVIES].url_builder(media, COLLECTION.MOVIES), title=title))
+
+        pagination = media_list.get('pagination')
+        is_pagination = True if pagination else False
+        MediaListRenderer.add_navigation(media_list_gui, bottom=is_pagination)
+        MediaListRenderer.add_pagination(COLLECTION.ALL, media_list_gui, pagination)
         with DirectoryRenderer.start_directory(self.router.handle, as_type=COLLECTION.MOVIES):
-            xbmcplugin.addDirectoryItems(self.router.handle, media_list_gui)
+            xbmcplugin.addDirectoryItems(self.router.handle, [item.build() for item in media_list_gui])
