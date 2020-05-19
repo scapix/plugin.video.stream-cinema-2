@@ -374,8 +374,8 @@ msgid "Found {number} records"
 msgstr ""
 
 msgctxt "#30304"
-msgid "This account doesn't have active VIP"
-msgstr "This account doesn't have active subscription"
+msgid "This account doesn't have active subscription with the provider"
+msgstr ""
 
 msgctxt "#30305"
 msgid "Welcome to Stream Cinema 2.0 [COLOR red]BETA[/COLOR]"
@@ -426,12 +426,12 @@ msgid "Login successful"
 msgstr ""
 
 msgctxt "#30130"
-msgid "Remaining days of {provider} VIP"
-msgstr "Remaining days of {provider} subscription"
+msgid "Remaining days of {provider} subscription"
+msgstr ""
 
 msgctxt "#30131"
-msgid "VIP"
-msgstr "Subscription"
+msgid "Subscription"
+msgstr ""
 
 msgctxt "#30132"
 msgid "Days"

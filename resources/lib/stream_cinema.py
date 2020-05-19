@@ -105,7 +105,7 @@ class StreamCinema:
 
     def popular_media(self, collection):
         api_response = self._api.popular_media(collection)
-        self.show_search_results(self.process_api_response(api_response), self.render_media_list, collection)
+        self.show_search_results(self.process_api_response(api_response), self.show_mixed_media_list)
 
     def filter_media(self, collection, filter_name, search_value, order):
         api_response = self._api.media_filter(collection, filter_name, Url.decode_param(search_value), order)

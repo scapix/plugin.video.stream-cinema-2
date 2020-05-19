@@ -362,8 +362,8 @@ msgid "Found {number} records"
 msgstr "Nalezeno {number} záznamů"
 
 msgctxt "#30304"
-msgid "This account doesn't have active VIP"
-msgstr "Tento účet nemá aktivní VIP"
+msgid "This account doesn't have active subscription with the provider"
+msgstr "Tento účet nemá aktivní předplatné u poskytovatele"
 
 msgctxt "#30305"
 msgid "Welcome to Stream Cinema 2.0 [COLOR red]BETA[/COLOR]"
@@ -414,12 +414,12 @@ msgid "Login successful"
 msgstr "Přihlášení úspěšné"
 
 msgctxt "#30130"
-msgid "Remaining days of {provider} VIP"
-msgstr "Zbývající dny {provider} VIP"
+msgid "Remaining days of {provider} subscription"
+msgstr "Zbývající dny předplatného {provider}"
 
 msgctxt "#30131"
-msgid "VIP"
-msgstr "VIP"
+msgid "Subscription"
+msgstr "Předplatné"
 
 msgctxt "#30132"
 msgid "Days"
