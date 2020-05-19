@@ -1,9 +1,21 @@
+import uuid as uuid_generator
+
 from functools import partial
 
+from resources.lib.const import SETTINGS
 from resources.lib.kodilogging import logger
 from resources.lib.storage.storage import storage
 from resources.lib.utils.kodiutils import get_settings, show_settings, set_settings, get_setting_as_bool, \
     get_setting_as_int
+
+
+def get_uuid():
+    uuid = get_settings(SETTINGS.UUID)
+    if uuid is None or not uuid.strip():
+        uuid = uuid_generator.uuid4()
+        set_settings(SETTINGS.UUID, uuid)
+
+    return uuid
 
 
 class Settings:
@@ -11,7 +23,7 @@ class Settings:
         set_settings(key, value)
 
     def __getitem__(self, key):
-        return get_settings(key)
+        return storage.get(key)
 
     @staticmethod
     def as_bool(key):

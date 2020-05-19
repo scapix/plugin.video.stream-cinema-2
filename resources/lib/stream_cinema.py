@@ -17,9 +17,9 @@ from resources.lib.gui.renderers.media_list_renderer import MediaListRenderer
 from resources.lib.gui.renderers.movie_list_renderer import MovieListRenderer
 from resources.lib.gui.renderers.tv_show_list_renderer import TvShowListRenderer
 from resources.lib.kodilogging import logger
-from resources.lib.settings import settings
+from resources.lib.settings import settings, get_uuid
 from resources.lib.storage.storage import storage
-from resources.lib.utils.kodiutils import get_string, time_limit_expired, translate_genres
+from resources.lib.utils.kodiutils import get_string, time_limit_expired, set_settings, translate_genres
 from resources.lib.utils.url import Url
 
 
@@ -149,7 +149,7 @@ class StreamCinema:
         return self._provider.is_valid_token()
 
     def ensure_provider_token(self):
-        token = self._provider.get_token()
+        token = self._provider.login()
         if token:
             settings.set_cache(SETTINGS.PROVIDER_TOKEN, token)
             return True
@@ -168,12 +168,12 @@ class StreamCinema:
             vip_string = STRINGS.VIP_INFO.format(self._provider.vip_until(user_data),
                                                  get_string(LANG.DAYS),
                                                  self._provider.vip_remains(user_data))
-        settings[SETTINGS.VIP_DURATION] = vip_string
+        set_settings(SETTINGS.VIP_DURATION, vip_string)
         return is_vip
 
     def vip_remains(self):
         if time_limit_expired(SETTINGS.LAST_VIP_CHECK, GENERAL.VIP_CHECK_INTERVAL):
-            settings[SETTINGS.LAST_VIP_CHECK] = datetime.now()
+            set_settings(SETTINGS.LAST_VIP_CHECK, datetime.now())
             valid_token, user_data = self._check_token_and_return_user_data()
             if valid_token:
                 if self._check_vip(user_data):
@@ -200,6 +200,14 @@ class StreamCinema:
             logger.debug('Provider token is valid')
             return self._check_vip(user_data)
         return False
+
+    def logout(self):
+        logger.debug('Logging out account.')
+        if self._provider.logout():
+            settings.set_cache(SETTINGS.PROVIDER_USERNAME, '')
+            settings.set_cache(SETTINGS.PROVIDER_PASSWORD, '')
+            settings.set_cache(SETTINGS.PROVIDER_TOKEN, '')
+            InfoDialog(get_string(LANG.SUCCESS_LOGOUT), sound=True).notify()
 
     def play_stream(self, ident):
         logger.debug('Trying to play stream.')
@@ -228,7 +236,7 @@ class StreamCinema:
         return self._api.get_filter_values_count(*args, **kwargs).json()
 
     def watched(self):
-        media_list = self.process_api_response(self._api.watched(settings[SETTINGS.UUID]))
+        media_list = self.process_api_response(self._api.watched(get_uuid()))
         self.show_search_results(media_list, self.show_mixed_media_list)
 
     def sort(self, collection, sort_type, order):

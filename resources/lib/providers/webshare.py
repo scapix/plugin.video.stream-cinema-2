@@ -8,17 +8,17 @@ import xml.etree.ElementTree as ElementTree
 import requests
 from simpleplugin import Plugin
 
-from resources.lib.const import DOWNLOAD_TYPE, SETTINGS, CACHE
+from resources.lib.const import DOWNLOAD_TYPE, CACHE
 from resources.lib.kodilogging import logger
-from resources.lib.settings import settings
-from resources.lib.utils.kodiutils import get_screen_width, get_screen_height, common_headers
+from resources.lib.settings import get_uuid
+from resources.lib.utils.kodiutils import get_screen_width, get_screen_height, user_agent
 from resources.lib.vendor.md5crypt import md5crypt
 
 plugin = Plugin()
 
 
 class Webshare:
-    def __init__(self, username, password, token=None):
+    def __init__(self, username, password, token):
         self._username = username
         self._password = password
         self._token = token
@@ -38,6 +38,12 @@ class Webshare:
     def token(self):
         return self._token()
 
+    @property
+    def headers(self):
+        return {
+            'User-Agent': user_agent()
+        }
+
     @plugin.mem_cached(CACHE.EXPIRATION_TIME)
     def get_link_for_file_with_id(self, file_id, download_type=DOWNLOAD_TYPE.VIDEO_STREAM):
         """
@@ -50,7 +56,7 @@ class Webshare:
         data = {
             'ident': file_id,
             'download_type': download_type,
-            'device_uuid': settings[SETTINGS.UUID],
+            'device_uuid': get_uuid(),
             'device_res_x': get_screen_width(),
             'device_res_y': get_screen_height(),
         }
@@ -68,8 +74,7 @@ class Webshare:
             data = {}
         data.setdefault('wst', self.token)
         logger.debug("WS token %s " % self.token)
-        headers = common_headers()
-        response = requests.post('https://webshare.cz/api{}'.format(path), data=data, headers=headers)
+        response = requests.post('https://webshare.cz/api{}'.format(path), data=data, headers=self.headers)
         logger.debug('Response from provider: %s' % response.content)
         return response.content
 
@@ -86,7 +91,20 @@ class Webshare:
         logger.debug('Getting user salt from provider')
         return self._find(root, 'salt')
 
-    def get_token(self):
+    def logout(self):
+        """
+        POST /api/logout/ HTTP/1.1
+        Accept-Encoding: identity
+        Host: webshare.cz
+        Referer: https://webshare.cz/
+        Content-Type: application/x-www-form-urlencoded
+        """
+        response = self._post('/logout/')
+        root = self._parse(response)
+        logger.debug('User logout from provider')
+        return self._find(root, 'status') == 'OK'
+
+    def login(self):
         """
         POST /api/login/ HTTP/1.1
         Accept-Encoding: identity
@@ -95,16 +113,18 @@ class Webshare:
         Content-Type: application/x-www-form-urlencoded
         """
         salt = self._get_salt()
-        if salt is not None:
-            hashed = self._hash_password(self.password, salt)
-            response = self._post('/login/', data={
-                'username_or_email': self.username,
-                'password': hashed,
-                'keep_logged_in': 1,
-            })
-            root = self._parse(response)
-            logger.debug('Getting user token from provider')
-            return self._find(root, 'token')
+        if salt is None:
+            salt = ''
+
+        hashed = self._hash_password(self.password, salt)
+        response = self._post('/login/', data={
+            'username_or_email': self.username,
+            'password': hashed,
+            'keep_logged_in': 1,
+        })
+        root = self._parse(response)
+        logger.debug('Getting user token from provider')
+        return self._find(root, 'token')
 
     def get_user_data(self):
         """

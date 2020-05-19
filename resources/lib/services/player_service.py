@@ -1,7 +1,7 @@
-from resources.lib.const import STORAGE, SERVICE_EVENT, SERVICE, SETTINGS
+from resources.lib.const import STORAGE, SERVICE_EVENT, SERVICE
 from resources.lib.kodilogging import service_logger
 from resources.lib.services import Service
-from resources.lib.settings import settings
+from resources.lib.settings import get_uuid
 from resources.lib.storage.storage import storage
 
 
@@ -20,8 +20,7 @@ class PlayerService(Service):
         media_id = storage.get(STORAGE.SELECTED_MEDIA_ID)
         if media_id:
             collection = storage.get(STORAGE.COLLECTION)
-            uuid = settings[SETTINGS.UUID]
-            self._api.media_played(collection, media_id, uuid)
+            self._api.media_played(collection, media_id, get_uuid())
 
 
     @staticmethod

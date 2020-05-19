@@ -164,7 +164,6 @@ class SETTINGS:
     LAST_VERSION_CHECK = 'last_version_check'
     LAST_VERSION_AVAILABLE = 'last_version_available'
     A_Z_THRESHOLD = 'a_z_threshold'
-    IS_OUTDATED = 'is_outdated'
     VIP_DURATION = 'provider.vip_duration'
     LAST_VIP_CHECK = 'last_vip_check'
     SHOW_RESULTS_COUNT = 'show_results_count'
@@ -302,6 +301,7 @@ class LANG:
     SHOW_SEARCH_RESULTS_NOTIFICATIONS = 30135
     NEWS = 30136
     LAST_ADDED = 30137
+    SUCCESS_LOGOUT = 30138
 
     # network errors
     HTTP_ERROR = 30500
