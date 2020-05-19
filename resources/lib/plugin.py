@@ -97,15 +97,14 @@ def refresh_provider_token():
 @router.route(ROUTE.SET_PROVIDER_CREDENTIALS)
 def set_provider_credentials():
     username = DialogRenderer.keyboard(get_string(LANG.USERNAME))
+    password = DialogRenderer.keyboard(get_string(LANG.PASSWORD), hidden=True)
 
     if username:
-        password = DialogRenderer.keyboard(get_string(LANG.PASSWORD), True)
-        if password:
-            settings.set_cache(SETTINGS.PROVIDER_USERNAME, username)
-            settings.set_cache(SETTINGS.PROVIDER_TOKEN, '')
-            settings.set_cache(SETTINGS.VIP_DURATION, '')
-            settings.set_cache(SETTINGS.PROVIDER_PASSWORD, password)
-            logger.debug('Saving credentials to cache')
+        settings.set_cache(SETTINGS.PROVIDER_USERNAME, username)
+        settings.set_cache(SETTINGS.PROVIDER_TOKEN, '')
+    if password:
+        settings.set_cache(SETTINGS.PROVIDER_PASSWORD, password)
+    logger.debug('Saving credentials to cache')
 
 
 def on_clear_cache_redirect():
