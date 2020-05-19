@@ -450,14 +450,14 @@ msgid "Show search results notifications"
 msgstr ""
 
 msgctxt "#30136"
-msgid "New"
-msgstr "New releases"
+msgid "New releases"
+msgstr ""
 
 msgctxt "#30137"
-msgid "Last added"
-msgstr "Recently added"
+msgid "Recently added"
+msgstr ""
 
 msgctxt "#30309"
-msgid "TV tips of the day (by CSFD)"
-msgstr "TV picks of the day (CSFD.cz)"
+msgid "TV picks of the day (CSFD.cz)"
+msgstr ""
 

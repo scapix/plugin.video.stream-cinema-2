@@ -439,13 +439,13 @@ msgid "Show search results notifications"
 msgstr "Zobraziť oznámenie o výsledkoch vyhľadávania"
 
 msgctxt "#30136"
-msgid "New"
+msgid "New releases"
 msgstr "Novinky"
 
 msgctxt "#30137"
-msgid "Last added"
+msgid "Recently added"
 msgstr "Posledné pridané"
 
 msgctxt "#30309"
-msgid "TV tips of the day (by CSFD)"
-msgstr "Dnešné TV tipy (od ČSFD)"
+msgid "TV picks of the day (CSFD.cz)"
+msgstr "Dnešné TV tipy (ČSFD.cz)"
