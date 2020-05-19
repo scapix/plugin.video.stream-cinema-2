@@ -378,7 +378,7 @@ msgid "New version available!"
 msgstr "Nová verze je k dispozici!"
 
 msgctxt "#30308"
-msgid "Please download latest plugin release [COLOR green]{version}[/COLOR] from the reposiroty or from our website [COLOR blue]sc2.zone[/COLOR]."
+msgid "Please download latest plugin release [COLOR green]{version}[/COLOR] from the repository or from our website [COLOR blue]sc2.zone[/COLOR]."
 msgstr "Stáhněte si nejnovější verzi pluginu [COLOR green]{version}[/COLOR] z repozitáře nebo z našeho webu [COLOR blue]sc2.zone[/COLOR]."
 
 msgctxt "#30121"
