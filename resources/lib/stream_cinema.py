@@ -96,8 +96,11 @@ class StreamCinema:
             else:
                 if not settings.as_bool(SETTINGS.EXPLICIT_CONTENT):
                     MediaListRenderer.explicit_filter(media_list)
-                if not MediaListRenderer.is_same_list(self.router) and settings.as_bool(SETTINGS.SHOW_RESULTS_COUNT):
-                    InfoDialog(get_string(30303).format(number=str(num_media))).notify()
+                if settings.as_bool(SETTINGS.SHOW_RESULTS_COUNT) and not MediaListRenderer.is_same_list(self.router):
+                    pagination = media_list.get('pagination')
+                    first_page = pagination.get('page') == 1 if pagination else True
+                    if first_page:
+                        InfoDialog(get_string(30303).format(number=str(num_media))).notify()
                 return callback(media_list, *args)
 
     def render_media_list(self, media_list, collection):

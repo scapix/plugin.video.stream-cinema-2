@@ -33,10 +33,7 @@ class MediaListRenderer(Renderer):
     @staticmethod
     def is_same_list(router):
         prev = router.history.previous()
-        curr = router.history.current()
-        if prev and curr:
-            return Url.remove_params(prev) == Url.remove_params(curr)
-        return False
+        return '/next_page' in prev
 
     @property
     def storage(self):
