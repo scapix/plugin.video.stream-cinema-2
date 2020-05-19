@@ -10,7 +10,7 @@ BETA
 
 ### Install dependencies
 
-For better intellisnese (if your editor supports that) install necessary python modules via:
+For better intellisense (if your editor supports that) install necessary python modules via:
 
 ```bash
 pip install -r dev-requirements.txt
