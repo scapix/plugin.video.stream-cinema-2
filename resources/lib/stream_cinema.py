@@ -171,12 +171,12 @@ class StreamCinema:
             vip_string = STRINGS.VIP_INFO.format(self._provider.vip_until(user_data),
                                                  get_string(LANG.DAYS),
                                                  self._provider.vip_remains(user_data))
-        settings.set_cache(SETTINGS.VIP_DURATION, vip_string)
+        settings[SETTINGS.VIP_DURATION] = vip_string
         return is_vip
 
     def vip_remains(self):
         if time_limit_expired(SETTINGS.LAST_VIP_CHECK, GENERAL.VIP_CHECK_INTERVAL):
-            settings.set_cache(SETTINGS.LAST_VIP_CHECK, datetime.now())
+            settings[SETTINGS.LAST_VIP_CHECK] = datetime.now()
             valid_token, user_data = self._check_token_and_return_user_data()
             if valid_token:
                 if self._check_vip(user_data):
@@ -206,11 +206,11 @@ class StreamCinema:
 
     def logout(self):
         logger.debug('Logging out account.')
-        if self._provider.logout():
-            settings.set_cache(SETTINGS.PROVIDER_USERNAME, '')
-            settings.set_cache(SETTINGS.PROVIDER_PASSWORD, '')
-            settings.set_cache(SETTINGS.PROVIDER_TOKEN, '')
-            InfoDialog(get_string(LANG.SUCCESS_LOGOUT), sound=True).notify()
+        self._provider.logout()
+        settings.set_cache(SETTINGS.PROVIDER_USERNAME, '')
+        settings.set_cache(SETTINGS.PROVIDER_PASSWORD, '')
+        settings.set_cache(SETTINGS.PROVIDER_TOKEN, '')
+        InfoDialog(get_string(LANG.SUCCESS_LOGOUT), sound=True).notify()
 
     def play_stream(self, ident):
         logger.debug('Trying to play stream.')

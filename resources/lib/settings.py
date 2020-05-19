@@ -11,7 +11,7 @@ class Settings:
         set_settings(key, value)
 
     def __getitem__(self, key):
-        return storage.get(key)
+        return get_settings(key)
 
     @staticmethod
     def as_bool(key):
@@ -41,4 +41,4 @@ class Settings:
             logger.debug(storage[key])
 
 
-settings = Settings()
+ settings = Settings()
