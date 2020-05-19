@@ -363,7 +363,7 @@ msgstr ""
 
 msgctxt "#30304"
 msgid "This account doesn't have active VIP"
-msgstr ""
+msgstr "This account doesn't have active subscription"
 
 msgctxt "#30305"
 msgid "Welcome to Stream Cinema 2.0 [COLOR red]BETA[/COLOR]"
@@ -415,11 +415,11 @@ msgstr ""
 
 msgctxt "#30130"
 msgid "Remaining days of {provider} VIP"
-msgstr ""
+msgstr "Remaining days of {provider} subscription"
 
 msgctxt "#30131"
 msgid "VIP"
-msgstr ""
+msgstr "Subscription"
 
 msgctxt "#30132"
 msgid "Days"
@@ -439,13 +439,13 @@ msgstr ""
 
 msgctxt "#30136"
 msgid "New"
-msgstr ""
+msgstr "New releases"
 
 msgctxt "#30137"
 msgid "Last added"
-msgstr ""
+msgstr "Recently added"
 
 msgctxt "#30309"
 msgid "TV tips of the day (by CSFD)"
-msgstr ""
+msgstr "TV picks of the day (CSFD.cz)"
 
