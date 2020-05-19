@@ -1,8 +1,9 @@
 """
-    # Main routing to go through different menu screens. 
+    # Main routing to go through different menu screens.
 """
 import sys
 import uuid
+import requests
 from datetime import datetime
 from resources.lib.api.gitlab_api import GitLabAPI
 from resources.lib.const import SETTINGS, RENDERER, LANG, STORAGE, ROUTE, GENERAL
@@ -16,6 +17,8 @@ from resources.lib.storage.storage import storage
 from resources.lib.stream_cinema import StreamCinema
 from resources.lib.utils.kodiutils import get_plugin_url, get_string, set_settings, get_current_datetime_str, \
     datetime_from_iso, get_info, time_limit_expired, clear_kodi_addon_cache, get_plugin_route
+import socket
+from xbmcgui import Dialog
 
 provider = Defaults.provider()
 api = Defaults.api()
@@ -36,11 +39,18 @@ def run():
     on_clear_cache_redirect()
     set_settings(SETTINGS.VERSION, get_info('version'))
     logger.debug('Entry point ------- ' + str(sys.argv))
-    stream_cinema.vip_remains()
-    # settings.load_to_cache(SETTINGS.PROVIDER_USERNAME, SETTINGS.PROVIDER_PASSWORD, SETTINGS.PROVIDER_TOKEN)
-    check_version()
-    plugin_url_history.add(get_plugin_url())
-    return router.run()
+    try:
+        stream_cinema.vip_remains()
+        # settings.load_to_cache(SETTINGS.PROVIDER_USERNAME, SETTINGS.PROVIDER_PASSWORD, SETTINGS.PROVIDER_TOKEN)
+        check_version()
+        plugin_url_history.add(get_plugin_url())
+        return router.run()
+    except requests.exceptions.ConnectionError as e:
+        logger.error(e)
+        if _can_connect_google():
+            Dialog().ok(get_string(LANG.CONNECTION_ERROR), get_string(LANG.SERVER_ERROR_HELP))
+        else:
+            Dialog().ok(get_string(LANG.CONNECTION_ERROR), get_string(LANG.NO_CONNECTION_HELP))
 
 
 def first_run():
@@ -126,3 +136,16 @@ def get_latest_release_tag_name():
     latest_release = max(releases, key=lambda x: datetime_from_iso(x['released_at']))
     if latest_release:
         return latest_release.get('tag_name')
+
+def _can_connect_google():
+    google_addr = ("www.google.com", 443)
+    soc = None
+    try:
+        soc = socket.create_connection(google_addr)
+        return True
+    except Exception as e:
+        logger.debug("failed to connect to %s: %s", google_addr, e)
+        return False
+    finally:
+        if soc is not None:
+            soc.close()

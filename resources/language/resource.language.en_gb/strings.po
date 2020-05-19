@@ -349,8 +349,20 @@ msgctxt "#30300"
 msgid "Missing provider credentials"
 msgstr ""
 
-msgctxt "#30301"
+msgctxt "#30500"
 msgid "Server error"
+msgstr ""
+
+msgctxt "#30501"
+msgid "SC2.0 servers are experiencing issues. Please try again later."
+msgstr ""
+
+msgctxt "#30510"
+msgid "Server connection failure"
+msgstr ""
+
+msgctxt "#30511"
+msgid "Please check your Internet connection or re-try the operation later."
 msgstr ""
 
 msgctxt "#30302"
