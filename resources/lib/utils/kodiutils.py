@@ -4,6 +4,8 @@ import json
 import math
 import re
 import sys
+import hashlib
+from resources.lib.vendor.md5crypt import md5crypt
 from datetime import datetime
 from parser import ParserError
 
@@ -257,6 +259,10 @@ def clear_kodi_addon_cache():
     xbmc.executebuiltin("UpdateLocalAddons")
     xbmc.executebuiltin('UpdateAddonRepos')
 
+
+def hash_password(password, salt):
+    """Creates password hash with salt from Webshare API"""
+    return hashlib.sha1(md5crypt(password, salt=salt).encode('utf-8')).hexdigest()
 
 def get_genre_lang(api_genre):
     for key, genre in api_genres.items():

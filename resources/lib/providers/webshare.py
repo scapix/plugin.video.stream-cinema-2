@@ -2,7 +2,6 @@
     Webshare link resolver.
 """
 
-import hashlib
 import xml.etree.ElementTree as ElementTree
 
 import requests
@@ -12,7 +11,6 @@ from resources.lib.const import DOWNLOAD_TYPE, SETTINGS, CACHE
 from resources.lib.kodilogging import logger
 from resources.lib.settings import settings
 from resources.lib.utils.kodiutils import get_screen_width, get_screen_height, common_headers
-from resources.lib.vendor.md5crypt import md5crypt
 
 plugin = Plugin()
 
@@ -73,7 +71,7 @@ class Webshare:
         logger.debug('Response from provider: %s' % response.content)
         return response.content
 
-    def _get_salt(self):
+    def get_salt(self, username):
         """
         POST /api/salt/ HTTP/1.1
         Accept-Encoding: identity
@@ -81,10 +79,14 @@ class Webshare:
         Referer: https://webshare.cz/
         Content-Type: application/x-www-form-urlencoded
         """
-        response = self._post('/salt/', data={'username_or_email': self.username})
+        response = self._post('/salt/', data={'username_or_email': username})
         root = self._parse(response)
         logger.debug('Getting user salt from provider')
-        return self._find(root, 'salt')
+        status = self._find(root, 'status')
+        if status == 'OK':
+            return self._find(root, 'salt')
+        else:
+            return None
 
     def get_token(self):
         """
@@ -94,17 +96,15 @@ class Webshare:
         Referer: https://webshare.cz/
         Content-Type: application/x-www-form-urlencoded
         """
-        salt = self._get_salt()
-        if salt is not None:
-            hashed = self._hash_password(self.password, salt)
-            response = self._post('/login/', data={
-                'username_or_email': self.username,
-                'password': hashed,
-                'keep_logged_in': 1,
-            })
-            root = self._parse(response)
-            logger.debug('Getting user token from provider')
-            return self._find(root, 'token')
+
+        response = self._post('/login/', data={
+            'username_or_email': self.username,
+            'password': self.password,
+            'keep_logged_in': 1,
+        })
+        root = self._parse(response)
+        logger.debug('Getting user token from provider')
+        return self._find(root, 'token')
 
     def get_user_data(self):
         """
@@ -144,8 +144,3 @@ class Webshare:
     def _find(xml, key):
         """Find text for element. If element is not found empty string is returned"""
         return xml.findtext(key, '')
-
-    @classmethod
-    def _hash_password(cls, password, salt):
-        """Creates password hash used by Webshare API"""
-        return hashlib.sha1(md5crypt(password, salt=salt).encode('utf-8')).hexdigest()
