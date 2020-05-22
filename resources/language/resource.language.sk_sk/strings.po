@@ -449,3 +449,19 @@ msgstr "Posledné pridané"
 msgctxt "#30309"
 msgid "TV picks of the day (CSFD.cz)"
 msgstr "Dnešné TV tipy (ČSFD.cz)"
+
+msgctxt "#30400"
+msgid "Preferred stream"
+msgstr "Preferovaný výber streamov"
+
+msgctxt "#30401"
+msgid "Video quality"
+msgstr "Kvalita videa"
+
+msgctxt "#30402"
+msgid "Audio Language"
+msgstr "Jazyk audia"
+
+msgctxt "#30403"
+msgid "Enable Stream Autoselect"
+msgstr "Zapnúť automatický výber streamu"
