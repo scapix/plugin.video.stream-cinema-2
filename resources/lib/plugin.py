@@ -16,7 +16,7 @@ from resources.lib.settings import settings
 from resources.lib.storage.storage import storage
 from resources.lib.stream_cinema import StreamCinema
 from resources.lib.utils.kodiutils import get_plugin_url, get_string, set_settings, get_current_datetime_str, \
-    datetime_from_iso, get_info, time_limit_expired, clear_kodi_addon_cache, get_plugin_route
+    datetime_from_iso, get_info, time_limit_expired, clear_kodi_addon_cache, get_plugin_route, hash_password
 import socket
 from xbmcgui import Dialog
 
@@ -65,6 +65,12 @@ def first_run():
     if settings[SETTINGS.PROVIDER_USERNAME] == '':
         settings[SETTINGS.PROVIDER_TOKEN] = ''
 
+    # fix plain stored password on first run
+    if settings[SETTINGS.PROVIDER_USERNAME] and len(settings[SETTINGS.PROVIDER_PASSWORD]) != 40:
+        salt = provider.get_salt(settings[SETTINGS.PROVIDER_USERNAME])
+        if salt is not None:
+            settings[SETTINGS.PROVIDER_PASSWORD] = hash_password(settings[SETTINGS.PROVIDER_PASSWORD], salt)
+
     if get_plugin_route() != ROUTE.CHECK_PROVIDER_CREDENTIALS or not storage.get(STORAGE.IS_OLD_KODI_SESSION):
         settings.load_to_cache(SETTINGS.PROVIDER_USERNAME, SETTINGS.PROVIDER_PASSWORD, SETTINGS.PROVIDER_TOKEN)
 
@@ -97,13 +103,26 @@ def refresh_provider_token():
 @router.route(ROUTE.SET_PROVIDER_CREDENTIALS)
 def set_provider_credentials():
     username = DialogRenderer.keyboard(get_string(LANG.USERNAME))
+
+    if username is None:
+        return
+    else:
+        salt = provider.get_salt(username)
+        if salt is None:
+            InfoDialog(get_string(LANG.INCORRECT_PROVIDER_CREDENTIALS), sound=True).notify()
+            return
+
     password = DialogRenderer.keyboard(get_string(LANG.PASSWORD), hidden=True)
+
+    if password is None:
+        return
 
     if username:
         settings.set_cache(SETTINGS.PROVIDER_USERNAME, username)
         settings.set_cache(SETTINGS.PROVIDER_TOKEN, '')
     if password:
-        settings.set_cache(SETTINGS.PROVIDER_PASSWORD, password)
+        hashed = hash_password(password, salt)
+        settings.set_cache(SETTINGS.PROVIDER_PASSWORD, hashed)
     logger.debug('Saving credentials to cache')
 
 
