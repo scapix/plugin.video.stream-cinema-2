@@ -76,7 +76,13 @@ class MediaListRenderer(Renderer):
         return '{} ({}/{})'.format(get_string(30203), page, page_count)
 
     def select_stream(self, media_id, streams):
-        stream = DialogRenderer.choose_video_stream(streams)
+        stream = None
+
+        if len(streams) == 1:
+            stream = streams[0]
+        elif len(streams) > 1:
+            stream = DialogRenderer.choose_video_stream(streams)
+
         if stream is None:
             # Dialog cancel.
             set_resolved_url(self.handle)
