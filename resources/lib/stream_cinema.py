@@ -21,6 +21,7 @@ from resources.lib.settings import settings
 from resources.lib.storage.storage import storage
 from resources.lib.utils.kodiutils import get_string, time_limit_expired, translate_genres
 from resources.lib.utils.url import Url
+from resources.lib.utils.addtolib import add_to_library
 
 
 class StreamCinema:
@@ -60,6 +61,7 @@ class StreamCinema:
         router.add_route(movie_renderer.csfd_tips, ROUTE.CSFD_TIPS)
         router.add_route(self.search_for_csfd_item, ROUTE.SEARCH_CSFD_ITEM)
         router.add_route(self.sort, ROUTE.SORT)
+        router.add_route(add_to_library, ROUTE.ADD_TO_LIBRARY)
 
     @property
     def router(self):
