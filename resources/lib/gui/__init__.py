@@ -2,9 +2,10 @@ import xbmcgui
 import xbmcplugin
 import xbmc
 
-from resources.lib.const import LANG, STRINGS, ROUTE
+from resources.lib.const import LANG, STRINGS, ROUTE, SETTINGS
 from resources.lib.utils.kodiutils import router_url_from_string, get_string, ADDON
 from resources.lib.kodilogging import logger
+from resources.lib.settings import settings
 
 
 class DirectoryItem:
@@ -90,6 +91,8 @@ class MediaItem(object):
             label=self._title,
             path=self._url,
         )
+        menu = []
+
         if self._art:
             # Without this it clutters the logs with:
             # CreateLoader - unsupported protocol(plugin) in plugin://plugin.video.stream-cinema-2/select_stream/5eb4691439a9578cbf25d7f4
@@ -103,7 +106,7 @@ class MediaItem(object):
         if self._info_labels:
             item.setInfo('video', self._info_labels)
         if self._stream_info:
-            item.addContextMenuItems([(kodiutils.get_string(30404), 'PlayMedia({}?force=true)'.format(self._url))])
+            menu.append((get_string(30404), 'PlayMedia({}?force=true)'.format(self._url)))
             for key, value in self._stream_info.items():
                 item.addStreamInfo(key, value)
         if self._services:
@@ -112,8 +115,9 @@ class MediaItem(object):
         item.setProperty('IsPlayable', 'true')
 
         logger.debug(router_url_from_string(ROUTE.ADD_TO_LIBRARY))
-        menu = []
-        menu.append((get_string(LANG.ADD_TO_LIBRARY), "RunPlugin(%s)" % router_url_from_string(ROUTE.ADD_TO_LIBRARY)))
+
+        if settings[SETTINGS.MOVIE_LIBRARY_FOLDER] != '':
+            menu.append((get_string(LANG.ADD_TO_LIBRARY), "RunPlugin(%s)" % router_url_from_string(ROUTE.ADD_TO_LIBRARY)))
 
         item.addContextMenuItems(menu)
 
