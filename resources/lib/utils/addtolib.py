@@ -44,7 +44,7 @@ def addTVShow(tf):
 
 def add_to_library():
     logger.debug("add to lib called")
-    DialogRenderer.ok('Info', 'OK')
+    # DialogRenderer.ok('Info', 'OK')
     # Check settings, whether library paths are set up corretly
     if dbtype == 'movie':
         if settings['movielFolder'] == '':

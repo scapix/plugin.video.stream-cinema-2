@@ -109,10 +109,9 @@ class MediaItem(object):
 
         item.setProperty('IsPlayable', 'true')
 
-        # '1234' is just an example, in add_to_library method I do not need any argument
-        logger.debug(router_url_from_string(ROUTE.ADD_TO_LIBRARY, '1234'))
+        logger.debug(router_url_from_string(ROUTE.ADD_TO_LIBRARY))
         menu = []
-        menu.append(("sp %s" % get_string(LANG.ADD_TO_LIBRARY), "RunPlugin(%s)" % router_url_from_string(ROUTE.ADD_TO_LIBRARY)))
+        menu.append((get_string(LANG.ADD_TO_LIBRARY), "RunPlugin(%s)" % router_url_from_string(ROUTE.ADD_TO_LIBRARY)))
 
         item.addContextMenuItems(menu)
 
