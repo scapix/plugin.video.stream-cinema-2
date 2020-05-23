@@ -82,7 +82,8 @@ class MediaListRenderer(Renderer):
         if len(streams) == 1:
             stream = streams[0]
         elif len(streams) > 1:
-            if settings.get_setting_as_bool("auto_select_stream"):
+            force = self._router.args.has_key('force') and self._router.args['force'][0].lower() == 'true'
+            if settings.get_setting_as_bool("auto_select_stream") and not force:
                 preferred_quality = int(settings.get_settings(SETTINGS.PREFERRED_QUALITY))
                 preferred_language = int(settings.get_settings(SETTINGS.PREFERRED_LANGUAGE))
                 stream = self._autoselect_stream(streams, preferred_quality, preferred_language)

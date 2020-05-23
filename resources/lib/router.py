@@ -14,6 +14,13 @@ class Router:
         self._history = PluginUrlHistory()
 
     @property
+    def args(self):
+        """
+        https://github.com/tamland/kodi-plugin-routing#query-string
+        """
+        return self._router.args
+
+    @property
     def handle(self):
         return self._router.handle
 
