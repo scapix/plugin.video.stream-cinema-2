@@ -140,10 +140,10 @@ class MediaListRenderer(Renderer):
                 selected = streams[intersection[0]]
             elif len(with_right_audio) > 0:
                 reason = 'right audio'
-                selected = streams[with_right_audio[0]]
+                selected = streams[list(with_right_audio)[0]]
             elif len(with_right_video) > 0:
                 reason = 'right video'
-                selected = streams[with_right_video[0]]
+                selected = streams[list(with_right_video)[0]]
         except Exception as e:
             reason = 'error'
             logger.error("autoselect: failed to auto select stream: %s", e)
