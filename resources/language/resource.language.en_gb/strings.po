@@ -477,6 +477,14 @@ msgctxt "#30350"
 msgid "Add to library"
 msgstr ""
 
+msgctxt "#30351"
+msgid "Not implemented"
+msgstr ""
+
+msgctxt "#30352"
+msgid "Adding TV Shows to library is not yet implemented."
+msgstr ""
+
 msgctxt "#30400"
 msgid "Preferred stream"
 msgstr ""

@@ -18,7 +18,6 @@ def addMovie(mf):
 
     dirName = mf + originalTitle + ' (' + year + ')'
 
-    # Nebolo by lepsie davat rovno .strm subory bez adresara? Pripadne optional?
     if not xbmcvfs.exists(dirName):
         xbmcvfs.mkdir(dirName)
     strmFileName    = os.path.join(dirName, originalTitle + ' (' + year + ')' + '.strm')
@@ -26,7 +25,6 @@ def addMovie(mf):
     file            = xbmcvfs.File(strmFileName, 'w')
     file.write(str(moviePath))
     file.close()
-    # Toto by som asi nerobil zakazdym, ak ma library viac poloziek, moze to kus trvat. Lepsie je nechat si to pustat na pozadi
     xbmc.executebuiltin('UpdateLibrary(video)')
 
 def addTVShow(tf):
@@ -39,7 +37,6 @@ def addTVShow(tf):
 
     # ToDo: Create Tv Show directory and season subdirectories with episode links
     dirName = tf + tvShowTitle + ' (' + year + ')'
-    # xbmcgui.Dialog().ok(dbtype, 'Original title: ' + originalTitle, 'TV Show title: ' + tvShowTitle, 'Seasons count: ' + seasonsCount)
 
 
 def add_to_library():
@@ -49,13 +46,13 @@ def add_to_library():
     if dbtype == 'movie':
         if settings['movielFolder'] == '':
             show_settings()
-            # tu by to mozno chcelo najst sposob ako otvorit settings rovno na danej karte
         mf = settings['movielFolder']
         if mf != '':
             addMovie(mf)
 
-    if dbtype == 'tvshow':
-        DialogRenderer.ok(addon.getLocalizedString(30030), addon.getLocalizedString(30031))
+    # ToDo:
+    if (dbtype == 'tvshow' or dbtype == 'episode'):
+        DialogRenderer.ok(addon.getLocalizedString(30351), addon.getLocalizedString(30352))
         #if addon.getSetting("tvshowsFolder") == '':
         #    addon.openSettings()
         #tf = addon.getSetting("tvshowsFolder")
