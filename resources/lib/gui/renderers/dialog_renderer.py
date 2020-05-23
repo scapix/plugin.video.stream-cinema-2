@@ -52,11 +52,9 @@ class DialogRenderer:
         keyboard = xbmc.Keyboard('', title, *args, **kwargs)
         keyboard.doModal()
         if keyboard.isConfirmed():
-            search_entered = keyboard.getText()
-            if search_entered == 0 or search_entered is None:
-                return False
-            return search_entered
-        return False
+            return keyboard.getText().strip()
+        else:
+            return None
 
     @staticmethod
     def ok(heading, *args, **kwargs):

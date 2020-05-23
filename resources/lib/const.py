@@ -169,6 +169,8 @@ class SETTINGS:
     VIP_DURATION = 'provider.vip_duration'
     LAST_VIP_CHECK = 'last_vip_check'
     SHOW_RESULTS_COUNT = 'show_results_count'
+    PREFERRED_QUALITY = 'preferred_quality'
+    PREFERRED_LANGUAGE = 'preferred_language'
 
 
 class STRINGS:
@@ -365,5 +367,14 @@ page_limit_options = {
     1: 100,
     2: 150,
     3: 200,
-    4: 250
+    4: 250,
 }
+
+class STREAM_AUTOSELECT:
+    """
+    Holds supported values for auto stream select.
+
+    Note: The order matters, it must be at the same order as in settings.xml because we use indexes to access the values!
+    """
+    LANGUAGES = ['CZ', 'SK', 'EN']
+    QUALITIES = ['SD', '720p', '1080p', '2K', '4K', '8K']

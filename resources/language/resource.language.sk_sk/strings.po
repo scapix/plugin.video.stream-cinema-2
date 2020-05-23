@@ -466,4 +466,18 @@ msgctxt "#30350"
 msgid "Add to library"
 msgstr "Pridať do knižnice"
 
+msgctxt "#30400"
+msgid "Preferred stream"
+msgstr "Preferovaný výber streamov"
 
+msgctxt "#30401"
+msgid "Video quality"
+msgstr "Kvalita videa"
+
+msgctxt "#30402"
+msgid "Audio Language"
+msgstr "Jazyk audia"
+
+msgctxt "#30403"
+msgid "Enable Stream Autoselect"
+msgstr "Zapnúť automatický výber streamu"

@@ -464,3 +464,19 @@ msgstr "Adresář pro seriály"
 msgctxt "#30350"
 msgid "Add to library"
 msgstr "Přidat do knihovny"
+
+msgctxt "#30400"
+msgid "Preferred stream"
+msgstr "Upřednostňovaný výběr streamů"
+
+msgctxt "#30401"
+msgid "Video quality"
+msgstr "Kvalita videa"
+
+msgctxt "#30402"
+msgid "Audio Language"
+msgstr "Jazyk audia"
+
+msgctxt "#30403"
+msgid "Enable Stream Autoselect"
+msgstr "Zapnout automatický výběr streamu"

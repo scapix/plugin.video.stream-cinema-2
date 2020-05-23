@@ -3,7 +3,7 @@ import json
 import xbmcplugin
 
 from resources.lib.api.api import API
-from resources.lib.const import ROUTE, STORAGE, explicit_genres, api_genres, STRINGS
+from resources.lib.const import ROUTE, SETTINGS, STORAGE, STREAM_AUTOSELECT, STRINGS, api_genres, explicit_genres
 from resources.lib.gui import MainMenuFolderItem, DirectoryItem
 from resources.lib.gui.renderers import Renderer
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
@@ -12,6 +12,7 @@ from resources.lib.kodilogging import logger
 from resources.lib.storage.storage import storage
 from resources.lib.utils.kodiutils import get_string, set_resolved_url, router_url_from_string
 from resources.lib.utils.url import Url
+from resources.lib import settings
 
 
 class MediaListRenderer(Renderer):
@@ -76,7 +77,19 @@ class MediaListRenderer(Renderer):
         return '{} ({}/{})'.format(get_string(30203), page, page_count)
 
     def select_stream(self, media_id, streams):
-        stream = DialogRenderer.choose_video_stream(streams)
+        stream = None
+
+        if len(streams) == 1:
+            stream = streams[0]
+        elif len(streams) > 1:
+            if settings.get_setting_as_bool("auto_select_stream"):
+                preferred_quality = int(settings.get_settings(SETTINGS.PREFERRED_QUALITY))
+                preferred_language = int(settings.get_settings(SETTINGS.PREFERRED_LANGUAGE))
+                stream = self._autoselect_stream(streams, preferred_quality, preferred_language)
+
+        if stream is None:
+            stream = DialogRenderer.choose_video_stream(streams)
+
         if stream is None:
             # Dialog cancel.
             set_resolved_url(self.handle)
@@ -84,6 +97,59 @@ class MediaListRenderer(Renderer):
 
         logger.info('Got movie stream')
         self._on_stream_selected(stream['ident'])
+
+    @staticmethod
+    def _autoselect_stream(streams, quality, language):
+        """
+        Function takes streams to select and indexes of desired quality and language as defined in const.py.
+
+        It enumerates all streams and try to find best match in this order:
+        1. find stream with desired language/audio
+        2. find stream with desired quality
+
+        If both language and quality is at least in one stream use that (if more streams qualifies, use the first one)
+
+        If not both satisfy the selection
+        1. try to find stream with language match (if more streams qualifies, use the first one)
+        2. try to find stream with quality match (if more streams qualifies, use the first one)
+
+        If no stream qualifies, use the first avialable stream.
+
+        :param list streams: list of available streams
+        :param int quality: desired quality (index in STREAM_AUTOSELECT.QUALITIES)
+        :param int language: language desired language (index in STREAM_AUTOSELECT.LANGUAGES)
+
+        returns selected stream
+        """
+        selected = streams[0]
+        reason = 'no-match'
+        try:
+            with_right_audio = set([])
+            with_right_video = set([])
+            for i, stream in enumerate(streams):
+                for audio in stream['audio']:
+                    if audio["language"] == STREAM_AUTOSELECT.LANGUAGES[language]:
+                        with_right_audio.add(i)
+                        break
+                if stream['quality'] == STREAM_AUTOSELECT.QUALITIES[quality]:
+                    with_right_video.add(i)
+            intersection = with_right_audio.intersection(with_right_video)
+            intersection = list(intersection)
+            if len(intersection) > 0:
+                reason = 'right audio, right quality'
+                selected = streams[intersection[0]]
+            elif len(with_right_audio) > 0:
+                reason = 'right audio'
+                selected = streams[list(with_right_audio)[0]]
+            elif len(with_right_video) > 0:
+                reason = 'right video'
+                selected = streams[list(with_right_video)[0]]
+        except Exception as e:
+            reason = 'error'
+            logger.error("autoselect: failed to auto select stream: %s", e)
+        logger.debug("autoselect: auto selected stream: %s (reason: %s)", selected, reason)
+        return selected
+
 
     def get_cached_media(self):
         return self.storage.get(STORAGE.MEDIA_LIST)

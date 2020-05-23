@@ -476,3 +476,19 @@ msgstr ""
 msgctxt "#30350"
 msgid "Add to library"
 msgstr ""
+
+msgctxt "#30400"
+msgid "Preferred stream"
+msgstr ""
+
+msgctxt "#30401"
+msgid "Video quality"
+msgstr ""
+
+msgctxt "#30402"
+msgid "Audio Language"
+msgstr ""
+
+msgctxt "#30403"
+msgid "Enable Stream Autoselect"
+msgstr ""
