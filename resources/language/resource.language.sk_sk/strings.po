@@ -449,3 +449,21 @@ msgstr "Posledné pridané"
 msgctxt "#30309"
 msgid "TV picks of the day (CSFD.cz)"
 msgstr "Dnešné TV tipy (ČSFD.cz)"
+
+msgctxt "#30340"
+msgid "Library"
+msgstr "Knižnica"
+
+msgctxt "#30341"
+msgid "Movies folder"
+msgstr "Adresár pre filmy"
+
+msgctxt "#30342"
+msgid "Series folder"
+msgstr "Adresár pre seriály"
+
+msgctxt "#30350"
+msgid "Add to library"
+msgstr "Pridať do knižnice"
+
+

@@ -1,8 +1,9 @@
 import xbmcgui
-import xbmcplugin
+import xbmcplugin   
+import xbmc  
 
-from resources.lib.const import LANG, STRINGS
-from resources.lib.utils.kodiutils import get_string, ADDON
+from resources.lib.const import LANG, STRINGS, ROUTE
+from resources.lib.utils.kodiutils import router_url_from_string, get_string, ADDON
 
 
 class DirectoryItem:
@@ -107,6 +108,10 @@ class MediaItem(object):
             item.setUniqueIDs({'imdb': 'tt' + str(self._services.get('imdb'))}, 'imdb')
 
         item.setProperty('IsPlayable', 'true')
+        
+        # '1234' is just an example, in add_to_library method I do not need any argument
+        item.addContextMenuItems([(get_string(LANG.ADD_TO_LIBRARY), router_url_from_string(ROUTE.ADD_TO_LIBRARY, '1234'))])
+
         return self._url, item, self.DIRECTORY,
 
 
