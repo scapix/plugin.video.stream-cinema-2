@@ -464,3 +464,7 @@ msgstr "Jazyk audia"
 msgctxt "#30403"
 msgid "Enable Stream Autoselect"
 msgstr "Zapnout automatický výběr streamu"
+
+msgctxt "#30404"
+msgid "Select Stream"
+msgstr "Výběr streamu"

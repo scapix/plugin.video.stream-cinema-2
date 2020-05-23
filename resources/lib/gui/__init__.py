@@ -3,6 +3,7 @@ import xbmcplugin
 
 from resources.lib.const import LANG, STRINGS
 from resources.lib.utils.kodiutils import get_string, ADDON
+from resources.lib.utils import kodiutils
 
 
 class DirectoryItem:
@@ -101,6 +102,7 @@ class MediaItem(object):
         if self._info_labels:
             item.setInfo('video', self._info_labels)
         if self._stream_info:
+            item.addContextMenuItems([(kodiutils.get_string(30404), 'PlayMedia({}?force=true)'.format(self._url))])
             for key, value in self._stream_info.items():
                 item.addStreamInfo(key, value)
         if self._services:
