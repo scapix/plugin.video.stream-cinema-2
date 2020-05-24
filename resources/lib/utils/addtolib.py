@@ -1,16 +1,15 @@
 from resources.lib.gui.renderers.dialog_renderer import DialogRenderer
-from resources.lib.utils.kodiutils import show_settings
+from resources.lib.utils.kodiutils import get_string #, notification
 from resources.lib.settings import settings
 from resources.lib.kodilogging import logger
+from resources.lib.const import SETTINGS
 import xbmc
-import xbmcaddon
 import xbmcvfs
-import os
+from os.path import join
 
-addon   = xbmcaddon.Addon()
 dbtype  = xbmc.getInfoLabel("ListItem.dbtype")
 
-def addMovie(mf):
+def add_movie(mf):
     logger.debug("---------------------------------")
     originalTitle   = xbmc.getInfoLabel("ListItem.Originaltitle").decode('utf-8')
     year            = xbmc.getInfoLabel("ListItem.Year").decode('utf-8')
@@ -20,11 +19,14 @@ def addMovie(mf):
 
     if not xbmcvfs.exists(dirName):
         xbmcvfs.mkdir(dirName)
-    strmFileName    = os.path.join(dirName, originalTitle + ' (' + year + ')' + '.strm')
+    strmFileName    = join(dirName, originalTitle + ' (' + year + ')' + '.strm')
     logger.debug("%s %s" % (strmFileName, moviePath))
     file            = xbmcvfs.File(strmFileName, 'w')
     file.write(str(moviePath))
     file.close()
+    # eventualne hodit notifikaciu
+    # notification('Added to library', 'Movie %s was successfully added to library' % originalTitle)
+    # notification(get_string(30405), get_string(30406) % originalTitle)
     xbmc.executebuiltin('UpdateLibrary(video)')
 
 def addTVShow(tf):
@@ -44,15 +46,18 @@ def add_to_library():
     # DialogRenderer.ok('Info', 'OK')
     # Check settings, whether library paths are set up corretly
     if dbtype == 'movie':
-        if settings['movielFolder'] == '':
-            show_settings()
-        mf = settings['movielFolder']
+        mf = settings[SETTINGS.MOVIE_LIBRARY_FOLDER]
         if mf != '':
-            addMovie(mf)
+            add_movie(mf)
+        # k tomuto else by nemalo prist, kedze sa robi check pred contextMenu
+        # else:
+        #     notification('Unknown library folder', "Please set up movie library folder in settings")
+        #     show_settings()
+
 
     # ToDo:
     if (dbtype == 'tvshow' or dbtype == 'episode'):
-        DialogRenderer.ok(addon.getLocalizedString(30351), addon.getLocalizedString(30352))
+        DialogRenderer.ok(get_string(30351), get_string(30352))
         #if addon.getSetting("tvshowsFolder") == '':
         #    addon.openSettings()
         #tf = addon.getSetting("tvshowsFolder")

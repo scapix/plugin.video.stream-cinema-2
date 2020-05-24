@@ -171,6 +171,7 @@ class SETTINGS:
     SHOW_RESULTS_COUNT = 'show_results_count'
     PREFERRED_QUALITY = 'preferred_quality'
     PREFERRED_LANGUAGE = 'preferred_language'
+    MOVIE_LIBRARY_FOLDER = 'movie_library_folder'
 
 
 class STRINGS:

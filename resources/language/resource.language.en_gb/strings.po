@@ -500,3 +500,7 @@ msgstr ""
 msgctxt "#30403"
 msgid "Enable Stream Autoselect"
 msgstr ""
+
+msgctxt "#30404"
+msgid "Select Stream"
+msgstr ""

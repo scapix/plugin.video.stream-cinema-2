@@ -51,7 +51,7 @@
 
 	<!-- kodion Library -->
     <category label="30340">
-        <setting label="30341" type="folder" id="movielFolder" default =""/>
+        <setting label="30341" type="folder" id="movie_library_folder" default =""/>
         <!--
         <setting label="30342" type="folder" id="tvshowsFolder" default =""/>
         -->
