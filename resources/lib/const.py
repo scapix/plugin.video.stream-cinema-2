@@ -104,6 +104,7 @@ class ROUTE:
     CSFD_TIPS = '/csfd_tips/<collection>'
     SEARCH_CSFD_ITEM = '/csfd_search/<collection>/<search_value>'
     SORT = '/sort/<collection>/<sort_type>/<order>'
+    ADD_TO_LIBRARY = '/add-to-library'
 
 
 class GITLAB_ENDPOINT:
@@ -170,6 +171,7 @@ class SETTINGS:
     SHOW_RESULTS_COUNT = 'show_results_count'
     PREFERRED_QUALITY = 'preferred_quality'
     PREFERRED_LANGUAGE = 'preferred_language'
+    MOVIE_LIBRARY_FOLDER = 'movie_library_folder'
 
 
 class STRINGS:
@@ -304,6 +306,9 @@ class LANG:
     SHOW_SEARCH_RESULTS_NOTIFICATIONS = 30135
     NEWS = 30136
     LAST_ADDED = 30137
+
+    # add to library context menu item
+    ADD_TO_LIBRARY = 30350
 
     # network errors
     HTTP_ERROR = 30500

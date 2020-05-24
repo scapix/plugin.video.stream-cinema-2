@@ -48,4 +48,13 @@
         <setting id="last_version_check" type="date" visible="false" enable="false"/>
         <setting id="is_outdated" type="bool" visible="false" enable="false"/>
     </category>
+
+	<!-- kodion Library -->
+    <category label="30340">
+        <setting label="30341" type="folder" id="movie_library_folder" default =""/>
+        <!--
+        <setting label="30342" type="folder" id="tvshowsFolder" default =""/>
+        -->
+    </category>
+
 </settings>
