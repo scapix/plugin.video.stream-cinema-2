@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TV tips of the day
 
 
-## [0.1.1-beta] - 2015-05-09
+## [0.1.1-beta] - 2020-05-09
 ### Added
 - BETA warning message
 - Advanced settings
